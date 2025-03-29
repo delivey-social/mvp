@@ -1,5 +1,6 @@
 import express from "express";
 import { z } from "zod";
+import OrderModel from "../../models/OrderModel";
 
 const route = express.Router();
 
@@ -18,7 +19,7 @@ const createOrderSchema = z.object({
   observation: z.string().optional(),
 });
 
-route.post("/", (req, res) => {
+route.post("/", async (req, res) => {
   const body = req.body;
   const { success, data } = createOrderSchema.safeParse(body);
 
@@ -32,7 +33,18 @@ route.post("/", (req, res) => {
     return;
   }
 
-  res.send("Order created successfully!");
+  try {
+    const order = await OrderModel.create(data);
+
+    await order.save();
+
+    res
+      .status(201)
+      .json({ message: "Order created successfully", id: order["_id"] });
+  } catch (error) {
+    res.status(500).json("Error creating order");
+    return;
+  }
 });
 
 export default route;
