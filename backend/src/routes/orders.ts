@@ -48,6 +48,7 @@ route.post("/", async (req, res) => {
   }
 });
 
+// TODO: Send email for restaurant asking for producing
 route.patch("/:id/confirm_payment", async (req, res) => {
   const id = req.params.id;
 
@@ -78,6 +79,7 @@ route.patch("/:id/confirm_payment", async (req, res) => {
   }
 });
 
+// TODO: Send email for driver asking for delivery
 route.patch("/:id/ready_for_delivery", async (req, res) => {
   const { id } = req.params;
 
