@@ -47,4 +47,21 @@ route.post("/", async (req, res) => {
   }
 });
 
+route.patch("/:id/confirm_payment", async (req, res) => {
+  const id = req.params.id;
+
+  const order = await OrderModel.findById(id).select("status");
+
+  const status = order?.status;
+
+  if (!order || status !== "WAITING_PAYMENT") {
+    res.status(400).json("Order not found or already confirmed");
+    return;
+  }
+
+  await order.updateOne({ status: "PREPARING" });
+
+  res.send("Payment confirmed");
+});
+
 export default route;
