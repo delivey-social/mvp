@@ -26,7 +26,7 @@ export default function Home() {
 
 function Navbar() {
   return (
-    <div className="text-white top-0 w-full py-6 rounded-b-2xl bg-red-800 border-b-1 flex items-center justify-center font-bold text-xl">
+    <div className="text-white drop-shadow-lg top-0 w-full py-6 rounded-b-2xl bg-red-800 border-b-1 flex items-center justify-center font-bold text-xl">
       Delivery
     </div>
   );
@@ -48,7 +48,7 @@ function MenuItem({ name, imageUrl, price, description }: MenuItemProps) {
 
         <div>R$ {price}</div>
       </div>
-      <img src={imageUrl} className="w-32" />
+      <img src={imageUrl} className="w-32 h-24 object-cover rounded-md" />
     </div>
   );
 }
