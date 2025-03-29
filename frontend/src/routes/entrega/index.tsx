@@ -36,7 +36,7 @@ export default function Entrega() {
       phone_number,
       observations,
     });
-    navigate("entrega");
+    navigate("/pagamento");
   }
 
   return (
@@ -44,7 +44,7 @@ export default function Entrega() {
       <Navbar />
 
       <main className="px-10 flex gap-6 flex-col pb-20">
-        <form className="flex flex-col gap-4 mt-4 ">
+        <form className="flex flex-col gap-4 mt-4 " onSubmit={handleSubmit}>
           <Input type="email" placeholder="email" name="email" required />
           <Input
             type="text"
@@ -62,10 +62,7 @@ export default function Entrega() {
             <ResultLine label="Total" value={total} />
           </div>
 
-          <button
-            onSubmit={handleSubmit}
-            className="bg-red-700 ml-auto mt-4 w-fit text-white  px-4 py-4 text-sm font-bold rounded-md"
-          >
+          <button className="bg-red-700 ml-auto mt-4 w-fit text-white  px-4 py-4 text-sm font-bold rounded-md">
             Finalizar a compra
           </button>
         </form>
