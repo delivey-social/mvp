@@ -1,4 +1,4 @@
-interface MenuItem {
+export interface IMenuItem {
   id: number;
   name: string;
   description: string;
@@ -6,7 +6,7 @@ interface MenuItem {
   price: number;
 }
 
-export const menu_salgados: MenuItem[] = [
+export const menu_salgados: IMenuItem[] = [
   {
     id: 1,
     name: "Crepe Francês vegetariano",
@@ -74,7 +74,7 @@ export const menu_salgados: MenuItem[] = [
   },
 ];
 
-export const menu_doces: MenuItem[] = [
+export const menu_doces: IMenuItem[] = [
   {
     id: 10,
     name: "Banana e doce de leite",
