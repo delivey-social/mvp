@@ -3,6 +3,7 @@ import { menu_doces, menu_salgados } from "../../../public/menu_items";
 import MenuItem, { numberToCurrency } from "./menu-item";
 import { useNavigate } from "react-router";
 import { OrderContext } from "../../contexts/OrderContext";
+import Navbar from "../../shared-components/navbar";
 
 export default function Home() {
   const { items, setItems } = useContext(OrderContext);
@@ -76,14 +77,6 @@ export default function Home() {
       {totalProducts > 0 && (
         <Footer itens={totalProducts} total={totalAmount} />
       )}
-    </div>
-  );
-}
-
-function Navbar() {
-  return (
-    <div className="text-white drop-shadow-lg top-0 w-full py-6 rounded-b-2xl bg-red-800 border-b-1 flex items-center justify-center font-bold text-xl">
-      Delivery
     </div>
   );
 }
