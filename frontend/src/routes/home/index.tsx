@@ -1,27 +1,25 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { menu_doces, menu_salgados } from "../../../public/menu_items";
 import MenuItem, { numberToCurrency } from "./menu-item";
+import { useNavigate } from "react-router";
+import { OrderContext } from "../../contexts/OrderContext";
 
 export default function Home() {
-  const [products, setProducts] = useState<{ id: number; quantity: number }[]>(
-    []
-  );
+  const { items, setItems } = useContext(OrderContext);
 
   function getProduct(id: number) {
-    return products.find((product) => product.id === id);
+    return items.find((product) => product.id === id);
   }
 
   function setProductQuantity(id: number) {
     return (quantity: number) => {
       if (quantity <= 0) {
-        setProducts((products) =>
-          products.filter((product) => product.id !== id)
-        );
+        setItems((products) => products.filter((product) => product.id !== id));
         return;
       }
 
-      if (products.find((product) => product.id === id)) {
-        setProducts((products) =>
+      if (items.find((product) => product.id === id)) {
+        setItems((products) =>
           products.map((product) => {
             if (product.id !== id) return product;
 
@@ -29,15 +27,15 @@ export default function Home() {
           })
         );
       } else {
-        setProducts((products) => [...products, { id, quantity }]);
+        setItems((products) => [...products, { id, quantity }]);
       }
     };
   }
 
-  const totalProducts = products.reduce((acc, product) => {
+  const totalProducts = items.reduce((acc, product) => {
     return (acc += product.quantity);
   }, 0);
-  const totalAmount = products.reduce((acc, product) => {
+  const totalAmount = items.reduce((acc, product) => {
     const itemPrice =
       [...menu_salgados, ...menu_doces].find((item) => item.id === product.id)
         ?.price ?? 0;
@@ -75,7 +73,9 @@ export default function Home() {
         ))}
       </main>
 
-      {products.length && <Footer itens={totalProducts} total={totalAmount} />}
+      {totalProducts > 0 && (
+        <Footer itens={totalProducts} total={totalAmount} />
+      )}
     </div>
   );
 }
@@ -94,6 +94,8 @@ interface FooterProps {
 }
 
 function Footer({ itens, total }: FooterProps) {
+  const navigate = useNavigate();
+
   return (
     <footer className="px-4 flex items-center gap-8 bg-white border-1 border-t-red-700 w-full fixed bottom-0 py-4 justify-end">
       <div className="flex justify-between items-center gap-4">
@@ -102,7 +104,10 @@ function Footer({ itens, total }: FooterProps) {
 
       <div className="font-bold ">Total - {numberToCurrency(total)}</div>
 
-      <button className="bg-red-700 w-fit text-white  px-4 py-4 text-sm font-bold rounded-md">
+      <button
+        onClick={() => navigate("/entrega")}
+        className="bg-red-700 w-fit text-white  px-4 py-4 text-sm font-bold rounded-md"
+      >
         Finalizar pedido
       </button>
     </footer>
