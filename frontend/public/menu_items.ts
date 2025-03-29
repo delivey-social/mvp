@@ -1,4 +1,11 @@
-export const menu_salgados = [
+interface MenuItem {
+  name: string;
+  description: string;
+  imageUrl: string;
+  price: number;
+}
+
+export const menu_salgados: MenuItem[] = [
   {
     name: "Crepe Francês vegetariano",
     description:
@@ -54,5 +61,51 @@ export const menu_salgados = [
     description: "Folhas de rúcula, tomate seco e queijo muçarela.",
     imageUrl: "/salgados/rucula_tomate_seco.jpg",
     price: 29.9,
+  },
+];
+
+export const menu_doces: MenuItem[] = [
+  {
+    name: "Banana e doce de leite",
+    description: "Crepe de rodelas de banana com doce de leite.",
+    imageUrl: "/doces/banana_doce_leite.jpg",
+    price: 23.9,
+  },
+  {
+    name: "Banofee",
+    description:
+      "Doce de leite, farofinha especial, caramelo artesanal e banana.",
+    imageUrl: "/doces/banofee.avif",
+    price: 27.9,
+  },
+  {
+    name: "Chocolate e Banana",
+    description: "Rodelas de banana e chocolate preto.",
+    imageUrl: "/doces/chocolate_banana.jpeg",
+    price: 24.9,
+  },
+  {
+    name: "Nutella e Banana",
+    description: "Rodelas De Banana Com A Original Nutella.",
+    imageUrl: "/doces/banana_nutella.jpg",
+    price: 30.9,
+  },
+  {
+    name: "Nutella e Morango",
+    description: "Original Nutela E Rodelas De Morango.",
+    imageUrl: "/doces/morango_nutella.jpg",
+    price: 34.9,
+  },
+  {
+    name: "Romeu e Julieta",
+    description: "Queijo Muçarela e Goiabada.",
+    imageUrl: "/doces/romeu_julieta.jpg",
+    price: 25.9,
+  },
+  {
+    name: "Sensação",
+    description: "Morangos frescos e chocolate.",
+    imageUrl: "/doces/sensacao.avif",
+    price: 16.9,
   },
 ];

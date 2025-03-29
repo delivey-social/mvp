@@ -1,4 +1,4 @@
-import { menu_salgados } from "../../../public/menu_items";
+import { menu_doces, menu_salgados } from "../../../public/menu_items";
 
 export default function Home() {
   return (
@@ -11,6 +11,12 @@ export default function Home() {
         <h3 className="font-bold">Salgados</h3>
 
         {menu_salgados.map((item) => (
+          <MenuItem key={item.name} {...item} />
+        ))}
+
+        <h3 className="font-bold">Doces</h3>
+
+        {menu_doces.map((item) => (
           <MenuItem key={item.name} {...item} />
         ))}
       </main>
