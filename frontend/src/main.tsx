@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import Home from "./routes/home";
 import { OrderProvider } from "./contexts/OrderContext";
 import Entrega from "./routes/entrega";
+import Pagamento from "./routes/pagamento";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
   {
     path: "/entrega",
     element: <Entrega />,
+  },
+  {
+    path: "/pagamento",
+    element: <Pagamento />,
   },
 ]);
 
