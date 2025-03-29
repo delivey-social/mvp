@@ -1,6 +1,7 @@
 import express from "express";
 import { z } from "zod";
 import OrderModel from "../../models/OrderModel";
+import mongoose from "mongoose";
 
 const route = express.Router();
 
@@ -50,6 +51,11 @@ route.post("/", async (req, res) => {
 route.patch("/:id/confirm_payment", async (req, res) => {
   const id = req.params.id;
 
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400).json("A valid order id is required");
+    return;
+  }
+
   const order = await OrderModel.findById(id).select("status");
 
   const status = order?.status;
@@ -59,9 +65,45 @@ route.patch("/:id/confirm_payment", async (req, res) => {
     return;
   }
 
-  await order.updateOne({ status: "PREPARING" });
+  try {
+    await order.updateOne({ status: "PREPARING" });
 
-  res.send("Payment confirmed");
+    res.send("Payment confirmed");
+    return;
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json("Error updating order status");
+    return;
+  }
+});
+
+route.patch("/:id/ready_for_delivery", async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(400).json("A valid order id is required");
+    return;
+  }
+
+  const order = await OrderModel.findById(id).select("status");
+
+  if (!order || order.status !== "PREPARING") {
+    res.status(400).json("Order not found or already prepared");
+    return;
+  }
+
+  try {
+    await order.updateOne({ status: "READY_FOR_DELIVERY" });
+
+    res.send("Order is ready for delivery");
+    return;
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json("Error updating order status");
+    return;
+  }
 });
 
 export default route;
