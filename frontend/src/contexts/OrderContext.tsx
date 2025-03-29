@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 interface Order {
   items: {
@@ -23,12 +23,26 @@ interface OrderContextProps {
 export const OrderContext = createContext({} as OrderContextProps);
 
 export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
-  const [items, setItems] = useState<Order["items"]>([]);
-  const [user, setUser] = useState<Order["user"]>({
-    email: "",
-    phone_number: "",
-    address: "",
-  });
+  const initialItems = sessionStorage.getItem("items")
+    ? JSON.parse(sessionStorage.getItem("items")!)
+    : [];
+  const initialUser = sessionStorage.getItem("user")
+    ? JSON.parse(sessionStorage.getItem("user")!)
+    : {
+        email: "",
+        phone_number: "",
+        address: "",
+      };
+
+  const [items, setItems] = useState<Order["items"]>(initialItems);
+  const [user, setUser] = useState<Order["user"]>(initialUser);
+
+  useEffect(() => {
+    sessionStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
+  useEffect(() => {
+    sessionStorage.setItem("items", JSON.stringify(items));
+  }, [items]);
 
   return (
     <OrderContext.Provider value={{ items, setItems, user, setUser }}>
