@@ -1,4 +1,5 @@
 import { menu_doces, menu_salgados } from "../../../public/menu_items";
+import MenuItem from "./menu-item";
 
 export default function Home() {
   return (
@@ -28,27 +29,6 @@ function Navbar() {
   return (
     <div className="text-white drop-shadow-lg top-0 w-full py-6 rounded-b-2xl bg-red-800 border-b-1 flex items-center justify-center font-bold text-xl">
       Delivery
-    </div>
-  );
-}
-
-interface MenuItemProps {
-  name: string;
-  imageUrl: string;
-  price: number;
-  description: string;
-}
-
-function MenuItem({ name, imageUrl, price, description }: MenuItemProps) {
-  return (
-    <div className="flex justify-between border-[1px] p-4 border-gray-300">
-      <div className="flex flex-col gap-3 w-full max-w-60">
-        <h4 className="font-semibold">{name}</h4>
-        <div className="text-xs text-gray-500">{description}</div>
-
-        <div>R$ {price}</div>
-      </div>
-      <img src={imageUrl} className="w-32 h-24 object-cover rounded-md" />
     </div>
   );
 }
