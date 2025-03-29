@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { FormEvent, useContext } from "react";
 import Navbar from "../../shared-components/navbar";
 import { numberToCurrency } from "../home/menu-item";
 import { OrderContext } from "../../contexts/OrderContext";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 
 export default function Entrega() {
   const navigate = useNavigate();
-  const { items } = useContext(OrderContext);
+  const { items, setUser } = useContext(OrderContext);
 
   const itemsTotal = items.reduce((acc, product) => {
     const itemPrice =
@@ -20,13 +20,32 @@ export default function Entrega() {
   const deliveryFee = 5;
   const total = itemsTotal + appFee + deliveryFee;
 
+  function handleSubmit(ev: FormEvent) {
+    ev.preventDefault();
+
+    const data = new FormData(ev.currentTarget as HTMLFormElement);
+
+    const email = data.get("email") as string;
+    const phone_number = data.get("phone_number") as string;
+    const address = data.get("address") as string;
+    const observations = data.get("observations") as string;
+
+    setUser({
+      email,
+      address,
+      phone_number,
+      observations,
+    });
+    navigate("entrega");
+  }
+
   return (
     <div className="flex flex-col gap-4 h-full min-h-dvh w-full min-w-dvw">
       <Navbar />
 
       <main className="px-10 flex gap-6 flex-col pb-20">
         <form className="flex flex-col gap-4 mt-4 ">
-          <Input type="text" placeholder="Nome" name="name" required />
+          <Input type="email" placeholder="email" name="email" required />
           <Input
             type="text"
             placeholder="Telefone"
@@ -44,7 +63,7 @@ export default function Entrega() {
           </div>
 
           <button
-            onClick={() => navigate("/pagamento")}
+            onSubmit={handleSubmit}
             className="bg-red-700 ml-auto mt-4 w-fit text-white  px-4 py-4 text-sm font-bold rounded-md"
           >
             Finalizar a compra
