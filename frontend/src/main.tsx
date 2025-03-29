@@ -4,11 +4,16 @@ import "./index.css";
 import { createRoot } from "react-dom/client";
 import Home from "./routes/home";
 import { OrderProvider } from "./contexts/OrderContext";
+import Entrega from "./routes/entrega";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/entrega",
+    element: <Entrega />,
   },
 ]);
 
