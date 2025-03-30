@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import { menu_doces, menu_salgados } from "../../../public/menu/menu_items";
-import MenuItem, { numberToCurrency } from "./menu-item";
+import menu from "../../menu_items.json";
+import MenuItem from "./menu-item";
+import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 import { useNavigate } from "react-router";
 import { OrderContext } from "../../contexts/OrderContext";
 import Navbar from "../../shared-components/navbar";
@@ -38,7 +39,7 @@ export default function Home() {
   }, 0);
   const totalAmount = items.reduce((acc, product) => {
     const itemPrice =
-      [...menu_salgados, ...menu_doces].find((item) => item.id === product.id)
+      [...menu.salgados, ...menu.doces].find((item) => item.id === product.id)
         ?.price ?? 0;
 
     return (acc += itemPrice * product.quantity);
@@ -53,7 +54,7 @@ export default function Home() {
 
         <h3 className="font-bold">Salgados</h3>
 
-        {menu_salgados.map((item) => (
+        {menu.salgados.map((item) => (
           <MenuItem
             key={item.id}
             {...item}
@@ -64,7 +65,7 @@ export default function Home() {
 
         <h3 className="font-bold">Doces</h3>
 
-        {menu_doces.map((item) => (
+        {menu.doces.map((item) => (
           <MenuItem
             key={item.name}
             {...item}

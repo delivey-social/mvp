@@ -1,15 +1,17 @@
 import { useContext } from "react";
+
 import { OrderContext } from "../../contexts/OrderContext";
+
 import Navbar from "../../shared-components/navbar";
-import { menu_doces, menu_salgados } from "../../../public/menu/menu_items";
-import { numberToCurrency } from "../home/menu-item";
+import menu from "../../menu_items.json";
+import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 
 export default function Pagamento() {
   const { items } = useContext(OrderContext);
 
   const totalAmount = items.reduce((acc, product) => {
     const itemPrice =
-      [...menu_salgados, ...menu_doces].find((item) => item.id === product.id)
+      [...menu.salgados, ...menu.doces].find((item) => item.id === product.id)
         ?.price ?? 0;
 
     return (acc += itemPrice * product.quantity);

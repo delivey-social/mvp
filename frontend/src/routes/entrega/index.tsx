@@ -1,8 +1,8 @@
 import { FormEvent, useContext } from "react";
 import Navbar from "../../shared-components/navbar";
-import { numberToCurrency } from "../home/menu-item";
+import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 import { OrderContext } from "../../contexts/OrderContext";
-import { menu_doces, menu_salgados } from "../../../public/menu/menu_items";
+import menu from "../../menu_items.json";
 import { useNavigate } from "react-router";
 
 export default function Entrega() {
@@ -11,7 +11,7 @@ export default function Entrega() {
 
   const itemsTotal = items.reduce((acc, product) => {
     const itemPrice =
-      [...menu_salgados, ...menu_doces].find((item) => item.id === product.id)
+      [...menu.salgados, ...menu.doces].find((item) => item.id === product.id)
         ?.price ?? 0;
 
     return (acc += itemPrice * product.quantity);

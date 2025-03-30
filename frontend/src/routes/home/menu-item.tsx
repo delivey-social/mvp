@@ -1,4 +1,5 @@
-import { IMenuItem } from "../../../public/menu/menu_items";
+import { IMenuItem } from "../../MenuItems";
+import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 
 interface MenuItemProps extends IMenuItem {
   quantity: number;
@@ -42,17 +43,7 @@ export default function MenuItem({
         </div>
       </div>
 
-      <img
-        src={`../../../public/menu${imageUrl}`}
-        className="w-32 h-24 object-cover rounded-md"
-      />
+      <img src={imageUrl} className="w-32 h-24 object-cover rounded-md" />
     </div>
   );
-}
-
-export function numberToCurrency(value: number) {
-  return value.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
 }
