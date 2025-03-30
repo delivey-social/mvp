@@ -10,8 +10,8 @@ interface Order {
     email: string;
     phone_number: string;
     address: string;
-    observations?: string;
   };
+  observations?: string;
 }
 
 interface OrderContextProps {
@@ -19,8 +19,7 @@ interface OrderContextProps {
   user: Order["user"];
   setItems: React.Dispatch<React.SetStateAction<Order["items"]>>;
   setUser: React.Dispatch<React.SetStateAction<Order["user"]>>;
-  setObservation: React.Dispatch<React.SetStateAction<string | undefined>>;
-  sendOrder: () => Promise<void>;
+  sendOrder: (user: Order["user"], observation?: string) => Promise<void>;
 }
 
 export const OrderContext = createContext({} as OrderContextProps);
@@ -39,7 +38,7 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [items, setItems] = useState<Order["items"]>(initialItems);
   const [user, setUser] = useState<Order["user"]>(initialUser);
-  const [observation, setObservation] = useState<string | undefined>(undefined);
+  //   const [observation, setObservation] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     sessionStorage.setItem("user", JSON.stringify(user));
@@ -48,10 +47,13 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
     sessionStorage.setItem("items", JSON.stringify(items));
   }, [items]);
 
-  async function sendOrder() {
+  async function sendOrder(
+    user: { email: string; phone_number: string; address: string },
+    observation?: string
+  ) {
     await axios.post("http://localhost:3000/orders", {
       items: items.map((item) => ({
-        id: String(item.id),
+        id: item.id,
         quantity: item.quantity,
       })),
       user,
@@ -61,7 +63,7 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <OrderContext.Provider
-      value={{ items, setItems, user, setUser, setObservation, sendOrder }}
+      value={{ items, setItems, user, setUser, sendOrder }}
     >
       {children}
     </OrderContext.Provider>

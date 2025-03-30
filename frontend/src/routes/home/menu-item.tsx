@@ -1,4 +1,4 @@
-import { IMenuItem } from "../../../public/menu_items";
+import { IMenuItem } from "../../../public/menu/menu_items";
 
 interface MenuItemProps extends IMenuItem {
   quantity: number;
@@ -42,7 +42,10 @@ export default function MenuItem({
         </div>
       </div>
 
-      <img src={imageUrl} className="w-32 h-24 object-cover rounded-md" />
+      <img
+        src={`../../../public/menu${imageUrl}`}
+        className="w-32 h-24 object-cover rounded-md"
+      />
     </div>
   );
 }

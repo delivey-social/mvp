@@ -2,13 +2,12 @@ import { FormEvent, useContext } from "react";
 import Navbar from "../../shared-components/navbar";
 import { numberToCurrency } from "../home/menu-item";
 import { OrderContext } from "../../contexts/OrderContext";
-import { menu_doces, menu_salgados } from "../../../public/menu_items";
+import { menu_doces, menu_salgados } from "../../../public/menu/menu_items";
 import { useNavigate } from "react-router";
 
 export default function Entrega() {
   const navigate = useNavigate();
-  const { items, setUser, setObservation, sendOrder } =
-    useContext(OrderContext);
+  const { items, setUser, sendOrder } = useContext(OrderContext);
 
   const itemsTotal = items.reduce((acc, product) => {
     const itemPrice =
@@ -36,10 +35,9 @@ export default function Entrega() {
       address,
       phone_number,
     });
-    setObservation(observation);
 
     try {
-      await sendOrder();
+      await sendOrder({ email, address, phone_number }, observation);
 
       navigate("/pagamento");
     } catch (err) {

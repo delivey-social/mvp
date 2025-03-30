@@ -5,13 +5,16 @@ import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
 
 import { MailDataRequired } from "@sendgrid/mail";
+
 import {
   IMenuItem,
   menu_doces,
   menu_salgados,
 } from "../../public/menu/menu_items";
+
 import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
+
 import { render } from "@react-email/render";
 
 const route = express.Router();
