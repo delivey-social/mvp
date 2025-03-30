@@ -9,7 +9,7 @@ enum OrderStatus {
 
 export interface Order extends Document {
   items: {
-    id: string;
+    item_id: string;
     quantity: number;
   }[];
   user: {
@@ -25,7 +25,8 @@ const orderSchema = new Schema<Order>(
   {
     items: [
       {
-        id: { type: String, required: true, unique: true },
+        _id: false,
+        item_id: { type: String, required: true },
         quantity: { type: Number, required: true, min: 1 },
       },
     ],
