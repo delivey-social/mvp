@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { menu_doces, menu_salgados } from "../../../public/menu_items";
+import { menu_doces, menu_salgados } from "../../../public/menu/menu_items";
 import MenuItem, { numberToCurrency } from "./menu-item";
 import { useNavigate } from "react-router";
 import { OrderContext } from "../../contexts/OrderContext";
@@ -8,11 +8,11 @@ import Navbar from "../../shared-components/navbar";
 export default function Home() {
   const { items, setItems } = useContext(OrderContext);
 
-  function getProduct(id: number) {
+  function getProduct(id: string) {
     return items.find((product) => product.id === id);
   }
 
-  function setProductQuantity(id: number) {
+  function setProductQuantity(id: string) {
     return (quantity: number) => {
       if (quantity <= 0) {
         setItems((products) => products.filter((product) => product.id !== id));

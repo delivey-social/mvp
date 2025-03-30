@@ -3,7 +3,7 @@ import React, { createContext, useEffect, useState } from "react";
 
 interface Order {
   items: {
-    id: number;
+    id: string;
     quantity: number;
   }[];
   user: {
