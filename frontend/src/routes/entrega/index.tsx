@@ -7,7 +7,8 @@ import { useNavigate } from "react-router";
 
 export default function Entrega() {
   const navigate = useNavigate();
-  const { items, setUser } = useContext(OrderContext);
+  const { items, setUser, setObservation, sendOrder } =
+    useContext(OrderContext);
 
   const itemsTotal = items.reduce((acc, product) => {
     const itemPrice =
@@ -20,7 +21,7 @@ export default function Entrega() {
   const deliveryFee = 5;
   const total = itemsTotal + appFee + deliveryFee;
 
-  function handleSubmit(ev: FormEvent) {
+  async function handleSubmit(ev: FormEvent) {
     ev.preventDefault();
 
     const data = new FormData(ev.currentTarget as HTMLFormElement);
@@ -28,15 +29,22 @@ export default function Entrega() {
     const email = data.get("email") as string;
     const phone_number = data.get("phone_number") as string;
     const address = data.get("address") as string;
-    const observations = data.get("observations") as string;
+    const observation = data.get("observations") as string;
 
     setUser({
       email,
       address,
       phone_number,
-      observations,
     });
-    navigate("/pagamento");
+    setObservation(observation);
+
+    try {
+      await sendOrder();
+
+      navigate("/pagamento");
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
