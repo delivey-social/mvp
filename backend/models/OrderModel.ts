@@ -1,4 +1,4 @@
-import { menu_doces, menu_salgados } from "../../shared/menu_items";
+import { menu_doces, menu_salgados } from "../../shared/menu/menu_items";
 import mongoose, { Document, Schema } from "mongoose";
 
 enum OrderStatus {
