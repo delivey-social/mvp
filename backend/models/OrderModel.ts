@@ -1,3 +1,4 @@
+import { menu_doces, menu_salgados } from "../../shared/menu_items";
 import mongoose, { Document, Schema } from "mongoose";
 
 enum OrderStatus {
@@ -9,7 +10,7 @@ enum OrderStatus {
 
 export interface Order extends Document {
   items: {
-    item_id: string;
+    id: string;
     quantity: number;
   }[];
   user: {
@@ -19,6 +20,7 @@ export interface Order extends Document {
   };
   observation?: string;
   status: OrderStatus;
+  totalAmount: number;
 }
 
 const orderSchema = new Schema<Order>(
@@ -26,7 +28,7 @@ const orderSchema = new Schema<Order>(
     items: [
       {
         _id: false,
-        item_id: { type: String, required: true },
+        id: { type: String, required: true },
         quantity: { type: Number, required: true, min: 1 },
       },
     ],
@@ -41,6 +43,23 @@ const orderSchema = new Schema<Order>(
       enum: Object.values(OrderStatus),
       default: OrderStatus.WAITING_PAYMENT,
       required: true,
+    },
+    totalAmount: {
+      type: Number,
+      default: function () {
+        let total = 0;
+
+        this.items.forEach((item) => {
+          const menuItem = [...menu_doces, ...menu_salgados].find(
+            (menuItem) => menuItem.id === item.id
+          );
+          if (menuItem) {
+            total += menuItem.price * item.quantity;
+          }
+        });
+
+        return total * 1.1 + 5; // Adding 10% tax and delivery fee of 5BRL
+      },
     },
   },
   { timestamps: true }

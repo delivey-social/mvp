@@ -2,6 +2,9 @@ import express from "express";
 import { z } from "zod";
 import OrderModel from "../../models/OrderModel";
 import mongoose from "mongoose";
+import sendgrid from "@sendgrid/mail";
+
+import { MailDataRequired } from "@sendgrid/mail";
 
 const route = express.Router();
 
@@ -39,10 +42,20 @@ route.post("/", async (req, res) => {
 
     await order.save();
 
+    const message: MailDataRequired = {
+      from: "thiagotolotti@thiagotolotti.com",
+      to: "thiagotolotti@gmail.com",
+      subject: "Novo pedido!",
+      html: `Valor total: R$ ${order.totalAmount}.<br/> id: ${order["_id"]}`,
+    };
+
+    await sendgrid.send(message);
+
     res
       .status(201)
       .json({ message: "Order created successfully", id: order["_id"] });
   } catch (error) {
+    console.error(error);
     res.status(500).json("Error creating order");
     return;
   }
