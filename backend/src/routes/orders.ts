@@ -5,7 +5,13 @@ import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
 
 import { MailDataRequired } from "@sendgrid/mail";
-import { menu_doces, menu_salgados } from "../../../shared/menu_items";
+import {
+  IMenuItem,
+  menu_doces,
+  menu_salgados,
+} from "../../public/menu/menu_items";
+import PedidoEmail from "../../../shared/emails/emails/pedido";
+import { render } from "@react-email/render";
 
 const route = express.Router();
 
@@ -85,22 +91,30 @@ route.get("/confirm_payment", async (req, res) => {
 
   const items = order.items;
 
+  async function generateOrderEmail(
+    items: (IMenuItem & { quantity: number })[],
+    buttonURL: string
+  ): Promise<string> {
+    return await render(PedidoEmail({ items, buttonURL }));
+  }
+
+  const html = await generateOrderEmail(
+    order.items.map((item) => {
+      const menu = [...menu_salgados, ...menu_doces];
+      const menuItem = menu.find(
+        (menuItem) => item.id === menuItem.id
+      ) as IMenuItem;
+
+      return { ...menuItem, quantity: item.quantity };
+    }),
+    `http://localhost:3000/orders/ready_for_delivery?id=${order.id}`
+  );
+
   const message: MailDataRequired = {
     from: "thiagotolotti@thiagotolotti.com",
     to: "thiagotolotti@gmail.com",
     subject: "Novo pedido!",
-    html: `${items.map(
-      (item) =>
-        `<p>${item.quantity} - ${
-          [...menu_salgados, ...menu_doces].find(
-            (menuItem) => item.id === menuItem.id
-          )?.name
-        }</p><br/>`
-    )}
-	<a href="http://localhost:3000/orders/ready_for_delivery?id=${
-    order.id
-  }">Pedido finalizado</a>
-	`,
+    html,
   };
 
   await sendgrid.send(message);

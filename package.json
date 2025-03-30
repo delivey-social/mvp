@@ -13,5 +13,9 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "@react-email/render": "^1.0.5",
+    "react-email": "^4.0.2"
   }
 }

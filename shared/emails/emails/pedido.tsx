@@ -128,7 +128,7 @@ function OrderItem({ item }: { item: IMenuItem & { quantity: number } }) {
           </Text>
         </Column>
         <Column align="right">
-          <Img
+          {/* <Img
             src={`/static/menu${item.imageUrl}`}
             alt="Image"
             style={{
@@ -136,7 +136,7 @@ function OrderItem({ item }: { item: IMenuItem & { quantity: number } }) {
               height: "auto",
               borderRadius: "8px",
             }}
-          />
+          /> */}
         </Column>
       </Row>
     </Section>
