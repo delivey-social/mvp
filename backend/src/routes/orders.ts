@@ -96,7 +96,11 @@ route.get("/confirm_payment", async (req, res) => {
             (menuItem) => item.id === menuItem.id
           )?.name
         }</p><br/>`
-    )}`,
+    )}
+	<a href="http://localhost:3000/orders/ready_for_delivery?id=${
+    order.id
+  }">Pedido finalizado</a>
+	`,
   };
 
   await sendgrid.send(message);
@@ -114,11 +118,10 @@ route.get("/confirm_payment", async (req, res) => {
   }
 });
 
-// TODO: Send email for driver asking for delivery
-route.patch("/:id/ready_for_delivery", async (req, res) => {
-  const { id } = req.params;
+route.get("/ready_for_delivery", async (req, res) => {
+  const { id } = req.query;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!id || typeof id !== "string" || !mongoose.Types.ObjectId.isValid(id)) {
     res.status(400).json("A valid order id is required");
     return;
   }
@@ -129,6 +132,15 @@ route.patch("/:id/ready_for_delivery", async (req, res) => {
     res.status(400).json("Order not found or already prepared");
     return;
   }
+
+  const message: MailDataRequired = {
+    from: "thiagotolotti@thiagotolotti.com",
+    to: "thiagotolotti@gmail.com",
+    subject: "Nova Entrega!",
+    html: `Há uma nova entrega disponível! Dirija-se ao restaurante para retirada! <br/> <a href="http://localhost:3000/orders/delivered?id=${order.id}">Entrega finalizada!</a>`,
+  };
+
+  await sendgrid.send(message);
 
   try {
     await order.updateOne({ status: "READY_FOR_DELIVERY" });
@@ -143,10 +155,10 @@ route.patch("/:id/ready_for_delivery", async (req, res) => {
   }
 });
 
-route.patch("/:id/delivered", async (req, res) => {
-  const { id } = req.params;
+route.get("/delivered", async (req, res) => {
+  const { id } = req.query;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!id || typeof id !== "string" || !mongoose.Types.ObjectId.isValid(id)) {
     res.status(400).json("A valid order id is required");
     return;
   }
