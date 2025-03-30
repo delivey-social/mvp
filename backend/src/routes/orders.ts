@@ -11,6 +11,7 @@ import {
   menu_salgados,
 } from "../../public/menu/menu_items";
 import PedidoEmail from "../../../shared/emails/emails/pedido";
+import EntregaEmail from "../../../shared/emails/emails/entrega";
 import { render } from "@react-email/render";
 
 const route = express.Router();
@@ -91,15 +92,9 @@ route.get("/confirm_payment", async (req, res) => {
 
   const items = order.items;
 
-  async function generateOrderEmail(
-    items: (IMenuItem & { quantity: number })[],
-    buttonURL: string
-  ): Promise<string> {
-    return await render(PedidoEmail({ items, buttonURL }));
-  }
-
-  const html = await generateOrderEmail(
-    order.items.map((item) => {
+  const generateOrderEmail = generateEmailFactory(PedidoEmail);
+  const html = await generateOrderEmail({
+    items: items.map((item) => {
       const menu = [...menu_salgados, ...menu_doces];
       const menuItem = menu.find(
         (menuItem) => item.id === menuItem.id
@@ -107,8 +102,8 @@ route.get("/confirm_payment", async (req, res) => {
 
       return { ...menuItem, quantity: item.quantity };
     }),
-    `http://localhost:3000/orders/ready_for_delivery?id=${order.id}`
-  );
+    buttonURL: `http://localhost:3000/orders/ready_for_delivery?id=${order.id}`,
+  });
 
   const message: MailDataRequired = {
     from: "thiagotolotti@thiagotolotti.com",
@@ -147,11 +142,18 @@ route.get("/ready_for_delivery", async (req, res) => {
     return;
   }
 
+  const generateDeliveryEmail = generateEmailFactory(EntregaEmail);
+  const html = await generateDeliveryEmail({
+    clientAddress: order.user.address,
+    date: new Date(),
+    buttonUrl: `http://localhost:3000/orders/delivered?id=${order.id}`,
+  });
+
   const message: MailDataRequired = {
     from: "thiagotolotti@thiagotolotti.com",
     to: "thiagotolotti@gmail.com",
     subject: "Nova Entrega!",
-    html: `Há uma nova entrega disponível! Dirija-se ao restaurante para retirada! <br/> <a href="http://localhost:3000/orders/delivered?id=${order.id}">Entrega finalizada!</a>`,
+    html: html,
   };
 
   await sendgrid.send(message);
@@ -196,5 +198,12 @@ route.get("/delivered", async (req, res) => {
     return;
   }
 });
+
+function generateEmailFactory(email: (props: any) => any) {
+  return async (props: unknown): Promise<string> => {
+    // @ts-ignore-next-line
+    return await render(email(props));
+  };
+}
 
 export default route;
