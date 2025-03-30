@@ -19,7 +19,7 @@ interface OrderContextProps {
   user: Order["user"];
   setItems: React.Dispatch<React.SetStateAction<Order["items"]>>;
   setUser: React.Dispatch<React.SetStateAction<Order["user"]>>;
-  setObservation: React.Dispatch<React.SetStateAction<string>>;
+  setObservation: React.Dispatch<React.SetStateAction<string | undefined>>;
   sendOrder: () => Promise<void>;
 }
 
@@ -39,7 +39,7 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [items, setItems] = useState<Order["items"]>(initialItems);
   const [user, setUser] = useState<Order["user"]>(initialUser);
-  const [observation, setObservation] = useState("");
+  const [observation, setObservation] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     sessionStorage.setItem("user", JSON.stringify(user));
@@ -50,7 +50,10 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
 
   async function sendOrder() {
     await axios.post("http://localhost:3000/orders", {
-      items,
+      items: items.map((item) => ({
+        id: String(item.id),
+        quantity: item.quantity,
+      })),
       user,
       observation,
     });
