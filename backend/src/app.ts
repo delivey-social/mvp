@@ -2,6 +2,7 @@ import express from "express";
 import route from "./routes/orders";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import sendgrid from "@sendgrid/mail";
 import cors, { CorsOptions } from "cors";
 
 dotenv.config();
@@ -13,6 +14,8 @@ const corsOptions: CorsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+
+sendgrid.setApiKey(process.env.SENDGRID_API_KEY!);
 
 mongoose.connect(process.env.DATABASE_URL!);
 const db = mongoose.connection;
