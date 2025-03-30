@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
 
 import { MailDataRequired } from "@sendgrid/mail";
+import { menu_doces, menu_salgados } from "../../../shared/menu_items";
 
 const route = express.Router();
 
@@ -46,7 +47,7 @@ route.post("/", async (req, res) => {
       from: "thiagotolotti@thiagotolotti.com",
       to: "thiagotolotti@gmail.com",
       subject: "Novo pedido!",
-      html: `Valor total: R$ ${order.totalAmount}.<br/> id: ${order["_id"]}`,
+      html: `Valor total: R$ ${order.totalAmount}.<br/> id: ${order["_id"]}.<br/><a href="http://localhost:3000/orders/confirm_payment?id=${order._id}">Confirmar pagamento</a>`,
     };
 
     await sendgrid.send(message);
@@ -61,23 +62,44 @@ route.post("/", async (req, res) => {
   }
 });
 
-// TODO: Send email for restaurant asking for producing
-route.patch("/:id/confirm_payment", async (req, res) => {
-  const id = req.params.id;
+route.get("/confirm_payment", async (req, res) => {
+  const { id } = req.query;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  if (!id || typeof id != "string" || !mongoose.Types.ObjectId.isValid(id)) {
     res.status(400).json("A valid order id is required");
     return;
   }
 
-  const order = await OrderModel.findById(id).select("status");
+  const order = await OrderModel.findById(id).select("status items");
 
-  const status = order?.status;
-
-  if (!order || status !== "WAITING_PAYMENT") {
-    res.status(400).json("Order not found or already confirmed");
+  if (!order) {
+    res.status(400).json("Order not found");
     return;
   }
+
+  const status = order?.status;
+  if (status !== "WAITING_PAYMENT") {
+    res.status(400).json("Order with payment already confirmed");
+    return;
+  }
+
+  const items = order.items;
+
+  const message: MailDataRequired = {
+    from: "thiagotolotti@thiagotolotti.com",
+    to: "thiagotolotti@gmail.com",
+    subject: "Novo pedido!",
+    html: `${items.map(
+      (item) =>
+        `<p>${item.quantity} - ${
+          [...menu_salgados, ...menu_doces].find(
+            (menuItem) => item.id === menuItem.id
+          )?.name
+        }</p><br/>`
+    )}`,
+  };
+
+  await sendgrid.send(message);
 
   try {
     await order.updateOne({ status: "PREPARING" });
