@@ -6,11 +6,8 @@ import sendgrid from "@sendgrid/mail";
 
 import { MailDataRequired } from "@sendgrid/mail";
 
-import {
-  IMenuItem,
-  menu_doces,
-  menu_salgados,
-} from "../../public/menu/menu_items";
+import menuJSON from "../../public/menu_items.json";
+import { IMenuItem } from "../../public/MenuItems";
 
 import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
@@ -101,7 +98,7 @@ route.get("/confirm_payment", async (req, res) => {
   const generateOrderEmail = generateEmailFactory(PedidoEmail);
   const html = await generateOrderEmail({
     items: items.map((item) => {
-      const menu = [...menu_salgados, ...menu_doces];
+      const menu = [...menuJSON.salgados, ...menuJSON.doces];
       const menuItem = menu.find(
         (menuItem) => item.id === menuItem.id
       ) as IMenuItem;

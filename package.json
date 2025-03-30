@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\" \"npm run copy:client\" \"npm run copy:server\"",
     "copy:client": "concurrently \"cp ./shared/menu/*.* ./frontend/src\" \"cp -r ./shared/menu/menu_images ./frontend/public\"",
-    "copy:server": "cp -r ./shared/menu ./frontend/public",
+    "copy:server": "cp ./shared/menu/*.* ./backend/public",
     "dev:server": "cd backend && npm run dev",
     "dev:client": "cd frontend && npm run dev",
     "build": "cd client && npm run build",
