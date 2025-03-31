@@ -16,6 +16,10 @@ import { render } from "@react-email/render";
 
 const route = express.Router();
 
+const DELIVERY_EMAIL = "thiagotolotti@gmail.com";
+const RESTAURANT_EMAIL = "thiagotolotti@gmail.com";
+const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
+
 const createOrderSchema = z.object({
   items: z.array(
     z.object({
@@ -52,8 +56,7 @@ route.post("/", async (req, res) => {
 
     const message: MailDataRequired = {
       from: "thiagotolotti@thiagotolotti.com",
-      //   TODO: Remove Hardcoded email
-      to: "thiagotolotti@gmail.com",
+      to: DELIVERY_EMAIL,
       subject: "Novo pedido!",
       //   TODO: Email with order infos to responsible
       html: `Valor total: R$ ${order.totalAmount}.<br/> id: ${order["_id"]}.<br/><a href="${process.env.BACKEND_URL!}/orders/confirm_payment?id=${order._id}">Confirmar pagamento</a>`,
@@ -109,8 +112,7 @@ route.get("/confirm_payment", async (req, res) => {
 
   const message: MailDataRequired = {
     from: "thiagotolotti@thiagotolotti.com",
-    //   TODO: Remove Hardcoded email
-    to: "thiagotolotti@gmail.com",
+    to: RESTAURANT_EMAIL,
     subject: "Novo pedido!",
     html,
   };
@@ -154,8 +156,7 @@ route.get("/ready_for_delivery", async (req, res) => {
 
   const message: MailDataRequired = {
     from: "thiagotolotti@thiagotolotti.com",
-    //   TODO: Remove Hardcoded email
-    to: "thiagotolotti@gmail.com",
+    to: MOTOBOY_EMAIL,
     subject: "Nova Entrega!",
     html: html,
   };
