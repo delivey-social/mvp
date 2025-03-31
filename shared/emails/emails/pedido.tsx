@@ -14,7 +14,8 @@ import {
   Row,
   Column,
 } from "@react-email/components";
-import { IMenuItem, menu_doces, menu_salgados } from "../../menu/menu_items";
+import menu from "../../menu/menu_items.json";
+import { IMenuItem } from "../../menu/MenuItems";
 import numberToCurrency from "../../utils/numberToCurrency";
 
 export const PedidoEmail = ({
@@ -34,7 +35,7 @@ export const PedidoEmail = ({
   buttonURL: string;
 }) => {
   const itemsList = items.map((item) => {
-    const menus = [...menu_doces, ...menu_salgados];
+    const menus = [...menu.doces, ...menu.salgados];
     const menuItem = menus.find((menu) => menu.id === item.id);
 
     return { ...menuItem, quantity: item.quantity } as IMenuItem & {
@@ -43,7 +44,7 @@ export const PedidoEmail = ({
   });
 
   const orderTotal = itemsList.reduce((total, item) => {
-    const menus = [...menu_doces, ...menu_salgados];
+    const menus = [...menu.doces, ...menu.salgados];
     const menuItem = menus.find((menu) => menu.id === item.id) as IMenuItem;
 
     return (total += menuItem.price * item.quantity);

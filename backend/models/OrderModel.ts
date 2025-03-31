@@ -1,4 +1,4 @@
-import { menu_doces, menu_salgados } from "../../shared/menu/menu_items";
+import menu from "../public/menu_items.json";
 import mongoose, { Document, Schema } from "mongoose";
 
 enum OrderStatus {
@@ -50,7 +50,7 @@ const orderSchema = new Schema<Order>(
         let total = 0;
 
         this.items.forEach((item) => {
-          const menuItem = [...menu_doces, ...menu_salgados].find(
+          const menuItem = [...menu.doces, ...menu.salgados].find(
             (menuItem) => menuItem.id === item.id
           );
           if (menuItem) {
