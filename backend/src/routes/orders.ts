@@ -56,8 +56,7 @@ route.post("/", async (req, res) => {
       to: "thiagotolotti@gmail.com",
       subject: "Novo pedido!",
       //   TODO: Email with order infos to responsible
-      // TODO: Remove hardcoded URL
-      html: `Valor total: R$ ${order.totalAmount}.<br/> id: ${order["_id"]}.<br/><a href="http://localhost:3000/orders/confirm_payment?id=${order._id}">Confirmar pagamento</a>`,
+      html: `Valor total: R$ ${order.totalAmount}.<br/> id: ${order["_id"]}.<br/><a href="${process.env.BACKEND_URL!}/orders/confirm_payment?id=${order._id}">Confirmar pagamento</a>`,
     };
 
     await sendgrid.send(message);
@@ -105,8 +104,7 @@ route.get("/confirm_payment", async (req, res) => {
 
       return { ...menuItem, quantity: item.quantity };
     }),
-    // TODO: Remove hardcoded URL
-    buttonURL: `http://localhost:3000/orders/ready_for_delivery?id=${order.id}`,
+    buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${order.id}`,
   });
 
   const message: MailDataRequired = {
@@ -151,8 +149,7 @@ route.get("/ready_for_delivery", async (req, res) => {
   const html = await generateDeliveryEmail({
     clientAddress: order.user.address,
     date: new Date(),
-    // TODO: Remove hardcoded URL
-    buttonUrl: `http://localhost:3000/orders/delivered?id=${order.id}`,
+    buttonUrl: `${process.env.BACKEND_URL!}/orders/delivered?id=${order.id}`,
   });
 
   const message: MailDataRequired = {
