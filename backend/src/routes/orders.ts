@@ -140,7 +140,7 @@ route.get("/ready_for_delivery", async (req, res) => {
     return;
   }
 
-  const order = await OrderModel.findById(id).select("status");
+  const order = await OrderModel.findById(id).select("status user");
 
   if (!order || order.status !== "PREPARING") {
     res.status(400).json("Order not found or already prepared");
