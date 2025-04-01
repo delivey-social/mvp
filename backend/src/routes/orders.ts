@@ -11,6 +11,7 @@ import { IMenuItem } from "../../public/MenuItems";
 
 import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
+import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 
 import { render } from "@react-email/render";
 
@@ -54,12 +55,21 @@ route.post("/", async (req, res) => {
 
     await order.save();
 
+    const newOrderEmail = generateEmailFactory(NovoPedidoEmail);
+
+    const html = await newOrderEmail({
+      totalValue: order.totalAmount,
+      client: order.user,
+      id: String(order["_id"]),
+      date: new Date(),
+      buttonUrl: `${process.env.BACKEND_URL!}/orders/confirm_payment?id=${order.id}`,
+    });
+
     const message: MailDataRequired = {
       from: "thiagotolotti@thiagotolotti.com",
       to: DELIVERY_EMAIL,
       subject: "Novo pedido!",
-      //   TODO: Email with order infos to responsible
-      html: `Valor total: R$ ${order.totalAmount}.<br/> id: ${order["_id"]}.<br/><a href="${process.env.BACKEND_URL!}/orders/confirm_payment?id=${order._id}">Confirmar pagamento</a>`,
+      html,
     };
 
     await sendgrid.send(message);
