@@ -4,7 +4,6 @@ import MenuItem from "./menu-item";
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 import { useNavigate } from "react-router";
 import { OrderContext } from "../../contexts/OrderContext";
-import Navbar from "../../shared-components/navbar";
 
 export default function Home() {
   const { items, setItems } = useContext(OrderContext);
@@ -47,8 +46,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-4 h-full min-h-dvh w-full min-w-dvw">
-      <Navbar />
-
       <main className="px-10 flex gap-6 flex-col pb-20">
         <h2 className="font-bold text-2xl mt-4">Santo Crepe</h2>
 

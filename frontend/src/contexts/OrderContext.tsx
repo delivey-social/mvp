@@ -51,7 +51,7 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
     user: { email: string; phone_number: string; address: string },
     observation?: string
   ) {
-    await axios.post("http://localhost:3000/orders", {
+    await axios.post(`${import.meta.env.VITE_BACKEND_URL}/orders`, {
       items: items.map((item) => ({
         id: item.id,
         quantity: item.quantity,

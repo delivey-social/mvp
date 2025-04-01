@@ -2,7 +2,6 @@ import { useContext } from "react";
 
 import { OrderContext } from "../../contexts/OrderContext";
 
-import Navbar from "../../shared-components/navbar";
 import menu from "../../menu_items.json";
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 
@@ -21,8 +20,6 @@ export default function Pagamento() {
 
   return (
     <div className="flex flex-col gap-4 h-full min-h-dvh w-full min-w-dvw">
-      <Navbar />
-
       <main className="flex flex-col gap-6 items-center justify-center">
         <div className="flex flex-col gap-6">
           <div className="p-4 rounded-xl drop-shadow-md mt-5 bg-white">
