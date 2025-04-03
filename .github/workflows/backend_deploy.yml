@@ -1,0 +1,23 @@
+name: Deploy backend to EC2
+
+on:
+  push:
+    branches:
+      - main # Change to your main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH into EC2 and pull the latest changes
+        uses: appleboy/ssh-action@master
+        with:
+          host: 3.143.205.146
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ec2-user/mvp
+            git pull origin main
+            npm ci
+            npm run build
+            pm2 restart api
