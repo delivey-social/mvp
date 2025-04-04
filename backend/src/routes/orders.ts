@@ -20,8 +20,8 @@ const route = express.Router();
 
 const SENDER_EMAIL = "admin@comida.app.br";
 
-const DELIVERY_EMAIL = "thiagotolotti@gmail.com";
-const RESTAURANT_EMAIL = "thiagotolotti@gmail.com";
+const DELIVERY_EMAIL = "santocrepecwb@gmail.com";
+const RESTAURANT_EMAIL = "santocrepecwb@gmail.com";
 const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
 
 const createOrderSchema = z.object({
