@@ -49,6 +49,23 @@ export default function Home() {
       <main className="px-10 flex gap-6 flex-col pb-20">
         <h2 className="font-bold text-2xl mt-4">Santo Crepe</h2>
 
+        {Object.entries(menu).map(([category, items]) => (
+          <div key={category}>
+            <h3 className="font-bold my-4">{capitalize(category)}</h3>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+              {items.map((item) => (
+                <MenuItem
+                  key={item.id}
+                  {...item}
+                  quantity={getProduct(item.id)?.quantity ?? 0}
+                  setProductQuantity={setProductQuantity(item.id)}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+
         <h3 className="font-bold">Salgados</h3>
 
         {menu.salgados.map((item) => (
@@ -103,4 +120,8 @@ function Footer({ itens, total }: FooterProps) {
       </button>
     </footer>
   );
+}
+
+function capitalize(string: string) {
+  return String(string).charAt(0).toUpperCase() + String(string).slice(1);
 }
