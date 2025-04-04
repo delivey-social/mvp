@@ -14,13 +14,14 @@ import EntregaEmail from "../../../shared/emails/emails/entrega";
 import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 
 import { render } from "@react-email/render";
+import handleError from "../../utils/handleError";
 
 const route = express.Router();
 
 const SENDER_EMAIL = "admin@comida.app.br";
 
-const DELIVERY_EMAIL = "santocrepecwb@gmail.com";
-const RESTAURANT_EMAIL = "santocrepecwb@gmail.com";
+const DELIVERY_EMAIL = "thiagotolotti@gmail.com";
+const RESTAURANT_EMAIL = "thiagotolotti@gmail.com";
 const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
 
 const createOrderSchema = z.object({
@@ -94,7 +95,15 @@ route.get("/confirm_payment", async (req, res) => {
     return;
   }
 
-  const order = await OrderModel.findById(id).select("status items");
+  const [error, order] = await handleError(
+    OrderModel.findById(id).select("status items")
+  );
+
+  if (error) {
+    console.error(error);
+    res.status(500).json("Error fetching order");
+    return;
+  }
 
   if (!order) {
     res.status(400).json("Order not found");
