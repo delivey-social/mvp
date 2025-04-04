@@ -20,6 +20,8 @@ jobs:
             git reset --hard HEAD   # Discard local changes
             git clean -fd           # Remove untracked files
             git pull origin main
+            npm run copy:server
+            cd backend
             npm ci
             npm run build
             pm2 restart api
