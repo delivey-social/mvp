@@ -17,8 +17,8 @@ import { render } from "@react-email/render";
 
 const route = express.Router();
 
-const DELIVERY_EMAIL = "thiagotolotti@gmail.com";
-const RESTAURANT_EMAIL = "thiagotolotti@gmail.com";
+const DELIVERY_EMAIL = "santocrepecwb@gmail.com";
+const RESTAURANT_EMAIL = "santocrepecwb@gmail.com";
 const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
 
 const createOrderSchema = z.object({
