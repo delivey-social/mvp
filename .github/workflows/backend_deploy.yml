@@ -17,6 +17,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ec2-user/mvp
+            git reset --hard HEAD   # Discard local changes
+            git clean -fd           # Remove untracked files
             git pull origin main
             npm ci
             npm run build
