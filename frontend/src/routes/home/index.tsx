@@ -53,7 +53,7 @@ export default function Home() {
           <div key={category}>
             <h3 className="font-bold my-4">{capitalize(category)}</h3>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
               {items.map((item) => (
                 <MenuItem
                   key={item.id}
@@ -64,28 +64,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-        ))}
-
-        <h3 className="font-bold">Salgados</h3>
-
-        {menu.salgados.map((item) => (
-          <MenuItem
-            key={item.id}
-            {...item}
-            quantity={getProduct(item.id)?.quantity ?? 0}
-            setProductQuantity={setProductQuantity(item.id)}
-          />
-        ))}
-
-        <h3 className="font-bold">Doces</h3>
-
-        {menu.doces.map((item) => (
-          <MenuItem
-            key={item.name}
-            {...item}
-            quantity={getProduct(item.id)?.quantity ?? 0}
-            setProductQuantity={setProductQuantity(item.id)}
-          />
         ))}
       </main>
 
