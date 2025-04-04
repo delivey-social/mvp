@@ -1,4 +1,4 @@
-name: uploadToS3
+name: Upload frontend to S3
 
 on:
   push:
