@@ -17,6 +17,8 @@ import { render } from "@react-email/render";
 
 const route = express.Router();
 
+const SENDER_EMAIL = "admin@comida.app.br";
+
 const DELIVERY_EMAIL = "santocrepecwb@gmail.com";
 const RESTAURANT_EMAIL = "santocrepecwb@gmail.com";
 const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
@@ -66,7 +68,7 @@ route.post("/", async (req, res) => {
     });
 
     const message: MailDataRequired = {
-      from: "thiagotolotti@thiagotolotti.com",
+      from: SENDER_EMAIL,
       to: DELIVERY_EMAIL,
       subject: "Novo pedido!",
       html,
@@ -121,7 +123,7 @@ route.get("/confirm_payment", async (req, res) => {
   });
 
   const message: MailDataRequired = {
-    from: "thiagotolotti@thiagotolotti.com",
+    from: SENDER_EMAIL,
     to: RESTAURANT_EMAIL,
     subject: "Novo pedido!",
     html,
@@ -165,7 +167,7 @@ route.get("/ready_for_delivery", async (req, res) => {
   });
 
   const message: MailDataRequired = {
-    from: "thiagotolotti@thiagotolotti.com",
+    from: SENDER_EMAIL,
     to: MOTOBOY_EMAIL,
     subject: "Nova Entrega!",
     html: html,
