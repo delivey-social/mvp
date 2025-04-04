@@ -73,6 +73,7 @@ route.post("/", async (req, res) => {
       to: DELIVERY_EMAIL,
       subject: "Novo pedido!",
       html,
+      bcc: SENDER_EMAIL,
     };
 
     await sendgrid.send(message);
@@ -136,6 +137,7 @@ route.get("/confirm_payment", async (req, res) => {
     to: RESTAURANT_EMAIL,
     subject: "Novo pedido!",
     html,
+    bcc: SENDER_EMAIL,
   };
 
   await sendgrid.send(message);
@@ -179,7 +181,8 @@ route.get("/ready_for_delivery", async (req, res) => {
     from: SENDER_EMAIL,
     to: MOTOBOY_EMAIL,
     subject: "Nova Entrega!",
-    html: html,
+    html,
+    bcc: SENDER_EMAIL,
   };
 
   await sendgrid.send(message);
