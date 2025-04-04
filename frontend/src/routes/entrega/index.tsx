@@ -58,6 +58,11 @@ export default function Entrega() {
           <Input type="text" placeholder="Endereço" name="address" required />
           <Input type="text" placeholder="Observações" name="observations" />
 
+          <span className="text-gray-600 my-4">
+            Atenção, entregas somente na regional matriz de Curitiba. Demais
+            localidades estão sujeitas à análise.
+          </span>
+
           <div className="ml-auto flex flex-col gap-3 mt-4">
             <ResultLine label="Total dos itens" value={itemsTotal} />
             <ResultLine label="Taxa Delivery Social" value={appFee} />
