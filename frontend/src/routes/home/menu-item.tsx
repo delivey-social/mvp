@@ -23,22 +23,22 @@ export default function MenuItem({
         <div className="flex mt-4 items-center">
           <div>{numberToCurrency(price)}</div>
 
-          <div className="flex font-bold items-center gap-2 mx-4">
-            <div
+          <div className="flex font-bold items-center gap-4 mx-4">
+            <span
               onClick={() =>
                 setProductQuantity(quantity > 0 ? quantity - 1 : 0)
               }
-              className="p-1"
+              className="w-8 h-8 flex justify-center items-center rounded-full active:bg-gray-200 transition-all cursor-pointer"
             >
               -
-            </div>
-            <div>{quantity}</div>
-            <div
+            </span>
+            <span>{quantity}</span>
+            <span
               onClick={() => setProductQuantity(quantity + 1)}
-              className="p-1"
+              className="w-8 h-8 flex justify-center items-center rounded-full active:bg-gray-200 transition-all cursor-pointer"
             >
               +
-            </div>
+            </span>
           </div>
         </div>
       </div>
