@@ -45,7 +45,7 @@ export default function MenuItem({
 
       <img
         src={imageUrl}
-        className="max-[380px]:w-full max-[380px]:h-32 w-32 h-24 object-cover rounded-md"
+        className="max-[380px]:w-full max-[380px]:aspect-[4/3] w-32 [380px]:h-24 object-cover rounded-md"
       />
     </div>
   );

@@ -120,63 +120,63 @@
       "id": "17",
       "name": "Coca lata",
       "description": "",
-      "imageUrl": "/menu_images/bebidas/coca_lata.jpg",
+      "imageUrl": "/menu_images/bebidas/coca_lata.webp",
       "price": 8
     },
     {
       "id": "18",
       "name": "Coca 200ml",
       "description": "",
-      "imageUrl": "/menu_images/bebidas/coca_200.jpg",
+      "imageUrl": "/menu_images/bebidas/coca_200.webp",
       "price": 5
     },
     {
       "id": "19",
       "name": "Coca zero lata",
       "description": "",
-      "imageUrl": "/menu_images/bebidas/coca_zero.jpg",
+      "imageUrl": "/menu_images/bebidas/coca_zero.webp",
       "price": 8
     },
     {
       "id": "19",
       "name": "Coca zero 200ml",
       "description": "",
-      "imageUrl": "/menu_images/bebidas/coca_zero_200.jpg",
+      "imageUrl": "/menu_images/bebidas/coca_zero_200.webp",
       "price": 8
     },
     {
       "id": "20",
       "name": "Guaraná lata",
       "description": "",
-      "imageUrl": "/menu_images/bebidas/guarana.jpg",
+      "imageUrl": "/menu_images/bebidas/guarana.png",
       "price": 8
     },
     {
       "id": "21",
       "name": "Guaraná 200ml",
       "description": "",
-      "imageUrl": "/menu_images/bebidas/guarana_200.jpg",
+      "imageUrl": "/menu_images/bebidas/guarana_200.webp",
       "price": 5
     },
     {
       "id": "22",
       "name": "Água com gás",
       "description": "",
-      "imageUrl": "/menu_images/bebidas/agua_gas.jpg",
+      "imageUrl": "/menu_images/bebidas/agua_gas.webp",
       "price": 5
     },
     {
       "id": "22",
       "name": "Água sem gás",
       "description": "",
-      "imageUrl": "/menu_images/bebidas/agua.jpg",
+      "imageUrl": "/menu_images/bebidas/agua.webp",
       "price": 5
     },
     {
       "id": "23",
       "name": "Chá mate leão",
       "description": "",
-      "imageUrl": "/menu_images/bebidas/cha.jpg",
+      "imageUrl": "/menu_images/bebidas/cha.webp",
       "price": 8
     }
   ]
