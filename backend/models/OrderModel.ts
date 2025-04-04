@@ -50,7 +50,8 @@ const orderSchema = new Schema<Order>(
         let total = 0;
 
         this.items.forEach((item) => {
-          const menuItem = [...menu.doces, ...menu.salgados].find(
+          const menuItems = Object.values(menu).flat();
+          const menuItem = menuItems.find(
             (menuItem) => menuItem.id === item.id
           );
           if (menuItem) {

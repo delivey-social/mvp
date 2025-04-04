@@ -35,7 +35,7 @@ export const PedidoEmail = ({
   buttonURL: string;
 }) => {
   const itemsList = items.map((item) => {
-    const menus = [...menu.doces, ...menu.salgados];
+    const menus = Object.values(menu).flat();
     const menuItem = menus.find((menu) => menu.id === item.id);
 
     return { ...menuItem, quantity: item.quantity } as IMenuItem & {
@@ -44,7 +44,7 @@ export const PedidoEmail = ({
   });
 
   const orderTotal = itemsList.reduce((total, item) => {
-    const menus = [...menu.doces, ...menu.salgados];
+    const menus = Object.values(menu).flat();
     const menuItem = menus.find((menu) => menu.id === item.id) as IMenuItem;
 
     return (total += menuItem.price * item.quantity);

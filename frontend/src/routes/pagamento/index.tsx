@@ -9,9 +9,9 @@ export default function Pagamento() {
   const { items } = useContext(OrderContext);
 
   const totalAmount = items.reduce((acc, product) => {
+    const menuItems = Object.values(menu).flat();
     const itemPrice =
-      [...menu.salgados, ...menu.doces].find((item) => item.id === product.id)
-        ?.price ?? 0;
+      menuItems.find((item) => item.id === product.id)?.price ?? 0;
 
     return (acc += itemPrice * product.quantity);
   }, 0);
