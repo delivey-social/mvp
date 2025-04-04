@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\" \"npm run copy:all\"",
-    "copy:client": "concurrently \"cp ./shared/menu/*.* ./frontend/src\" \"cp -r ./shared/menu/menu_images ./frontend/public\"",
+    "copy:client": "cp ./shared/menu/*.* ./frontend/src && cp -r ./shared/menu/menu_images ./frontend/public\"",
     "copy:server": "cp ./shared/menu/*.* ./backend/public",
     "dev:server": "cd backend && npm run dev",
     "copy:all": "npm run copy:client && npm run copy:server",
