@@ -17,17 +17,17 @@ export default function Pagamento() {
   }, 0);
 
   const CHAVE_PIX =
-    "00020126330014BR.GOV.BCB.PIX0111010555789785204000053039865802BR5901N6001C62070503***630497CF";
+    "00020126360014BR.GOV.BCB.PIX0114209486940001095204000053039865802BR5901N6001C62070503***63048600";
 
   return (
     <div className="flex flex-col gap-4 h-full min-h-dvh w-dvw max-w-dvw">
       <main className="mx-auto px-10 w-full flex flex-col gap-6">
         <div className="p-2 rounded-xl w-60 mx-auto drop-shadow-md mt-5 bg-white">
-          <img src="/qr-code.svg" />
+          <img src="/qr-code.png" />
         </div>
 
         <div className="bg-white mx-auto font-bold flex items-center justify-between p-2 px-4 rounded-xl drop-shadow-md w-full">
-          <p className="w-full overflow-hidden whitespace-nowrap text-ellipsis">
+          <p className="w-full overflow-hidden whitespace-nowrap text-ellipsis text-center">
             {CHAVE_PIX}
           </p>
 
