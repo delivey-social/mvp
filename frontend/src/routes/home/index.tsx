@@ -83,12 +83,12 @@ function Footer({ itens, total }: FooterProps) {
   const navigate = useNavigate();
 
   return (
-    <footer className="px-4 flex items-center gap-8 bg-white border-1 border-t-red-700 w-full fixed bottom-0 py-4 justify-end">
-      <div className="flex justify-between items-center gap-4">
-        <div className="font-bold ">{itens} itens</div>
-      </div>
+    <footer className="px-4 flex max-w-sm:text-sm gap-8 bg-white border-1 border-t-red-700 w-full fixed bottom-0 py-4 justify-between items-center">
+      <div className="flex flex-col">
+        <div className="font-bold text-xs text-gray-600">{itens} itens</div>
 
-      <div className="font-bold ">Total - {numberToCurrency(total)}</div>
+        <div className="font-bold">Total - {numberToCurrency(total)}</div>
+      </div>
 
       <button
         onClick={() => navigate("/entrega")}
