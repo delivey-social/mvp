@@ -34,10 +34,9 @@ interface OpenResponse {
 }
 
 function MainComponent() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
-    console.log(import.meta.env.VITE_BACKEND_URL);
     axios
       .get<OpenResponse>(`${import.meta.env.VITE_BACKEND_URL}/open`)
       .then((res) => {
@@ -47,11 +46,18 @@ function MainComponent() {
 
   if (!isOpen) {
     return (
-      <div className="flex flex-col gap-4 items-center justify-center h-screen w-screen bg-red-800 text-white font-bold text-xl text-center">
-        <p className="max-w-sm">
-          Parece que o restaurante não está aberto nesse momento! Tente
-          novamente mais tarde.
-        </p>
+      <div className="flex flex-col gap-4 h-screen w-screen bg-white text-center">
+        <Navbar />
+
+        <div className="max-w-sm m-auto pb-20 px-10 text-gray-800">
+          <img src="/fechado.svg" className="w-48 m-auto mb-6" />
+          <p className="font-bold">
+            Parece que o restaurante não está aberto nesse momento!
+          </p>
+          <p className="text-sm bg-emerald-100 text-emerald-900 font-semibold p-2 px-4 mx-auto rounded-md w-fit my-4">
+            Tente novamente mais tarde
+          </p>
+        </div>
       </div>
     );
   }

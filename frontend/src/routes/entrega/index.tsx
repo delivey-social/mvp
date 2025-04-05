@@ -45,9 +45,9 @@ export default function Entrega() {
   }
 
   return (
-    <div className="flex flex-col gap-4 h-full min-h-dvh w-full min-w-dvw">
-      <main className="px-10 flex gap-6 flex-col pb-20 max-w-md mx-auto mt-20">
-        <form className="flex flex-col gap-4 mt-4 " onSubmit={handleSubmit}>
+    <div className="flex flex-col gap-4 h-full w-full min-w-dvw">
+      <main className="px-10 flex gap-6 flex-col pb-12 max-w-md mx-auto mt-12">
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <Input type="email" placeholder="email" name="email" required />
           <Input
             type="text"
@@ -58,19 +58,19 @@ export default function Entrega() {
           <Input type="text" placeholder="Endereço" name="address" required />
           <Input type="text" placeholder="Observações" name="observations" />
 
-          <span className="text-gray-600 my-4">
+          <span className="text-gray-600 my-4 text-sm">
             Atenção, entregas somente na regional matriz de Curitiba. Demais
             localidades estão sujeitas à análise.
           </span>
 
-          <div className="ml-auto flex flex-col gap-3 mt-4">
+          <div className="ml-auto flex flex-col gap-2 mt-4">
             <ResultLine label="Total dos itens" value={itemsTotal} />
             <ResultLine label="Taxa Delivery Social" value={appFee} />
             <ResultLine label="Taxa de entrega" value={deliveryFee} />
             <ResultLine label="Total" value={total} />
           </div>
 
-          <button className="bg-red-700 ml-auto mt-4 w-fit text-white  px-4 py-4 text-sm font-bold rounded-md">
+          <button className="bg-emerald-400 w-full mt-4 text-emerald-950  px-4 py-4 text-sm font-bold rounded-md">
             Finalizar a compra
           </button>
         </form>
@@ -83,14 +83,14 @@ function Input(props: React.HTMLProps<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className={`${props.className} border-1 py-2 px-2 rounded-md border-gray-300 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500`}
+      className={`${props.className} text-sm border-1 py-2 px-2 rounded-md border-gray-300 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500`}
     />
   );
 }
 
 function ResultLine({ label, value }: { label: string; value: number }) {
   return (
-    <div className="flex gap-4 ml-auto">
+    <div className="flex gap-4 ml-auto text-sm">
       <div className="font-bold">{label}</div>
       <div>{numberToCurrency(value)}</div>
     </div>

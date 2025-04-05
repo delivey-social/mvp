@@ -46,8 +46,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-4 h-full min-h-dvh w-full min-w-dvw">
-      <main className="px-10 flex gap-6 flex-col pb-20">
-        <h2 className="font-bold text-2xl mt-4">Santo Crepe</h2>
+      <main className="px-10 flex gap-6 flex-col pb-28">
+        <h2 className="font-bold text-2xl mt-6">Santo Crepe</h2>
 
         {Object.entries(menu).map(([category, items]) => (
           <div key={category}>
@@ -83,16 +83,18 @@ function Footer({ itens, total }: FooterProps) {
   const navigate = useNavigate();
 
   return (
-    <footer className="px-4 flex max-w-sm:text-sm gap-8 bg-white border-1 border-t-red-700 w-full fixed bottom-0 py-4 justify-between items-center">
+    <footer className="px-4 flex max-w-sm:text-sm gap-8 bg-white border-1 border-t-gray-600 w-full fixed bottom-0 py-4 justify-between items-center">
       <div className="flex flex-col">
-        <div className="font-bold text-xs text-gray-600">{itens} itens</div>
+        <div className="font-bold text-xs text-gray-600">
+          {itens} {itens === 1 ? "item" : "itens"}
+        </div>
 
         <div className="font-bold">Total - {numberToCurrency(total)}</div>
       </div>
 
       <button
         onClick={() => navigate("/entrega")}
-        className="bg-red-700 w-fit text-white  px-4 py-4 text-sm font-bold rounded-md"
+        className="bg-emerald-400 w-fit text-emerald-950 drop-shadow-md px-4 py-4 text-sm font-bold rounded-md active:drop-shadow none transition-all"
       >
         Finalizar pedido
       </button>

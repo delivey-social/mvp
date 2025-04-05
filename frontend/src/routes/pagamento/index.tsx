@@ -6,7 +6,7 @@ import menu from "../../menu_items.json";
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 
 export default function Pagamento() {
-  const [showNotification, setShowNotification] = useState(true);
+  const [showNotification, setShowNotification] = useState(false);
 
   const { items } = useContext(OrderContext);
 
