@@ -46,7 +46,7 @@ export default function Entrega() {
 
   return (
     <div className="flex flex-col gap-4 h-full min-h-dvh w-full min-w-dvw">
-      <main className="px-10 flex gap-6 flex-col pb-20">
+      <main className="px-10 flex gap-6 flex-col pb-20 max-w-md mx-auto mt-20">
         <form className="flex flex-col gap-4 mt-4 " onSubmit={handleSubmit}>
           <Input type="email" placeholder="email" name="email" required />
           <Input
