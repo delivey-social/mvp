@@ -41,6 +41,10 @@ function MainComponent() {
       .get<OpenResponse>(`${import.meta.env.VITE_BACKEND_URL}/open`)
       .then((res) => {
         setIsOpen(res.data.isOpen);
+      })
+      .catch((err) => {
+        console.error(err);
+        setIsOpen(false);
       });
   }, []);
 
