@@ -29,6 +29,13 @@
       "price": 28.9
     },
     {
+      "id": "24",
+      "name": "Crepe Alcatra em Tiras",
+      "description": "Tiras de Alcatra Seladas, Muçarela, Cheddar e Cebola Caramelizada.",
+      "imageUrl": "/menu_images/salgados/alcatra.jpg",
+      "price": 30.9
+    },
+    {
       "id": "5",
       "name": "Crepe Frango Cremoso",
       "description": "Frango cremoso com milho, batata palha, e queijo muçarela. Não é possível retirar o milho deste ítem.",
