@@ -127,7 +127,10 @@ async function seed() {
     console.log("Neighborhoods seeded successfully");
   } catch (error) {
     console.error("Seeding failed:", error);
+    process.exit(1);
   }
 }
 
-seed();
+seed().then(() => {
+  process.exit(0);
+});
