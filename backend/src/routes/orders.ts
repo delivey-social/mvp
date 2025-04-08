@@ -17,10 +17,6 @@ import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 import { render } from "@react-email/render";
 import handleError from "../../utils/handleError";
 
-import dotenv from "dotenv";
-
-dotenv.config();
-
 const route = express.Router();
 
 const SENDER_EMAIL = "admin@comida.app.br";

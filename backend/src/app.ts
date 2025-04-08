@@ -1,14 +1,13 @@
+import "./config/environment";
+
 import express from "express";
 import route from "./routes/orders";
 import neighborhoodsRoute from "./routes/neighborhoods";
-import dotenv from "dotenv";
 import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
 import cors, { CorsOptions } from "cors";
 import ConfigModel from "./models/ConfigModel";
 import { z } from "zod";
-
-dotenv.config();
 
 const app = express();
 

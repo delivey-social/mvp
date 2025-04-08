@@ -1,10 +1,8 @@
-import dotenv from "dotenv";
-import mongoose, { Document } from "mongoose";
-import path from "path";
+import "../config/environment";
+
+import mongoose from "mongoose";
 import crypto from "crypto";
 import NeighborhoodModel from "../models/NeighborhoodModel";
-
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const LEVEL_1_BASE_TARIFF = 5;
 const LEVEL_2_BASE_TARIFF = 8;
