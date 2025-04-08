@@ -13,7 +13,8 @@ interface GetNeighborhoodsResponseItem {
 
 export default function Entrega() {
   const navigate = useNavigate();
-  const { items, setUser, sendOrder, setTotal } = useContext(OrderContext);
+  const { items, setUserProperty, sendOrder, setTotal, user } =
+    useContext(OrderContext);
 
   const itemsTotal = items.reduce((acc, product) => {
     const menuItems = Object.values(menu).flat();
@@ -37,16 +38,14 @@ export default function Entrega() {
       throw new Error("Selecione um bairro");
     }
 
-    setUser({
-      email,
-      address,
-      phone_number,
-    });
-
     try {
       await sendOrder(
-        { email, address, phone_number },
-        selectedNeighborhood._id,
+        {
+          email,
+          address,
+          phone_number,
+          neighborhood_id: selectedNeighborhood._id,
+        },
         observation
       );
       setTotal(total);
@@ -57,57 +56,53 @@ export default function Entrega() {
     }
   }
 
-  const [neighborhoods, setNeighborhoods] = useState<
-    GetNeighborhoodsResponseItem[]
-  >([]);
   const [selectedNeighborhood, setSelectedNeighborhood] =
     useState<GetNeighborhoodsResponseItem | null>(null);
   const appFee = itemsTotal * 0.1;
   const total = itemsTotal + appFee + (selectedNeighborhood?.baseTariff ?? 0);
 
-  useEffect(() => {
-    axios
-      .get<
-        GetNeighborhoodsResponseItem[]
-      >(`${import.meta.env.VITE_BACKEND_URL}/neighborhoods`)
-      .then((data) => {
-        setNeighborhoods(data.data);
-      });
-  }, []);
-
   return (
     <div className="flex flex-col gap-4 h-full w-full min-w-dvw">
       <main className="px-10 flex gap-6 flex-col pb-12 max-w-md w-full mx-auto mt-12">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <Input type="email" placeholder="email" name="email" required />
+          <Input
+            type="email"
+            placeholder="email"
+            name="email"
+            required
+            value={user.email}
+            onChange={(ev) =>
+              setUserProperty("email", (ev.target as HTMLInputElement).value)
+            }
+          />
           <Input
             type="text"
             placeholder="Telefone"
             name="phone_number"
             required
-          />
-          <Input type="text" placeholder="Endereço" name="address" required />
-          <Input type="text" placeholder="Observações" name="observations" />
-          <select
-            className="text-sm border-1 py-2 px-2 rounded-md border-gray-300 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
-            required
+            value={user.phone_number}
             onChange={(ev) =>
-              setSelectedNeighborhood(
-                neighborhoods.find(
-                  (neighborhood) => neighborhood._id === ev.target.value
-                )!
+              setUserProperty(
+                "phone_number",
+                (ev.target as HTMLInputElement).value
               )
             }
-          >
-            <option disabled selected>
-              Bairro
-            </option>
-            {neighborhoods.map((neighborhood) => (
-              <option key={neighborhood._id} value={neighborhood._id}>
-                {neighborhood.name}
-              </option>
-            ))}
-          </select>
+          />
+          <Input
+            type="text"
+            placeholder="Endereço"
+            name="address"
+            required
+            value={user.address}
+            onChange={(ev) =>
+              setUserProperty("address", (ev.target as HTMLInputElement).value)
+            }
+          />
+          <SelectNeighborhood
+            selectedNeighborhoodId={user.neighborhood_id}
+            setSelectedNeighborhood={setSelectedNeighborhood}
+          />
+          <Input type="text" placeholder="Observações" name="observations" />
 
           <div className="ml-auto flex flex-col gap-2 mt-4">
             <ResultLine label="Total dos itens" value={itemsTotal} />
@@ -128,6 +123,53 @@ export default function Entrega() {
         </form>
       </main>
     </div>
+  );
+}
+
+function SelectNeighborhood({
+  selectedNeighborhoodId,
+  setSelectedNeighborhood,
+}: {
+  selectedNeighborhoodId: string;
+  setSelectedNeighborhood: (neighborhood: GetNeighborhoodsResponseItem) => void;
+}) {
+  const { setUserProperty } = useContext(OrderContext);
+  const [neighborhoods, setNeighborhoods] = useState<
+    GetNeighborhoodsResponseItem[]
+  >([]);
+  useEffect(() => {
+    axios
+      .get<
+        GetNeighborhoodsResponseItem[]
+      >(`${import.meta.env.VITE_BACKEND_URL}/neighborhoods`)
+      .then((data) => {
+        setNeighborhoods(data.data);
+      });
+  }, []);
+
+  return (
+    <select
+      className="text-sm border-1 py-2 px-2 rounded-md border-gray-300 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+      required
+      defaultValue={selectedNeighborhoodId ?? ""}
+      onChange={(ev) => {
+        setSelectedNeighborhood(
+          neighborhoods.find(
+            (neighborhood) => neighborhood._id === ev.target.value
+          )!
+        );
+        setUserProperty("neighborhood_id", ev.target.value);
+      }}
+    >
+      <option disabled value="">
+        Bairro
+      </option>
+      {neighborhoods.map((neighborhood) => (
+        <option key={neighborhood._id} value={neighborhood._id}>
+          {neighborhood.name}
+        </option>
+      ))}
+    </select>
   );
 }
 
