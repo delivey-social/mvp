@@ -2,18 +2,9 @@ import dotenv from "dotenv";
 import mongoose, { Document } from "mongoose";
 import path from "path";
 import crypto from "crypto";
+import NeighborhoodModel from "../models/NeighborhoodModel";
 
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
-
-interface Neighborhood {
-  name: string;
-  baseTariff: number;
-}
-
-const neighborhoodSchema = new mongoose.Schema<Neighborhood & Document>({
-  name: { type: String, required: true },
-  baseTariff: { type: Number, required: true },
-});
 
 const LEVEL_1_BASE_TARIFF = 5;
 const LEVEL_2_BASE_TARIFF = 8;
@@ -86,11 +77,6 @@ async function seed() {
 
     const db = mongoose.connection;
     const metadata = db.collection("metadata");
-
-    const NeighborhoodModel = mongoose.model<Neighborhood>(
-      "neighborhoods",
-      neighborhoodSchema
-    );
 
     const neighborhoodsData = [
       ...level1Neighborhoods.map((name) => ({

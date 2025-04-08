@@ -1,5 +1,6 @@
 import express from "express";
 import route from "./routes/orders";
+import neighborhoodsRoute from "./routes/neighborhoods";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
@@ -79,6 +80,7 @@ app.put("/open", async (req, res) => {
 });
 
 app.use("/orders", route);
+app.use("/neighborhoods", neighborhoodsRoute);
 
 const port = 3000;
 app.listen(port, () => {
