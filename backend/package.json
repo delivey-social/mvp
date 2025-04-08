@@ -9,7 +9,7 @@
     "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed:neighborhoods": "tsx scripts/seedNeighborhoods.ts",
-    "seed": "seed:neighborhoods"
+    "seed": "npm run seed:neighborhoods"
   },
   "author": "Thiago Miquelleto Tolotti",
   "license": "ISC",
