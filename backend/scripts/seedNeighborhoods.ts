@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 import path from "path";
+import crypto from "crypto";
 
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
@@ -9,7 +10,7 @@ interface Neighborhood {
   baseTariff: number;
 }
 
-const neighborhoodSchema = new mongoose.Schema<Neighborhood>({
+const neighborhoodSchema = new mongoose.Schema<Neighborhood & Document>({
   name: { type: String, required: true },
   baseTariff: { type: Number, required: true },
 });
@@ -74,30 +75,54 @@ const level3Neighborhoods = [
   "Santa Felicidade",
 ];
 
+function generateHash(data: unknown): string {
+  const json = JSON.stringify(data);
+  return crypto.createHash("sha256").update(json).digest("hex");
+}
+
 async function seed() {
   try {
     await mongoose.connect(process.env.DATABASE_URL!);
+
+    const db = mongoose.connection;
+    const metadata = db.collection("metadata");
 
     const NeighborhoodModel = mongoose.model<Neighborhood>(
       "neighborhoods",
       neighborhoodSchema
     );
 
-    await NeighborhoodModel.deleteMany();
-    await NeighborhoodModel.insertMany([
-      level1Neighborhoods.map((name) => ({
+    const neighborhoodsData = [
+      ...level1Neighborhoods.map((name) => ({
         name,
         baseTariff: LEVEL_1_BASE_TARIFF,
       })),
-      level2Neighborhoods.map((name) => ({
+      ...level2Neighborhoods.map((name) => ({
         name,
         baseTariff: LEVEL_2_BASE_TARIFF,
       })),
-      level3Neighborhoods.map((name) => ({
+      ...level3Neighborhoods.map((name) => ({
         name,
         baseTariff: LEVEL_3_BASE_TARIFF,
       })),
-    ]);
+    ];
+
+    const newHash = generateHash(neighborhoodsData);
+    const existingHash = await metadata.findOne({ key: "neighborhoodsHash" });
+
+    if (existingHash && existingHash.value === newHash) {
+      console.log("Neighborhoods already seeded, skipping...");
+      return;
+    }
+
+    await NeighborhoodModel.deleteMany();
+    await NeighborhoodModel.insertMany(neighborhoodsData);
+
+    await metadata.updateOne(
+      { key: "neighborhoodsHash" },
+      { $set: { value: newHash } },
+      { upsert: true }
+    );
 
     console.log("Neighborhoods seeded successfully");
   } catch (error) {
