@@ -17,6 +17,10 @@ import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 import { render } from "@react-email/render";
 import handleError from "../../utils/handleError";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const route = express.Router();
 
 const SENDER_EMAIL = "admin@comida.app.br";
@@ -96,7 +100,9 @@ route.post("/", async (req, res) => {
       client: order.user,
       id: String(order["_id"]),
       date: new Date(),
-      buttonUrl: `${process.env.BACKEND_URL!}/orders/confirm_payment?id=${order.id}`,
+      buttonUrl: `${process.env.BACKEND_URL!}/orders/confirm_payment?id=${
+        order.id
+      }`,
     });
 
     const message: MailDataRequired = {
@@ -160,7 +166,9 @@ route.get("/confirm_payment", async (req, res) => {
 
       return { ...menuItem, quantity: item.quantity };
     }),
-    buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${order.id}`,
+    buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${
+      order.id
+    }`,
   });
 
   const message: MailDataRequired = {
