@@ -1,6 +1,7 @@
 import express from "express";
 import { z } from "zod";
 import OrderModel from "../../models/OrderModel";
+import NeighborhoodModel from "../../models/NeighborhoodModel";
 import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
 
@@ -42,6 +43,7 @@ const createOrderSchema = z.object({
     phone_number: z.string(),
     address: z.string(),
   }),
+  neighborhood_id: z.string(),
   observation: z.string().optional(),
 });
 
@@ -59,8 +61,31 @@ route.post("/", async (req, res) => {
     return;
   }
 
+  const [error, deliveryFee] = await handleError(
+    (async () => {
+      const neighborhood = await NeighborhoodModel.findById(
+        data.neighborhood_id
+      );
+
+      if (!neighborhood) throw new Error("Neighborhood not found");
+
+      return neighborhood.baseTariff;
+    })()
+  );
+
+  if (error) {
+    res.status(400).json("Neighborhood not found");
+    return;
+  }
+
   try {
-    const order = await OrderModel.create(data);
+    const orderData = {
+      deliveryFee,
+      items: data.items,
+      user: data.user,
+      observation: data.observation,
+    };
+    const order = await OrderModel.create(orderData);
 
     await order.save();
 

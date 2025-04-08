@@ -20,10 +20,11 @@ export interface Order extends Document {
   };
   observation?: string;
   status: OrderStatus;
+  deliveryFee: number;
   totalAmount: number;
 }
 
-const orderSchema = new Schema<Order>(
+const orderSchema = new Schema<Order & Document>(
   {
     items: [
       {
@@ -44,6 +45,10 @@ const orderSchema = new Schema<Order>(
       default: OrderStatus.WAITING_PAYMENT,
       required: true,
     },
+    deliveryFee: {
+      type: Number,
+      required: true,
+    },
     totalAmount: {
       type: Number,
       default: function () {
@@ -59,7 +64,7 @@ const orderSchema = new Schema<Order>(
           }
         });
 
-        return total * 1.1 + 5; // Adding 10% tax and delivery fee of 5BRL
+        return total * 1.1 + this.deliveryFee; // Adding 10% tax and delivery fee
       },
     },
   },
