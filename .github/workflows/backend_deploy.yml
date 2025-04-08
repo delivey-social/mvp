@@ -31,6 +31,9 @@ jobs:
   seed:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: SSH into EC2 and run seed script
         uses: appleboy/ssh-action@master
         with:
@@ -38,5 +41,9 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ec2-user/mvp/backend
+            cd /home/ec2-user/mvp
+            git reset --hard HEAD   # Discard local changes
+            git clean -fd           # Remove untracked files
+            git pull origin main
+            cd backend
             npm run seed
