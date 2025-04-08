@@ -1,8 +1,15 @@
-import { FormEvent, useContext } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 import { OrderContext } from "../../contexts/OrderContext";
 import menu from "../../menu_items.json";
 import { useNavigate } from "react-router";
+import axios from "axios";
+
+interface GetNeighborhoodsResponseItem {
+  _id: string;
+  name: string;
+  baseTariff: number;
+}
 
 export default function Entrega() {
   const navigate = useNavigate();
@@ -15,9 +22,6 @@ export default function Entrega() {
 
     return (acc += itemPrice * product.quantity);
   }, 0);
-  const appFee = itemsTotal * 0.1;
-  const deliveryFee = 5;
-  const total = itemsTotal + appFee + deliveryFee;
 
   async function handleSubmit(ev: FormEvent) {
     ev.preventDefault();
@@ -44,9 +48,27 @@ export default function Entrega() {
     }
   }
 
+  const [neighborhoods, setNeighborhoods] = useState<
+    GetNeighborhoodsResponseItem[]
+  >([]);
+  const [selectedNeighborhood, setSelectedNeighborhood] =
+    useState<GetNeighborhoodsResponseItem | null>(null);
+  const appFee = itemsTotal * 0.1;
+  const total = itemsTotal + appFee + (selectedNeighborhood?.baseTariff ?? 0);
+
+  useEffect(() => {
+    axios
+      .get<
+        GetNeighborhoodsResponseItem[]
+      >(`${import.meta.env.VITE_BACKEND_URL}/neighborhoods`)
+      .then((data) => {
+        setNeighborhoods(data.data);
+      });
+  }, []);
+
   return (
     <div className="flex flex-col gap-4 h-full w-full min-w-dvw">
-      <main className="px-10 flex gap-6 flex-col pb-12 max-w-md mx-auto mt-12">
+      <main className="px-10 flex gap-6 flex-col pb-12 max-w-md w-full mx-auto mt-12">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <Input type="email" placeholder="email" name="email" required />
           <Input
@@ -57,20 +79,41 @@ export default function Entrega() {
           />
           <Input type="text" placeholder="Endereço" name="address" required />
           <Input type="text" placeholder="Observações" name="observations" />
-
-          <span className="text-gray-600 my-4 text-sm">
-            Atenção, entregas somente na regional matriz de Curitiba. Demais
-            localidades estão sujeitas à análise.
-          </span>
+          <select
+            className="text-sm border-1 py-2 px-2 rounded-md border-gray-300 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+            required
+            onChange={(ev) =>
+              setSelectedNeighborhood(
+                neighborhoods.find(
+                  (neighborhood) => neighborhood._id === ev.target.value
+                )!
+              )
+            }
+          >
+            <option disabled selected>
+              Bairro
+            </option>
+            {neighborhoods.map((neighborhood) => (
+              <option key={neighborhood._id} value={neighborhood._id}>
+                {neighborhood.name}
+              </option>
+            ))}
+          </select>
 
           <div className="ml-auto flex flex-col gap-2 mt-4">
             <ResultLine label="Total dos itens" value={itemsTotal} />
             <ResultLine label="Taxa Delivery Social" value={appFee} />
-            <ResultLine label="Taxa de entrega" value={deliveryFee} />
+            <ResultLine
+              label="Taxa de entrega"
+              value={selectedNeighborhood?.baseTariff}
+            />
             <ResultLine label="Total" value={total} />
           </div>
 
-          <button className="cursor-pointer bg-emerald-400 w-full mt-4 text-emerald-950  px-4 py-4 text-sm font-bold rounded-md">
+          <button
+            disabled={!selectedNeighborhood || !items.length}
+            className="disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-default cursor-pointer bg-emerald-400 w-full mt-4 text-emerald-950  px-4 py-4 text-sm font-bold rounded-md"
+          >
             Finalizar a compra
           </button>
         </form>
@@ -88,11 +131,11 @@ function Input(props: React.HTMLProps<HTMLInputElement>) {
   );
 }
 
-function ResultLine({ label, value }: { label: string; value: number }) {
+function ResultLine({ label, value }: { label: string; value?: number }) {
   return (
     <div className="flex gap-4 ml-auto text-sm">
       <div className="font-bold">{label}</div>
-      <div>{numberToCurrency(value)}</div>
+      <div>{value ? numberToCurrency(value) : "--"}</div>
     </div>
   );
 }
