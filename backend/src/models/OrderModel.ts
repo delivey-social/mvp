@@ -1,4 +1,4 @@
-import menu from "../public/menu_items.json";
+import menu from "../../public/menu_items.json";
 import mongoose, { Document, Schema } from "mongoose";
 
 enum OrderStatus {
