@@ -11,37 +11,45 @@ interface Order {
     phone_number: string;
     address: string;
   };
+  neighborhood_id: string;
   observations?: string;
 }
 
-interface OrderContextProps {
+interface IOrderContext {
+  total: number;
+  setTotal: React.Dispatch<React.SetStateAction<number>>;
   items: Order["items"];
   user: Order["user"];
   setItems: React.Dispatch<React.SetStateAction<Order["items"]>>;
   setUser: React.Dispatch<React.SetStateAction<Order["user"]>>;
-  sendOrder: (user: Order["user"], observation?: string) => Promise<void>;
+  sendOrder: (
+    user: Order["user"],
+    neighborhood_id: string,
+    observation?: string
+  ) => Promise<void>;
 }
 
-export const OrderContext = createContext({} as OrderContextProps);
+export const OrderContext = createContext({} as IOrderContext);
 
 export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
   const initialItems = sessionStorage.getItem("items")
     ? JSON.parse(sessionStorage.getItem("items")!)
     : [];
-  const initialUser = sessionStorage.getItem("user")
-    ? JSON.parse(sessionStorage.getItem("user")!)
+  const initialUser = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user")!)
     : {
         email: "",
         phone_number: "",
         address: "",
       };
+  const [total, setTotal] = useState<number>(0);
 
   const [items, setItems] = useState<Order["items"]>(initialItems);
   const [user, setUser] = useState<Order["user"]>(initialUser);
   //   const [observation, setObservation] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    sessionStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
   useEffect(() => {
     sessionStorage.setItem("items", JSON.stringify(items));
@@ -49,6 +57,7 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
 
   async function sendOrder(
     user: { email: string; phone_number: string; address: string },
+    neighborhood_id: string,
     observation?: string
   ) {
     await axios.post(`${import.meta.env.VITE_BACKEND_URL}/orders`, {
@@ -58,12 +67,13 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
       })),
       user,
       observation,
+      neighborhood_id,
     });
   }
 
   return (
     <OrderContext.Provider
-      value={{ items, setItems, user, setUser, sendOrder }}
+      value={{ items, setItems, user, setUser, sendOrder, total, setTotal }}
     >
       {children}
     </OrderContext.Provider>

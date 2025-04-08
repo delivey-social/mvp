@@ -13,7 +13,7 @@ interface GetNeighborhoodsResponseItem {
 
 export default function Entrega() {
   const navigate = useNavigate();
-  const { items, setUser, sendOrder } = useContext(OrderContext);
+  const { items, setUser, sendOrder, setTotal } = useContext(OrderContext);
 
   const itemsTotal = items.reduce((acc, product) => {
     const menuItems = Object.values(menu).flat();
@@ -33,6 +33,10 @@ export default function Entrega() {
     const address = data.get("address") as string;
     const observation = data.get("observations") as string;
 
+    if (!selectedNeighborhood) {
+      throw new Error("Selecione um bairro");
+    }
+
     setUser({
       email,
       address,
@@ -40,7 +44,12 @@ export default function Entrega() {
     });
 
     try {
-      await sendOrder({ email, address, phone_number }, observation);
+      await sendOrder(
+        { email, address, phone_number },
+        selectedNeighborhood._id,
+        observation
+      );
+      setTotal(total);
 
       navigate("/pagamento");
     } catch (err) {

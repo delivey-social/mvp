@@ -2,21 +2,11 @@ import { useContext, useEffect, useState } from "react";
 
 import { OrderContext } from "../../contexts/OrderContext";
 
-import menu from "../../menu_items.json";
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 
 export default function Pagamento() {
+  const { total } = useContext(OrderContext);
   const [showNotification, setShowNotification] = useState(false);
-
-  const { items } = useContext(OrderContext);
-
-  const totalAmount = items.reduce((acc, product) => {
-    const menuItems = Object.values(menu).flat();
-    const itemPrice =
-      menuItems.find((item) => item.id === product.id)?.price ?? 0;
-
-    return (acc += itemPrice * product.quantity);
-  }, 0);
 
   const CHAVE_PIX =
     "00020126360014BR.GOV.BCB.PIX0114209486940001095204000053039865802BR5901N6001C62070503***63048600";
@@ -60,7 +50,7 @@ export default function Pagamento() {
         </div>
 
         <div className="font-bold text-center bg-white p-2 px-4 rounded-xl drop-shadow-md w-full">
-          Total - {numberToCurrency(totalAmount)}
+          Total - {numberToCurrency(total)}
         </div>
       </main>
     </div>
