@@ -94,7 +94,7 @@ function Footer({ itens, total }: FooterProps) {
 
       <button
         onClick={() => navigate("/entrega")}
-        className="bg-emerald-400 w-fit text-emerald-950 drop-shadow-md px-4 py-4 text-sm font-bold rounded-md active:drop-shadow none transition-all"
+        className="bg-emerald-400 w-fit text-emerald-950 drop-shadow-md px-4 py-4 text-sm font-bold rounded-md active:drop-shadow none transition-all cursor-pointer"
       >
         Finalizar pedido
       </button>

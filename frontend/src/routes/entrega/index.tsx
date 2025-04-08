@@ -70,7 +70,7 @@ export default function Entrega() {
             <ResultLine label="Total" value={total} />
           </div>
 
-          <button className="bg-emerald-400 w-full mt-4 text-emerald-950  px-4 py-4 text-sm font-bold rounded-md">
+          <button className="cursor-pointer bg-emerald-400 w-full mt-4 text-emerald-950  px-4 py-4 text-sm font-bold rounded-md">
             Finalizar a compra
           </button>
         </form>
