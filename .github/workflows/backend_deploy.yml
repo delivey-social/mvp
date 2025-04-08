@@ -9,6 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: SSH into EC2 and pull the latest changes
         uses: appleboy/ssh-action@master
         with:
