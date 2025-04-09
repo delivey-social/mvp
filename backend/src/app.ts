@@ -1,21 +1,12 @@
 import "./config/environment";
+import app from "./config/server";
 
-import express from "express";
 import route from "./routes/orders";
 import neighborhoodsRoute from "./routes/neighborhoods";
 import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
-import cors, { CorsOptions } from "cors";
 import ConfigModel from "./models/ConfigModel";
 import { z } from "zod";
-
-const app = express();
-
-const corsOptions: CorsOptions = {
-  origin: process.env.FRONTEND_URL!,
-};
-app.use(cors(corsOptions));
-app.use(express.json());
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY!);
 
@@ -80,9 +71,3 @@ app.put("/open", async (req, res) => {
 
 app.use("/orders", route);
 app.use("/neighborhoods", neighborhoodsRoute);
-
-const port = 3000;
-app.listen(port, () => {
-  console.clear();
-  console.log(`Server listening on port ${port}`);
-});
