@@ -11,7 +11,7 @@
     "copy:all": "npm run copy:client && npm run copy:server",
     "dev:client": "cd frontend && npm run dev",
     "build": "cd client && npm run build",
-    "install": "concurrently \"cd frontend && npm install\" \"cd backend && npm install\" && \"cd shared/emails && npm install\""
+    "install": "concurrently \"cd frontend && npm install\" \"cd backend && npm install\" \"cd shared/emails && npm install\""
   },
   "author": "",
   "license": "ISC",
