@@ -4,7 +4,7 @@ export default async function handleError<T>(
   try {
     const res = await promise;
     return [undefined, res];
-  } catch (e) {
-    return [e];
+  } catch (error) {
+    return [error as Error];
   }
 }

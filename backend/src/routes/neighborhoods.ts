@@ -1,5 +1,5 @@
 import express from "express";
-import NeighborhoodModel from "../../models/NeighborhoodModel";
+import NeighborhoodModel from "../models/NeighborhoodModel";
 
 const route = express.Router();
 

@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
 import cors, { CorsOptions } from "cors";
-import ConfigModel from "../models/ConfigModel";
+import ConfigModel from "./models/ConfigModel";
 import { z } from "zod";
 
 dotenv.config();

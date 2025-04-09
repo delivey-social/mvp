@@ -1,7 +1,7 @@
 import express from "express";
 import { z } from "zod";
-import OrderModel from "../../models/OrderModel";
-import NeighborhoodModel from "../../models/NeighborhoodModel";
+import OrderModel from "../models/OrderModel";
+import NeighborhoodModel from "../models/NeighborhoodModel";
 import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
 
@@ -15,7 +15,7 @@ import EntregaEmail from "../../../shared/emails/emails/entrega";
 import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 
 import { render } from "@react-email/render";
-import handleError from "../../utils/handleError";
+import handleError from "../utils/handleError";
 
 import dotenv from "dotenv";
 
