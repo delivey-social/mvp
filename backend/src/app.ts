@@ -1,14 +1,13 @@
 import "./config/environment";
 import "./config/database";
+import "./config/emails";
+
 import app from "./config/server";
 
 import route from "./routes/orders";
 import neighborhoodsRoute from "./routes/neighborhoods";
-import sendgrid from "@sendgrid/mail";
 import ConfigModel from "./models/ConfigModel";
 import { z } from "zod";
-
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY!);
 
 app.get("/", (req, res) => {
   res.send("Service is online");
