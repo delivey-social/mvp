@@ -1,24 +1,14 @@
 import "./config/environment";
+import "./config/database";
 import app from "./config/server";
 
 import route from "./routes/orders";
 import neighborhoodsRoute from "./routes/neighborhoods";
-import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
 import ConfigModel from "./models/ConfigModel";
 import { z } from "zod";
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY!);
-
-mongoose.connect(process.env.DATABASE_URL!);
-const db = mongoose.connection;
-
-db.once("open", () => {
-  console.log("Connected to database");
-});
-db.on("error", (error) => {
-  console.error("Error connecting to database", error);
-});
 
 app.get("/", (req, res) => {
   res.send("Service is online");
