@@ -1,53 +1,62 @@
 import express from "express";
-import { z } from "zod";
 
 import ConfigModel from "../models/ConfigModel";
+import handleError from "../utils/handleError";
+import configSchema from "../schemas/config";
 
 const route = express.Router();
 
 route.get("/", async (_, res) => {
-  try {
-    const config = await ConfigModel.findById("systemConfig");
-
-    if (!config) {
-      res.status(404).send("Config not found");
-      return;
-    }
-
-    res.json({ isOpen: config.isOpen });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal server error");
-  }
-});
-
-const openSchema = z.object({
-  isOpen: z.boolean(),
-});
-
-route.put("/", async (req, res) => {
-  const { data, error } = openSchema.safeParse(req.body);
+  const [error, config] = await handleError(
+    ConfigModel.findById("systemConfig")
+  );
 
   if (error) {
     console.error(error);
+    res.status(500).send("Internal server error");
+    return;
+  }
+
+  if (!config) {
+    res.status(404).send("Config not found");
+    return;
+  }
+
+  res.json({ isOpen: config.isOpen });
+});
+
+route.put("/", async (req, res) => {
+  const { data, error } = configSchema.open.safeParse(req.body);
+
+  if (error) {
     res.status(400).send("Invalid request body");
     return;
   }
 
-  try {
-    const config = await ConfigModel.findByIdAndUpdate(
-      "systemConfig",
-      { isOpen: data.isOpen },
-      { new: true, upsert: true }
-    );
+  const [dbError] = await handleError(
+    (async () => {
+      const config = await ConfigModel.findByIdAndUpdate(
+        "systemConfig",
+        { isOpen: data.isOpen },
+        { new: true, upsert: true }
+      );
 
-    await config?.save();
+      if (!config) {
+        res.status(404).send("Config not found");
+        return;
+      }
 
-    res.send("Config updated successfully");
-  } catch (err) {
-    console.error(err);
+      await config.save();
+    })()
+  );
+
+  if (dbError) {
+    console.error(dbError);
     res.status(500).send("Internal server error");
+    return;
   }
+
+  res.send("Config updated successfully");
 });
 
 export default route;
