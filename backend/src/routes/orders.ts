@@ -16,6 +16,7 @@ import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 
 import { render } from "@react-email/render";
 import handleError from "../utils/handleError";
+import NeighborhoodService from "../services/NeighborhoodService";
 
 const route = express.Router();
 
@@ -62,15 +63,7 @@ route.post("/", async (req, res) => {
   }
 
   const [error, deliveryFee] = await handleError(
-    (async () => {
-      const neighborhood = await NeighborhoodModel.findById(
-        data.neighborhood_id
-      );
-
-      if (!neighborhood) throw new Error("Neighborhood not found");
-
-      return neighborhood.baseTariff;
-    })()
+    (() => NeighborhoodService.getDeliveryFee(data.neighborhood_id))()
   );
 
   if (error) {
