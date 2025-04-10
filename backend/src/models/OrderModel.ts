@@ -1,12 +1,7 @@
 import menu from "../../public/menu_items.json";
 import mongoose, { Document, Schema } from "mongoose";
 
-enum OrderStatus {
-  WAITING_PAYMENT = "WAITING_PAYMENT",
-  PREPARING = "PREPARING",
-  READY_FOR_DELIVERY = "READY_FOR_DELIVERY",
-  DELIVERED = "DELIVERED",
-}
+import { OrderStatus } from "../types/OrderStatus";
 
 export interface Order extends Document {
   items: {
