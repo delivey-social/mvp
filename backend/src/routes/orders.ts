@@ -1,7 +1,5 @@
 import express from "express";
-import { z } from "zod";
 import OrderModel from "../models/OrderModel";
-import NeighborhoodModel from "../models/NeighborhoodModel";
 import mongoose from "mongoose";
 import sendgrid from "@sendgrid/mail";
 
@@ -18,6 +16,7 @@ import { render } from "@react-email/render";
 import handleError from "../utils/handleError";
 import NeighborhoodService from "../services/NeighborhoodService";
 import OrderService from "../services/OrderService";
+import orderSchema from "../schemas/order";
 
 const route = express.Router();
 
@@ -33,33 +32,12 @@ const RESTAURANT_EMAIL =
     : "thiagotolotti@gmail.com";
 const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
 
-const createOrderSchema = z.object({
-  items: z.array(
-    z.object({
-      id: z.string(),
-      quantity: z.number().positive().int(),
-    })
-  ),
-  user: z.object({
-    email: z.string().email(),
-    phone_number: z.string(),
-    address: z.string(),
-  }),
-  neighborhood_id: z.string(),
-  observation: z.string().optional(),
-});
-
 route.post("/", async (req, res) => {
   const body = req.body;
-  const { success, data } = createOrderSchema.safeParse(body);
+  const { success, data } = orderSchema.create.safeParse(body);
 
   if (!success) {
     res.status(400).json("Invalid request body");
-    return;
-  }
-
-  if (data.items.length === 0) {
-    res.status(400).json("Order should have at least one item");
     return;
   }
 
@@ -86,10 +64,6 @@ route.post("/", async (req, res) => {
   }
 
   try {
-    const order = await OrderModel.create(orderData);
-
-    await order.save();
-
     const newOrderEmail = generateEmailFactory(NovoPedidoEmail);
 
     const html = await newOrderEmail({
