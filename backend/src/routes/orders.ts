@@ -10,22 +10,18 @@ import { IMenuItem } from "../../public/MenuItems";
 
 import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
-import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 
 import { render } from "@react-email/render";
 import handleError from "../utils/handleError";
 import NeighborhoodService from "../services/NeighborhoodService";
 import OrderService from "../services/OrderService";
 import orderSchema from "../schemas/order";
+import EmailService from "../services/emailService";
 
 const route = express.Router();
 
 const SENDER_EMAIL = "admin@comida.app.br";
 
-const DELIVERY_EMAIL =
-  process.env.MODE === "PRODUCTION"
-    ? "santocrepecwb@gmail.com"
-    : "thiagotolotti@gmail.com";
 const RESTAURANT_EMAIL =
   process.env.MODE === "PRODUCTION"
     ? "santocrepecwb@gmail.com"
@@ -63,37 +59,18 @@ route.post("/", async (req, res) => {
     return;
   }
 
-  try {
-    const newOrderEmail = generateEmailFactory(NovoPedidoEmail);
+  const [sendEmailError] = await handleError(
+    (() =>
+      EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount))()
+  );
 
-    const html = await newOrderEmail({
-      totalValue: order.totalAmount,
-      client: order.user,
-      id: String(order["_id"]),
-      date: new Date(),
-      buttonUrl: `${process.env.BACKEND_URL!}/orders/confirm_payment?id=${
-        order.id
-      }`,
-    });
-
-    const message: MailDataRequired = {
-      from: SENDER_EMAIL,
-      to: DELIVERY_EMAIL,
-      subject: "Novo pedido!",
-      html,
-      bcc: SENDER_EMAIL,
-    };
-
-    await sendgrid.send(message);
-
-    res
-      .status(201)
-      .json({ message: "Order created successfully", id: order["_id"] });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json("Error creating order");
+  if (sendEmailError) {
+    // TODO: Retry resending the email
+    res.status(500).send("Order created, but email couldn't be sent");
     return;
   }
+
+  res.status(201).json({ message: "Order created successfully", id: order.id });
 });
 
 route.get("/confirm_payment", async (req, res) => {
