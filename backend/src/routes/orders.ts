@@ -13,10 +13,7 @@ import EntregaEmail from "../../../shared/emails/emails/entrega";
 
 import { render } from "@react-email/render";
 import handleError from "../utils/handleError";
-import NeighborhoodService from "../services/NeighborhoodService";
-import OrderService from "../services/OrderService";
-import orderSchema from "../schemas/order";
-import EmailService from "../services/emailService";
+import OrderController from "../controllers/OrderController";
 
 const route = express.Router();
 
@@ -28,50 +25,7 @@ const RESTAURANT_EMAIL =
     : "thiagotolotti@gmail.com";
 const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
 
-route.post("/", async (req, res) => {
-  const body = req.body;
-  const { success, data } = orderSchema.create.safeParse(body);
-
-  if (!success) {
-    res.status(400).json("Invalid request body");
-    return;
-  }
-
-  const [error, deliveryFee] = await handleError(
-    (() => NeighborhoodService.getDeliveryFee(data.neighborhood_id))()
-  );
-
-  if (error) {
-    res.status(400).json("Neighborhood not found");
-    return;
-  }
-
-  const orderData = {
-    ...data,
-    deliveryFee,
-  };
-  const [createOrderError, order] = await handleError(
-    (() => OrderService.createOrder(orderData))()
-  );
-
-  if (createOrderError) {
-    res.status(400).json("Error creating order");
-    return;
-  }
-
-  const [sendEmailError] = await handleError(
-    (() =>
-      EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount))()
-  );
-
-  if (sendEmailError) {
-    // TODO: Retry resending the email
-    res.status(500).send("Order created, but email couldn't be sent");
-    return;
-  }
-
-  res.status(201).json({ message: "Order created successfully", id: order.id });
-});
+route.post("/", OrderController.createOrder);
 
 route.get("/confirm_payment", async (req, res) => {
   const { id } = req.query;
