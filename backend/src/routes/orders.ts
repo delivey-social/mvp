@@ -17,6 +17,7 @@ import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 import { render } from "@react-email/render";
 import handleError from "../utils/handleError";
 import NeighborhoodService from "../services/NeighborhoodService";
+import OrderService from "../services/OrderService";
 
 const route = express.Router();
 
@@ -71,13 +72,20 @@ route.post("/", async (req, res) => {
     return;
   }
 
+  const orderData = {
+    ...data,
+    deliveryFee,
+  };
+  const [createOrderError, order] = await handleError(
+    (() => OrderService.createOrder(orderData))()
+  );
+
+  if (createOrderError) {
+    res.status(400).json("Error creating order");
+    return;
+  }
+
   try {
-    const orderData = {
-      deliveryFee,
-      items: data.items,
-      user: data.user,
-      observation: data.observation,
-    };
     const order = await OrderModel.create(orderData);
 
     await order.save();
