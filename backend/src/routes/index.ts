@@ -1,4 +1,5 @@
 import app from "../config/server";
+import errorHandler from "../middleware/errorHandler";
 
 import ordersRoute from "./orders";
 import neighborhoodsRoute from "./neighborhoods";
@@ -11,3 +12,5 @@ app.get("/", (_, res) => {
 app.use("/orders", ordersRoute);
 app.use("/neighborhoods", neighborhoodsRoute);
 app.use("/open", openRoute);
+
+app.use(errorHandler);
