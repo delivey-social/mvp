@@ -15,3 +15,10 @@ export class ResourceNotFoundError extends HTTPError {
     super(404, message);
   }
 }
+
+export class BadRequestError extends HTTPError {
+  constructor(message?: string) {
+    const errorMessage = message ?? "Bad request";
+    super(400, errorMessage);
+  }
+}

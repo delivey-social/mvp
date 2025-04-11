@@ -12,7 +12,7 @@ import menuJSON from "../../public/menu_items.json";
 
 import { IMenuItem } from "../../public/MenuItems";
 import catchError from "../errors/catchError";
-import { ResourceNotFoundError } from "../errors/HTTPError";
+import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
 
 const OrderController = {
   createOrder: async (req: Request, res: Response) => {
@@ -94,6 +94,17 @@ const OrderController = {
     }
 
     res.send("Payment confirmed");
+  },
+  readyForDelivery: async (req: Request, res: Response) => {
+    const { data, error } = orderSchema.readyForDelivery.safeParse(req.query);
+
+    if (error) {
+      throw new BadRequestError("Invalid order id");
+    }
+
+    await OrderService.readyForDelivery(data.id);
+
+    res.send("Order is ready for delivery");
   },
 };
 
