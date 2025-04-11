@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 
 import orderSchema from "../schemas/order";
-import catchError from "../utils/catchError";
+import catchError from "../errors/catchError";
 
 import NeighborhoodService from "../services/neighborhoodService";
 import OrderService from "../services/orderService";
 import EmailService from "../services/emailService";
+import handleHTTPError from "../errors/handleError";
 
 const OrderController = {
   createOrder: async (req: Request, res: Response) => {
@@ -18,11 +19,11 @@ const OrderController = {
     }
 
     const [error, deliveryFee] = await catchError(
-      (() => NeighborhoodService.getDeliveryFee(data.neighborhood_id))()
+      NeighborhoodService.getDeliveryFee(data.neighborhood_id)
     );
 
     if (error) {
-      res.status(400).json("Neighborhood not found");
+      handleHTTPError(res, error);
       return;
     }
 
@@ -31,21 +32,16 @@ const OrderController = {
       deliveryFee,
     };
     const [createOrderError, order] = await catchError(
-      (() => OrderService.createOrder(orderData))()
+      OrderService.createOrder(orderData)
     );
 
     if (createOrderError) {
-      res.status(400).json("Error creating order");
+      handleHTTPError(res, createOrderError);
       return;
     }
 
     const [sendEmailError] = await catchError(
-      (() =>
-        EmailService.sendNewOrderEmail(
-          order.id,
-          order.user,
-          order.totalAmount
-        ))()
+      EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount)
     );
 
     if (sendEmailError) {

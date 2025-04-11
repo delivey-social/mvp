@@ -1,3 +1,4 @@
+import HTTPError from "../errors/HTTPError";
 import NeighborhoodModel from "../models/NeighborhoodModel";
 
 const NeighborhoodService = {
@@ -5,7 +6,7 @@ const NeighborhoodService = {
     const neighborhood = await NeighborhoodModel.findById(id);
 
     if (!neighborhood) {
-      throw new Error("Neighborhood not found");
+      throw new HTTPError(404, "Neighborhood not found");
     }
 
     return neighborhood.baseTariff;
