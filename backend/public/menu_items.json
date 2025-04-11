@@ -5,42 +5,42 @@
       "name": "Crepe Bacon",
       "description": "Cubos de bacon, milho e muçarela.",
       "imageUrl": "/menu_images/salgados/bacon.avif",
-      "price": 25.9
+      "price": 23.9
     },
     {
       "id": "3",
       "name": "Crepe Calabresa",
       "description": "Cubos de calabresa e queijo muçarela.",
       "imageUrl": "/menu_images/salgados/calabresa.avif",
-      "price": 23.9
+      "price": 21.9
     },
     {
       "id": "4",
       "name": "Crepe Carne Desfiada",
       "description": "Carne desfiada, cebola caramelizada, cheddar cremoso e muçarela.",
       "imageUrl": "/menu_images/salgados/carne_desfiada.avif",
-      "price": 28.9
+      "price": 27.9
     },
     {
       "id": "24",
       "name": "Crepe Alcatra em Tiras",
       "description": "Tiras de Alcatra Seladas, Muçarela, Cheddar e Cebola Caramelizada.",
       "imageUrl": "/menu_images/salgados/alcatra.jpg",
-      "price": 30.9
+      "price": 28.9
     },
     {
       "id": "5",
       "name": "Crepe Frango Cremoso",
       "description": "Frango cremoso com milho, batata palha, e queijo muçarela. Não é possível retirar o milho deste ítem.",
       "imageUrl": "/menu_images/salgados/frango_cremoso.avif",
-      "price": 26.9
+      "price": 23.9
     },
     {
       "id": "6",
       "name": "Crepe Frango com Requeijão",
       "description": "Queijo muçarela, frango desfiado e requeijão cremoso.",
       "imageUrl": "/menu_images/salgados/frango_requeijao.avif",
-      "price": 26.9
+      "price": 25.9
     },
     {
       "id": "1",
@@ -54,21 +54,21 @@
       "name": "Crepe Marguerita",
       "description": "Cubos de tomate, muçarela, manjericão.",
       "imageUrl": "/menu_images/salgados/marguerita.avif",
-      "price": 21.9
+      "price": 20.9
     },
     {
       "id": "8",
       "name": "Crepe Pizza",
       "description": "Cubos de tomate, muçarela, orégano e presunto.",
       "imageUrl": "/menu_images/salgados/pizza.jpg",
-      "price": 22.9
+      "price": 21.9
     },
     {
       "id": "9",
       "name": "Crepe Rúcula com Tomate seco",
       "description": "Folhas de rúcula, tomate seco e queijo muçarela.",
       "imageUrl": "/menu_images/salgados/rucula_tomate_seco.jpg",
-      "price": 26.9
+      "price": 23.9
     }
   ],
   "doces": [
@@ -77,35 +77,35 @@
       "name": "Banana e doce de leite",
       "description": "Crepe de rodelas de banana com doce de leite.",
       "imageUrl": "/menu_images/doces/banana_doce_leite.jpg",
-      "price": 20.9
+      "price": 19.9
     },
     {
       "id": "11",
       "name": "Banofee",
       "description": "Doce de leite, farofinha especial, caramelo artesanal e banana.",
       "imageUrl": "/menu_images/doces/banofee.avif",
-      "price": 23.9
+      "price": 21.9
     },
     {
       "id": "12",
       "name": "Chocolate e Banana",
       "description": "Rodelas de banana e chocolate preto.",
       "imageUrl": "/menu_images/doces/chocolate_banana.jpeg",
-      "price": 21.9
+      "price": 20.9
     },
     {
       "id": "13",
       "name": "Nutella e Banana",
       "description": "Rodelas De Banana Com A Original Nutella.",
       "imageUrl": "/menu_images/doces/banana_nutella.jpg",
-      "price": 27.9
+      "price": 26.9
     },
     {
       "id": "14",
       "name": "Nutella e Morango",
       "description": "Original Nutela E Rodelas De Morango.",
       "imageUrl": "/menu_images/doces/morango_nutella.jpg",
-      "price": 31.9
+      "price": 27.9
     },
     {
       "id": "15",
@@ -119,7 +119,7 @@
       "name": "Sensação",
       "description": "Morangos frescos e chocolate.",
       "imageUrl": "/menu_images/doces/sensacao.avif",
-      "price": 22.9
+      "price": 2.9
     }
   ],
   "bebidas": [
