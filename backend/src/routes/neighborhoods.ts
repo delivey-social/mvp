@@ -1,7 +1,7 @@
 import express from "express";
 
 import NeighborhoodModel from "../models/NeighborhoodModel";
-import catchError from "../utils/catchError";
+import catchError from "../errors/catchError";
 
 const route = express.Router();
 

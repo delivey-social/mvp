@@ -12,8 +12,8 @@ import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
 
 import { render } from "@react-email/render";
-import handleError from "../utils/catchError";
-import OrderController from "../controllers/OrderController";
+import handleError from "../errors/catchError";
+import OrderController from "../controllers/orderController";
 
 const route = express.Router();
 

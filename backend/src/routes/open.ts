@@ -1,7 +1,7 @@
 import express from "express";
 
 import ConfigModel from "../models/ConfigModel";
-import catchError from "../utils/catchError";
+import catchError from "../errors/catchError";
 import configSchema from "../schemas/config";
 
 const route = express.Router();
