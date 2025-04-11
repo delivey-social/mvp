@@ -1,13 +1,13 @@
 import express from "express";
 
 import ConfigModel from "../models/ConfigModel";
-import handleError from "../utils/handleError";
+import catchError from "../utils/catchError";
 import configSchema from "../schemas/config";
 
 const route = express.Router();
 
 route.get("/", async (_, res) => {
-  const [error, config] = await handleError(
+  const [error, config] = await catchError(
     ConfigModel.findById("systemConfig")
   );
 
@@ -33,7 +33,7 @@ route.put("/", async (req, res) => {
     return;
   }
 
-  const [dbError] = await handleError(
+  const [dbError] = await catchError(
     (async () => {
       const config = await ConfigModel.findByIdAndUpdate(
         "systemConfig",

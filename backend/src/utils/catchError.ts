@@ -1,4 +1,4 @@
-export default async function handleError<T>(
+export default async function catchError<T>(
   promise: Promise<T>
 ): Promise<[undefined, T] | [Error]> {
   try {

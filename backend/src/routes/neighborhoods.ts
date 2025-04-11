@@ -1,12 +1,12 @@
 import express from "express";
 
 import NeighborhoodModel from "../models/NeighborhoodModel";
-import handleError from "../utils/handleError";
+import catchError from "../utils/catchError";
 
 const route = express.Router();
 
 route.get("/", async (_, res) => {
-  const [error, neighborhoods] = await handleError(NeighborhoodModel.find({}));
+  const [error, neighborhoods] = await catchError(NeighborhoodModel.find({}));
 
   if (error) {
     console.error(error);

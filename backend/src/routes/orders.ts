@@ -12,7 +12,7 @@ import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
 
 import { render } from "@react-email/render";
-import handleError from "../utils/handleError";
+import handleError from "../utils/catchError";
 import OrderController from "../controllers/OrderController";
 
 const route = express.Router();

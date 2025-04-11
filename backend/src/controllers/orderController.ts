@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 
 import orderSchema from "../schemas/order";
-import handleError from "../utils/handleError";
+import catchError from "../utils/catchError";
 
-import NeighborhoodService from "../services/NeighborhoodService";
-import OrderService from "../services/OrderService";
+import NeighborhoodService from "../services/neighborhoodService";
+import OrderService from "../services/orderService";
 import EmailService from "../services/emailService";
 
 const OrderController = {
@@ -17,7 +17,7 @@ const OrderController = {
       return;
     }
 
-    const [error, deliveryFee] = await handleError(
+    const [error, deliveryFee] = await catchError(
       (() => NeighborhoodService.getDeliveryFee(data.neighborhood_id))()
     );
 
@@ -30,7 +30,7 @@ const OrderController = {
       ...data,
       deliveryFee,
     };
-    const [createOrderError, order] = await handleError(
+    const [createOrderError, order] = await catchError(
       (() => OrderService.createOrder(orderData))()
     );
 
@@ -39,7 +39,7 @@ const OrderController = {
       return;
     }
 
-    const [sendEmailError] = await handleError(
+    const [sendEmailError] = await catchError(
       (() =>
         EmailService.sendNewOrderEmail(
           order.id,
