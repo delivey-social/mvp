@@ -1,7 +1,9 @@
 import catchError from "../errors/catchError";
-import { BadRequestError } from "../errors/HTTPError";
-import OrderModel from "../models/OrderModel";
+import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
+
 import { CreateOrder } from "../types/order";
+import OrderModel from "../models/OrderModel";
+
 import EmailService from "./emailService";
 
 const OrderService = {
@@ -22,7 +24,7 @@ const OrderService = {
     });
 
     if (!order) {
-      throw new BadRequestError("Order not found");
+      throw new ResourceNotFoundError("Order");
     }
 
     const [error] = await catchError(
@@ -35,6 +37,21 @@ const OrderService = {
     if (error) {
       throw new Error("Error sending email (order was updated)");
     }
+  },
+  delivered: async (id: string) => {
+    const order = await OrderModel.findById(id).select("status");
+
+    if (!order) {
+      throw new ResourceNotFoundError("Order");
+    }
+
+    if (order.status !== "READY_FOR_DELIVERY") {
+      throw new BadRequestError(
+        "Order not ready for delivered or already delivered"
+      );
+    }
+
+    await order.updateOne({ status: "DELIVERED" });
   },
 };
 

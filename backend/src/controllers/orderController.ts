@@ -1,3 +1,5 @@
+import { IMenuItem } from "../../public/MenuItems";
+
 import { Request, Response } from "express";
 
 import orderSchema from "../schemas/order";
@@ -10,7 +12,6 @@ import OrderModel from "../models/OrderModel";
 
 import menuJSON from "../../public/menu_items.json";
 
-import { IMenuItem } from "../../public/MenuItems";
 import catchError from "../errors/catchError";
 import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
 
@@ -105,6 +106,17 @@ const OrderController = {
     await OrderService.readyForDelivery(data.id);
 
     res.send("Order is ready for delivery");
+  },
+  delivered: async (req: Request, res: Response) => {
+    const { data, error } = orderSchema.delivered.safeParse(req.query);
+
+    if (error) {
+      throw new BadRequestError("Invalid order id");
+    }
+
+    await OrderService.delivered(data.id);
+
+    res.send("Order has been delivered");
   },
 };
 
