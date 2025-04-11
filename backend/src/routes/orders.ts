@@ -1,6 +1,6 @@
 import express from "express";
 import OrderModel from "../models/OrderModel";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import sendgrid from "@sendgrid/mail";
 
 import { MailDataRequired } from "@sendgrid/mail";
@@ -14,6 +14,8 @@ import EntregaEmail from "../../../shared/emails/emails/entrega";
 import { render } from "@react-email/render";
 import handleError from "../errors/catchError";
 import OrderController from "../controllers/orderController";
+import { z } from "zod";
+import idSchema from "../schemas/id";
 
 const route = express.Router();
 
@@ -28,13 +30,16 @@ const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
 route.post("/", OrderController.createOrder);
 
 route.get("/confirm_payment", async (req, res) => {
-  const { id } = req.query;
+  const querySchema = z.object({ id: idSchema }).strict();
 
-  if (!id || typeof id != "string" || !mongoose.Types.ObjectId.isValid(id)) {
+  const { data, error: queryError } = querySchema.safeParse(req.query);
+
+  if (queryError) {
     res.status(400).json("A valid order id is required");
     return;
   }
 
+  const { id } = data;
   const [error, order] = await handleError(
     OrderModel.findById(id).select("status items")
   );
@@ -46,7 +51,7 @@ route.get("/confirm_payment", async (req, res) => {
   }
 
   if (!order) {
-    res.status(400).json("Order not found");
+    res.status(404).json("Order not found");
     return;
   }
 
