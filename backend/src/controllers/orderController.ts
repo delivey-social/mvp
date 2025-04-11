@@ -6,7 +6,6 @@ import catchError from "../errors/catchError";
 import NeighborhoodService from "../services/neighborhoodService";
 import OrderService from "../services/orderService";
 import EmailService from "../services/emailService";
-import handleHTTPError from "../errors/handleError";
 
 const OrderController = {
   createOrder: async (req: Request, res: Response) => {
@@ -18,36 +17,23 @@ const OrderController = {
       return;
     }
 
-    const [error, deliveryFee] = await catchError(
-      NeighborhoodService.getDeliveryFee(data.neighborhood_id)
+    const deliveryFee = await NeighborhoodService.getDeliveryFee(
+      data.neighborhood_id
     );
-
-    if (error) {
-      handleHTTPError(res, error);
-      return;
-    }
 
     const orderData = {
       ...data,
       deliveryFee,
     };
-    const [createOrderError, order] = await catchError(
-      OrderService.createOrder(orderData)
-    );
-
-    if (createOrderError) {
-      handleHTTPError(res, createOrderError);
-      return;
-    }
+    const order = await OrderService.createOrder(orderData);
 
     const [sendEmailError] = await catchError(
       EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount)
     );
 
     if (sendEmailError) {
-      // TODO: Retry resending the email
-      res.status(500).send("Order created, but email couldn't be sent");
-      return;
+      // TODO: Retry to send the email the email
+      throw new Error("Error sending email (order was created)");
     }
 
     res

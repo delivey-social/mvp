@@ -6,3 +6,12 @@ export default class HTTPError extends Error {
     super(message);
   }
 }
+
+export class ResourceNotFoundError extends HTTPError {
+  constructor(resourceName?: string) {
+    const message = resourceName
+      ? `${resourceName} not found`
+      : "Resource not found";
+    super(404, message);
+  }
+}

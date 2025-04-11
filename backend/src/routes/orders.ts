@@ -12,10 +12,10 @@ import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
 
 import { render } from "@react-email/render";
-import handleError from "../errors/catchError";
 import OrderController from "../controllers/orderController";
 import { z } from "zod";
 import idSchema from "../schemas/id";
+import { ResourceNotFoundError } from "../errors/HTTPError";
 
 const route = express.Router();
 
@@ -42,10 +42,7 @@ route.get("/confirm_payment", async (req, res) => {
   const { id } = data;
   const order = await OrderModel.findById(id).select("status items");
 
-  if (!order) {
-    res.status(404).json("Order not found");
-    return;
-  }
+  if (!order) throw new ResourceNotFoundError("Order");
 
   const { status, items } = order;
 
