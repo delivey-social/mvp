@@ -8,6 +8,11 @@ const OrderService = {
 
     return order;
   },
+  registerPayment: async (id: string) => {
+    await OrderModel.findByIdAndUpdate(id, {
+      status: "PREPARING",
+    });
+  },
 };
 
 export default OrderService;

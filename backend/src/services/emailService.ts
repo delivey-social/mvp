@@ -1,8 +1,12 @@
 import sendgrid, { MailDataRequired } from "@sendgrid/mail";
 
-import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 import { CreateOrder } from "../types/order";
+
 import renderEmailFactory from "../utils/renderEmailFactory";
+
+import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
+import PedidoEmail from "../../../shared/emails/emails/pedido";
+import { IMenuItem } from "../../public/MenuItems";
 
 // TODO: Remove hardcoded emails
 const SENDER_EMAIL = "admin@comida.app.br";
@@ -38,6 +42,29 @@ const EmailService = {
       subject: "Oba! Tem pedido novo!",
       from: SENDER_EMAIL,
       to: DELIVERY_EMAIL,
+      bcc: SENDER_EMAIL,
+      html,
+    };
+
+    await sendgrid.send(message);
+  },
+  sendNewOrderToRestaurantEmail: async (
+    orderId: string,
+    items: (IMenuItem & {
+      quantity: number;
+    })[]
+  ) => {
+    const email = renderEmailFactory(PedidoEmail);
+
+    const html = await email({
+      items,
+      buttunURL: `${process.env.BACKEND_URL!}/orders/confirm_payment?id=${orderId}`,
+    });
+
+    const message: MailDataRequired = {
+      subject: "Novo pedido no seu restaurante!",
+      from: SENDER_EMAIL,
+      to: RESTAURANT_EMAIL,
       bcc: SENDER_EMAIL,
       html,
     };
