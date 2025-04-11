@@ -40,28 +40,19 @@ route.get("/confirm_payment", async (req, res) => {
   }
 
   const { id } = data;
-  const [error, order] = await handleError(
-    OrderModel.findById(id).select("status items")
-  );
-
-  if (error) {
-    console.error(error);
-    res.status(500).json("Error fetching order");
-    return;
-  }
+  const order = await OrderModel.findById(id).select("status items");
 
   if (!order) {
     res.status(404).json("Order not found");
     return;
   }
 
-  const status = order?.status;
+  const { status, items } = order;
+
   if (status !== "WAITING_PAYMENT") {
     res.status(400).json("Order with payment already confirmed");
     return;
   }
-
-  const items = order.items;
 
   const generateOrderEmail = generateEmailFactory(PedidoEmail);
   const html = await generateOrderEmail({
