@@ -8,7 +8,7 @@
     "build": "tsup",
     "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed:neighborhoods": "tsx scripts/seedNeighborhoods.ts",
+    "seed:neighborhoods": "tsx ./src/scripts/seedNeighborhoods.ts",
     "seed": "npm run seed:neighborhoods"
   },
   "author": "Thiago Miquelleto Tolotti",
