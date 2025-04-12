@@ -59,7 +59,7 @@ const EmailService = {
 
     const html = await email({
       items,
-      buttunURL: `${process.env.BACKEND_URL!}/orders/confirm_payment?id=${orderId}`,
+      buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${orderId}`,
     });
 
     const message: MailDataRequired = {
