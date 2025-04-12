@@ -137,7 +137,7 @@ export default function Entrega() {
 
 function PaymentMethodSelect() {
   return (
-    <Select placeholder="Forma de pagamento" required>
+    <Select placeholder="Forma de pagamento" defaultValue={""} required>
       <option disabled value={""}>
         Forma de pagamento
       </option>
