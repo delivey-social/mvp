@@ -23,7 +23,6 @@ const level1Neighborhoods = [
 ];
 const level2Neighborhoods = [
   "Mossunguê",
-  "Bigorrilho",
   "Mercês",
   "São Francisco",
   "Centro Cívico",
