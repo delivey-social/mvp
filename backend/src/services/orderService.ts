@@ -11,7 +11,27 @@ const OrderService = {
     const order = await OrderModel.create(data);
     await order.save();
 
-    return order;
+    if (order.payment_method === "PIX") {
+      const [emailError] = await catchError(
+        EmailService.sendNewOrderToRestaurantEmail(order.id, order.items)
+      );
+
+      if (emailError) {
+        throw new Error("Error sending email (order was created)");
+      }
+
+      return order.id;
+    }
+
+    const [emailError] = await catchError(
+      EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount)
+    );
+
+    if (emailError) {
+      throw new Error("Error sending email (order was created)");
+    }
+
+    return order.id;
   },
   registerPayment: async (id: string) => {
     await OrderModel.findByIdAndUpdate(id, {

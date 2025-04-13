@@ -17,12 +17,10 @@ import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
 
 const OrderController = {
   createOrder: async (req: Request, res: Response) => {
-    const body = req.body;
-    const { success, data } = orderSchema.create.safeParse(body);
+    const { data, error } = orderSchema.create.safeParse(req.body);
 
-    if (!success) {
-      res.status(400).json("Invalid request body");
-      return;
+    if (error) {
+      throw new BadRequestError("Invalid order data");
     }
 
     const deliveryFee = await NeighborhoodService.getDeliveryFee(
@@ -33,20 +31,11 @@ const OrderController = {
       ...data,
       deliveryFee,
     };
-    const order = await OrderService.createOrder(orderData);
-
-    const [sendEmailError] = await catchError(
-      EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount)
-    );
-
-    if (sendEmailError) {
-      // TODO: Retry to send the email the email
-      throw new Error("Error sending email (order was created)");
-    }
+    const orderId = await OrderService.createOrder(orderData);
 
     res
       .status(201)
-      .json({ message: "Order created successfully", id: order.id });
+      .json({ message: "Order created successfully", id: orderId });
   },
   registerPayment: async (req: Request, res: Response) => {
     const { data, error: queryError } = orderSchema.registerPayment.safeParse(
