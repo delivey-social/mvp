@@ -6,8 +6,10 @@ import renderEmailFactory from "../utils/renderEmailFactory";
 
 import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 import PedidoEmail from "../../../shared/emails/emails/pedido";
-import { IMenuItem } from "../../public/MenuItems";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
+
+import { Order } from "../models/OrderModel";
+import menuJSON from "../../public/menu_items.json";
 
 // TODO: Remove hardcoded emails
 const SENDER_EMAIL = "admin@comida.app.br";
@@ -51,14 +53,21 @@ const EmailService = {
   },
   sendNewOrderToRestaurantEmail: async (
     orderId: string,
-    items: (IMenuItem & {
-      quantity: number;
-    })[]
+    items: Order["items"]
   ) => {
     const email = renderEmailFactory(PedidoEmail);
 
+    const menuItems = items.map((item) => {
+      const menu = [...menuJSON.salgados, ...menuJSON.doces];
+      const menuItem = menu.find((menuItem) => item.id === menuItem.id);
+
+      if (!menuItem) throw new Error("Menu item not found");
+
+      return { ...menuItem, quantity: item.quantity };
+    });
+
     const html = await email({
-      items,
+      items: menuItems,
       buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${orderId}`,
     });
 
