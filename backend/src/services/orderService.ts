@@ -17,6 +17,7 @@ const OrderService = {
       );
 
       if (emailError) {
+        // TODO: Try to resend the email before throwing an error
         throw new Error("Error sending email (order was created)");
       }
 
@@ -28,6 +29,7 @@ const OrderService = {
     );
 
     if (emailError) {
+      // TODO: Try to resend the email before throwing an error
       throw new Error("Error sending email (order was created)");
     }
 
@@ -55,6 +57,7 @@ const OrderService = {
     );
 
     if (error) {
+      // TODO: Try to resend the email before throwing an error
       throw new Error("Error sending email (order was updated)");
     }
   },
