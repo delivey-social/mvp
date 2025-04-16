@@ -60,7 +60,12 @@ export default function Entrega() {
       );
       setTotal(total);
 
-      navigate("/pagamento");
+      if (payment_method === "PIX") {
+        navigate("/pagamento");
+        return;
+      }
+
+      navigate("/sucesso");
     } catch (err) {
       console.error(err);
     }

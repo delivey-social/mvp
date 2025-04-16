@@ -9,6 +9,7 @@ import Pagamento from "./routes/pagamento";
 import Navbar from "./shared-components/navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Sucesso from "./routes/sucesso";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/pagamento",
     element: <Pagamento />,
+  },
+  {
+    path: "/sucesso",
+    element: <Sucesso />,
   },
 ]);
 
