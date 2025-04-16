@@ -1,17 +1,17 @@
 import express from "express";
 
 import NeighborhoodModel from "../models/NeighborhoodModel";
-import catchError from "../errors/catchError";
+import { ResourceNotFoundError } from "../errors/HTTPError";
 
 const route = express.Router();
 
 route.get("/", async (_, res) => {
-  const [error, neighborhoods] = await catchError(NeighborhoodModel.find({}));
+  const neighborhoods = await NeighborhoodModel.find({})
+    .collation({ locale: "en", strength: 1 })
+    .sort({ name: 1 });
 
-  if (error) {
-    console.error(error);
-    res.status(500).send("Internal server error");
-    return;
+  if (!neighborhoods) {
+    throw new ResourceNotFoundError("Neighborhoods");
   }
 
   res.status(200).json(neighborhoods);

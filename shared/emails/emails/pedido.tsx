@@ -14,40 +14,37 @@ import {
   Row,
   Column,
 } from "@react-email/components";
-import menu from "../../menu/menu_items.json";
-import { IMenuItem } from "../../menu/MenuItems";
 import numberToCurrency from "../../utils/numberToCurrency";
+
+interface MenuItem {
+  id: string;
+  price: number;
+  name: string;
+  quantity: number;
+}
 
 export const PedidoEmail = ({
   items = [
     {
       id: "1",
+      name: "Coxinha",
+      price: 10,
       quantity: 2,
     },
     {
       id: "10",
+      name: "Crepe",
+      price: 20,
       quantity: 2,
     },
   ],
   buttonURL = "http://localhost:3000/orders/ready_for_delivery?id=123",
 }: {
-  items: { id: string; quantity: number }[];
+  items: MenuItem[];
   buttonURL: string;
 }) => {
-  const itemsList = items.map((item) => {
-    const menus = Object.values(menu).flat();
-    const menuItem = menus.find((menu) => menu.id === item.id);
-
-    return { ...menuItem, quantity: item.quantity } as IMenuItem & {
-      quantity: number;
-    };
-  });
-
-  const orderTotal = itemsList.reduce((total, item) => {
-    const menus = Object.values(menu).flat();
-    const menuItem = menus.find((menu) => menu.id === item.id) as IMenuItem;
-
-    return (total += menuItem.price * item.quantity);
+  const orderTotal = items.reduce((total, item) => {
+    return (total += item.price * item.quantity);
   }, 0);
 
   return (
@@ -64,7 +61,7 @@ export const PedidoEmail = ({
               estiver pronto é só clicar no botão ao final desse email!
             </Text>
 
-            {itemsList.map((item) => (
+            {items.map((item) => (
               <OrderItem item={item} key={item.id} />
             ))}
 
@@ -94,7 +91,7 @@ export const PedidoEmail = ({
   );
 };
 
-function OrderItem({ item }: { item: IMenuItem & { quantity: number } }) {
+function OrderItem({ item }: { item: MenuItem }) {
   return (
     <Section
       key={item.id}

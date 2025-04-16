@@ -36,7 +36,6 @@ const level2Neighborhoods = [
   "Lindóia",
   "Novo Mundo",
   "Fazendinha",
-  "Santa Quitéria",
   "Campo Comprido",
   "Cabral",
   "Capão Raso",
