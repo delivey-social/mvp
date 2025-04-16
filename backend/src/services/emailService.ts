@@ -58,10 +58,12 @@ const EmailService = {
     const email = renderEmailFactory(PedidoEmail);
 
     const menuItems = items.map((item) => {
-      const menu = [...menuJSON.salgados, ...menuJSON.doces];
+      const menu = Object.values(menuJSON).flat();
       const menuItem = menu.find((menuItem) => item.id === menuItem.id);
 
-      if (!menuItem) throw new Error("Menu item not found");
+      if (!menuItem) {
+        throw new Error(`Menu item not found, ${item}`);
+      }
 
       return { ...menuItem, quantity: item.quantity };
     });

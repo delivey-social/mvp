@@ -61,7 +61,7 @@ const OrderController = {
 
     // Populates the items with the menu items
     const populatedItems = items.map((item) => {
-      const menu = [...menuJSON.salgados, ...menuJSON.doces];
+      const menu = Object.values(menuJSON).flat();
       const menuItem = menu.find(
         (menuItem) => item.id === menuItem.id
       ) as IMenuItem;
