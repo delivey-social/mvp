@@ -11,6 +11,7 @@ import Input from "../../shared-components/input";
 import Select from "../../shared-components/select";
 
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
+import { PaymentMethods } from "../../types/Order";
 
 interface GetNeighborhoodsResponseItem {
   _id: string;
@@ -40,6 +41,7 @@ export default function Entrega() {
     const phone_number = data.get("phone_number") as string;
     const address = data.get("address") as string;
     const observation = data.get("observations") as string;
+    const payment_method = data.get("payment_method") as PaymentMethods;
 
     if (!selectedNeighborhood) {
       throw new Error("Selecione um bairro");
@@ -53,6 +55,7 @@ export default function Entrega() {
           phone_number,
           neighborhood_id: selectedNeighborhood._id,
         },
+        payment_method,
         observation
       );
       setTotal(total);
@@ -137,13 +140,18 @@ export default function Entrega() {
 
 function PaymentMethodSelect() {
   return (
-    <Select placeholder="Forma de pagamento" defaultValue={""} required>
+    <Select
+      placeholder="Forma de pagamento"
+      defaultValue={""}
+      required
+      name="payment_method"
+    >
       <option disabled value={""}>
         Forma de pagamento
       </option>
-      <option>Pix</option>
-      <option>Débito (no recebimento)</option>
-      <option>Crédito (no recebimento)</option>
+      <option value={"PIX"}>Pix</option>
+      <option value={"DEBIT_CARD"}>Débito (no recebimento)</option>
+      <option value={"CREDIT_CARD"}>Crédito (no recebimento)</option>
     </Select>
   );
 }
