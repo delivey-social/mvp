@@ -2,6 +2,7 @@ import menu from "../../public/menu_items.json";
 import mongoose, { Document, Schema } from "mongoose";
 
 import { OrderStatus } from "../types/OrderStatus";
+import { PaymentMethods } from "../types/PaymentMethods";
 
 export interface Order extends Document {
   items: {
@@ -17,6 +18,7 @@ export interface Order extends Document {
   status: OrderStatus;
   deliveryFee: number;
   totalAmount: number;
+  payment_method: PaymentMethods;
 }
 
 const orderSchema = new Schema<Order & Document>(
@@ -42,6 +44,11 @@ const orderSchema = new Schema<Order & Document>(
     },
     deliveryFee: {
       type: Number,
+      required: true,
+    },
+    payment_method: {
+      type: String,
+      enum: Object.values(PaymentMethods),
       required: true,
     },
     totalAmount: {

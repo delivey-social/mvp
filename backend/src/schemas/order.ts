@@ -19,6 +19,7 @@ const orderSchema = {
       }),
       neighborhood_id: z.string(),
       observation: z.string().optional(),
+      payment_method: z.enum(["PIX", "CREDIT_CARD", "DEBIT_CARD"]),
     })
     .strict(),
   registerPayment: z.object({ id: idSchema }).strict(),

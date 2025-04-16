@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+import { CreateOrder, PaymentMethods } from "../types/Order";
 
 interface Order {
   items: {
@@ -22,7 +23,11 @@ interface IOrderContext {
   user: Order["user"];
   setItems: React.Dispatch<React.SetStateAction<Order["items"]>>;
   setUserProperty(key: keyof Order["user"], value: string): void;
-  sendOrder: (user: Order["user"], observation?: string) => Promise<void>;
+  sendOrder: (
+    user: Order["user"],
+    payment_method: PaymentMethods,
+    observation?: string
+  ) => Promise<void>;
 }
 
 export const OrderContext = createContext({} as IOrderContext);
@@ -47,8 +52,12 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
     sessionStorage.setItem("items", JSON.stringify(items));
   }, [items]);
 
-  async function sendOrder(user: Order["user"], observation?: string) {
-    await axios.post(`${import.meta.env.VITE_BACKEND_URL}/orders`, {
+  async function sendOrder(
+    user: Order["user"],
+    payment_method: PaymentMethods,
+    observation?: string
+  ) {
+    const data: CreateOrder = {
       items: items.map((item) => ({
         id: item.id,
         quantity: item.quantity,
@@ -56,7 +65,13 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
       user,
       observation,
       neighborhood_id: user.neighborhood_id,
-    });
+      payment_method,
+    };
+
+    await axios.post<void, CreateOrder>(
+      `${import.meta.env.VITE_BACKEND_URL}/orders`,
+      data
+    );
 
     localStorage.setItem("user", JSON.stringify(user));
   }

@@ -1,12 +1,18 @@
 import { NextFunction, Request, Response } from "express";
+import HTTPError from "../errors/HTTPError";
 
-export default function errorHandler(
+export default async function errorHandler(
   err: Error,
-  req: Request,
+  _: Request,
   res: Response,
-  next: NextFunction
+  //eslint-disable-next-line
+  __: NextFunction
 ) {
-  console.error("Unhandled Error: ", err);
+  if (err instanceof HTTPError) {
+    res.status(err.statusCode).send(err.message);
+    return;
+  }
 
+  console.error("Unhandled Error: ", err);
   res.status(500).send("Internal Server Error");
 }

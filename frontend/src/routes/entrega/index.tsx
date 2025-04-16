@@ -1,9 +1,17 @@
 import { FormEvent, useContext, useEffect, useState } from "react";
-import numberToCurrency from "../../../../shared/utils/numberToCurrency";
-import { OrderContext } from "../../contexts/OrderContext";
-import menu from "../../menu_items.json";
 import { useNavigate } from "react-router";
+
 import axios from "axios";
+
+import menu from "../../menu_items.json";
+
+import { OrderContext } from "../../contexts/OrderContext";
+
+import Input from "../../shared-components/input";
+import Select from "../../shared-components/select";
+
+import numberToCurrency from "../../../../shared/utils/numberToCurrency";
+import { PaymentMethods } from "../../types/Order";
 
 interface GetNeighborhoodsResponseItem {
   _id: string;
@@ -33,6 +41,7 @@ export default function Entrega() {
     const phone_number = data.get("phone_number") as string;
     const address = data.get("address") as string;
     const observation = data.get("observations") as string;
+    const payment_method = data.get("payment_method") as PaymentMethods;
 
     if (!selectedNeighborhood) {
       throw new Error("Selecione um bairro");
@@ -46,11 +55,17 @@ export default function Entrega() {
           phone_number,
           neighborhood_id: selectedNeighborhood._id,
         },
+        payment_method,
         observation
       );
       setTotal(total);
 
-      navigate("/pagamento");
+      if (payment_method === "PIX") {
+        navigate("/pagamento");
+        return;
+      }
+
+      navigate("/sucesso");
     } catch (err) {
       console.error(err);
     }
@@ -114,6 +129,8 @@ export default function Entrega() {
             <ResultLine label="Total" value={total} />
           </div>
 
+          <PaymentMethodSelect />
+
           <button
             disabled={!selectedNeighborhood || !items.length}
             className="disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-default cursor-pointer bg-emerald-400 w-full mt-4 text-emerald-950  px-4 py-4 text-sm font-bold rounded-md"
@@ -123,6 +140,24 @@ export default function Entrega() {
         </form>
       </main>
     </div>
+  );
+}
+
+function PaymentMethodSelect() {
+  return (
+    <Select
+      placeholder="Forma de pagamento"
+      defaultValue={""}
+      required
+      name="payment_method"
+    >
+      <option disabled value={""}>
+        Forma de pagamento
+      </option>
+      <option value={"PIX"}>Pix</option>
+      <option value={"DEBIT_CARD"}>Débito (no recebimento)</option>
+      <option value={"CREDIT_CARD"}>Crédito (no recebimento)</option>
+    </Select>
   );
 }
 
@@ -148,17 +183,20 @@ function SelectNeighborhood({
   }, []);
 
   return (
-    <select
-      className="text-sm border-1 py-2 px-2 rounded-md border-gray-300 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500"
+    <Select
       required
       defaultValue={selectedNeighborhoodId ?? ""}
       onChange={(ev) => {
         setSelectedNeighborhood(
           neighborhoods.find(
-            (neighborhood) => neighborhood._id === ev.target.value
+            (neighborhood) =>
+              neighborhood._id === (ev.target as HTMLSelectElement).value
           )!
         );
-        setUserProperty("neighborhood_id", ev.target.value);
+        setUserProperty(
+          "neighborhood_id",
+          (ev.target as HTMLSelectElement).value
+        );
       }}
     >
       <option disabled value="">
@@ -169,16 +207,7 @@ function SelectNeighborhood({
           {neighborhood.name}
         </option>
       ))}
-    </select>
-  );
-}
-
-function Input(props: React.HTMLProps<HTMLInputElement>) {
-  return (
-    <input
-      {...props}
-      className={`${props.className} text-sm border-1 py-2 px-2 rounded-md border-gray-300 focus:outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500`}
-    />
+    </Select>
   );
 }
 

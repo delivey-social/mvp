@@ -11,7 +11,31 @@ const OrderService = {
     const order = await OrderModel.create(data);
     await order.save();
 
-    return order;
+    if (order.payment_method !== "PIX") {
+      const [emailError] = await catchError(
+        EmailService.sendNewOrderToRestaurantEmail(order.id, order.items)
+      );
+
+      if (emailError) {
+        // TODO: Try to resend the email before throwing an error
+        console.error(emailError);
+        throw new Error("Error sending email (order was created)");
+      }
+
+      return order.id;
+    }
+
+    const [emailError] = await catchError(
+      EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount)
+    );
+
+    if (emailError) {
+      // TODO: Try to resend the email before throwing an error
+      console.error(emailError);
+      throw new Error("Error sending email (order was created)");
+    }
+
+    return order.id;
   },
   registerPayment: async (id: string) => {
     await OrderModel.findByIdAndUpdate(id, {
@@ -27,14 +51,16 @@ const OrderService = {
       throw new ResourceNotFoundError("Order");
     }
 
-    const [error] = await catchError(
+    const [emailError] = await catchError(
       EmailService.sendDeliveryEmail({
         orderId: order.id,
         address: order.user.address,
       })
     );
 
-    if (error) {
+    if (emailError) {
+      // TODO: Try to resend the email before throwing an error
+      console.error(emailError);
       throw new Error("Error sending email (order was updated)");
     }
   },
