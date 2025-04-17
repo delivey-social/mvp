@@ -13,11 +13,16 @@ interface MenuItem {
 
 const menuItemSchema = new mongoose.Schema<MenuItem & Document>({
   name: { type: String, required: true },
-  description: { type: String, required: true },
+  description: { type: String },
   price: { type: Number, required: true },
   imageUrl: { type: String, required: true },
   category: { type: String, required: true },
-  status: { type: String, enum: Object.values(Status), required: true },
+  status: {
+    type: String,
+    enum: Object.values(Status),
+    required: true,
+    default: Status.ACTIVE,
+  },
 });
 
 const MenuItemModel = mongoose.model<MenuItem & Document>(
