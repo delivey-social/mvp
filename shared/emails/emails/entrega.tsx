@@ -4,48 +4,49 @@ import {
   Button,
   Container,
   Head,
-  Hr,
   Html,
-  Img,
-  Link,
   Preview,
   Section,
   Text,
-  Row,
-  Column,
 } from "@react-email/components";
 import TextLine from "../components/text-line.";
 
 interface EntregaEmailProps {
+  restaurantAddress: string;
   clientAddress: string;
   date: Date;
   buttonUrl: string;
+  id: string;
 }
 export default function EntregaEmail({
-  clientAddress = "Aaa",
+  restaurantAddress = "Rua Dom Pedro I, 603",
+  clientAddress = "Av. Silva Jardim, 994, Ap 1607",
   date = new Date(),
   buttonUrl = "http://localhost:3000/orders/delivered?id=123",
+  id = "67ff01c7dabc890de9bc643f",
 }: EntregaEmailProps) {
   return (
     <Html>
       <Head />
-      <Preview>Oba! Tem entrega nova!!</Preview>
+      <Preview>Oba! Tem entrega nova no comida.app!!</Preview>
       <Body style={main}>
         <Container style={container}>
           <Section style={box}>
-            <Text style={title}>Oba! Tem entrega nova!!</Text>
+            <Text style={title}>Oba! Tem entrega nova no comida.app!!</Text>
 
-            <TextLine>Você tem uma entrega nova para fazer!</TextLine>
+            <TextLine style={{ margin: "20px 0 32px 0" }}>
+              Você tem uma entrega nova para fazer!
+            </TextLine>
 
             <TextLine>
-              <strong>Endereço do restaurante: </strong> Rua Dom Pedro I, 603
+              <strong>Endereço do restaurante: </strong> {restaurantAddress}
             </TextLine>
 
             <TextLine>
               <strong>Endereço do cliente: </strong> {clientAddress}
             </TextLine>
 
-            <TextLine>
+            <TextLine style={{ margin: "32px 0" }}>
               <strong>Data: </strong>{" "}
               {date.toLocaleDateString("pt-BR", {
                 hour: "2-digit",
@@ -57,6 +58,10 @@ export default function EntregaEmail({
             <Button style={button} href={buttonUrl}>
               A entrega foi feita com sucesso!
             </Button>
+
+            <TextLine style={{ fontSize: "12px", textAlign: "right" }}>
+              {id}
+            </TextLine>
           </Section>
         </Container>
       </Body>
@@ -101,5 +106,5 @@ const button = {
   display: "block",
   width: "100%",
   padding: "10px 0",
-  marginTop: "36px",
+  marginTop: "40px",
 };
