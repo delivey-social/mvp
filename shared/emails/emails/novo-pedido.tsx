@@ -15,6 +15,7 @@ import {
   Column,
 } from "@react-email/components";
 import numberToCurrency from "../../utils/numberToCurrency";
+import TextLine from "../components/text-line.";
 
 interface NovoPedidoEmailProps {
   totalValue: number;
@@ -60,9 +61,9 @@ export default function NovoPedidoEmail({
           <Section style={box}>
             <Text style={title}>Oba! Tem um pedido novo no app!!</Text>
 
-            <Text style={{ ...paragraph, margin: "32px 0" }}>
+            <TextLine>
               Confira as informações do pedido e confirme o pagamento!
-            </Text>
+            </TextLine>
 
             {Object.entries(textInfos).map(([key, value]) => (
               <Text key={key} style={{ ...paragraph, margin: "16px 0" }}>

@@ -14,6 +14,7 @@ import {
   Row,
   Column,
 } from "@react-email/components";
+import TextLine from "../components/text-line.";
 
 interface EntregaEmailProps {
   clientAddress: string;
@@ -34,26 +35,24 @@ export default function EntregaEmail({
           <Section style={box}>
             <Text style={title}>Oba! Tem entrega nova!!</Text>
 
-            <Text style={{ ...paragraph, margin: "32px 0" }}>
-              Você tem uma entrega nova para fazer!
-            </Text>
+            <TextLine>Você tem uma entrega nova para fazer!</TextLine>
 
-            <Text style={{ ...paragraph, margin: "32px 0" }}>
+            <TextLine>
               <strong>Endereço do restaurante: </strong> Rua Dom Pedro I, 603
-            </Text>
+            </TextLine>
 
-            <Text style={{ ...paragraph, margin: "32px 0" }}>
+            <TextLine>
               <strong>Endereço do cliente: </strong> {clientAddress}
-            </Text>
+            </TextLine>
 
-            <Text style={{ ...paragraph, margin: "32px 0" }}>
+            <TextLine>
               <strong>Data: </strong>{" "}
               {date.toLocaleDateString("pt-BR", {
                 hour: "2-digit",
                 minute: "2-digit",
                 second: "2-digit",
               })}
-            </Text>
+            </TextLine>
 
             <Button style={button} href={buttonUrl}>
               A entrega foi feita com sucesso!
@@ -82,13 +81,6 @@ const box = {
   padding: "0 48px",
 };
 
-const paragraph = {
-  color: "#525f7f",
-
-  fontSize: "16px",
-  lineHeight: "24px",
-  textAlign: "left" as const,
-};
 const title = {
   color: "#08090d",
 
