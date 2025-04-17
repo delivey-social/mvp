@@ -6,18 +6,20 @@ import {
   Head,
   Hr,
   Html,
-  Img,
-  Link,
   Preview,
   Section,
   Text,
-  Row,
-  Column,
 } from "@react-email/components";
 import numberToCurrency from "../../utils/numberToCurrency";
 import TextLine from "../components/text-line.";
 
 interface NovoPedidoEmailProps {
+  value: {
+    itemsTotal: number;
+    appFee: number;
+    deliveryFee: number;
+    total: number;
+  };
   totalValue: number;
   client: {
     email: string;
@@ -29,43 +31,95 @@ interface NovoPedidoEmailProps {
   buttonUrl: string;
 }
 export default function NovoPedidoEmail({
-  totalValue = 123,
   client = {
     address: "Rua de Teste 123",
     email: "test@test.com",
     phone_number: "(41) 99999-9999",
   },
-  id = "123",
+  id = "67ff01c7dabc890de9bc643f",
   date = new Date(),
   buttonUrl = "http://localhost:3000/orders/delivered?id=123",
+  value = {
+    deliveryFee: 8,
+    appFee: 12.3,
+    itemsTotal: 123,
+    total: 143.3,
+  },
 }: NovoPedidoEmailProps) {
-  const textInfos = {
-    "Valor total": numberToCurrency(totalValue),
-    "Email do Cliente": client.email,
-    "Telefone do Cliente": client.phone_number,
-    "Endereço do Cliente": client.address,
-    Data: date.toLocaleDateString("pt-BR", {
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    }),
-    "id do pedido": id,
+  const userInfos = {
+    Email: client.email,
+    Telefone: client.phone_number,
+    Endereço: client.address,
+  };
+  const billInfos = {
+    "Total dos itens": value.itemsTotal,
+    "Taxa comida.app": value.appFee,
+    "Taxa de entrega": value.deliveryFee,
   };
 
   return (
     <Html>
       <Head />
-      <Preview>Oba! Novo Pedido!!</Preview>
+      <Preview>Oba! Pedido novo no comida.app!!</Preview>
       <Body style={main}>
         <Container style={container}>
           <Section style={box}>
-            <Text style={title}>Oba! Tem um pedido novo no app!!</Text>
+            <Text style={title}>Oba! Pedido novo no comida.app!!</Text>
 
             <TextLine>
               Confira as informações do pedido e confirme o pagamento!
             </TextLine>
 
-            {Object.entries(textInfos).map(([key, value]) => (
+            <Hr style={{ margin: "24px 0", textAlign: "right" }} />
+
+            <Text style={{ ...title, marginTop: "24px", fontSize: "16px" }}>
+              Resumo do Pedido
+            </Text>
+
+            <TextLine>
+              <strong>Data: </strong>
+              {date.toLocaleDateString("pt-BR", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              })}
+            </TextLine>
+
+            {Object.keys(billInfos).map((key) => (
+              <TextLine
+                key={key}
+                style={{ textAlign: "right", fontSize: "14px" }}
+              >
+                <strong>{key}:</strong> {numberToCurrency(billInfos[key])}
+              </TextLine>
+            ))}
+
+            <Section
+              style={{
+                backgroundColor: "#ffe5e5",
+                padding: "8px 12px",
+                borderRadius: "5px",
+              }}
+            >
+              <TextLine
+                style={{
+                  color: "#ab0020",
+                  textAlign: "right",
+                  margin: "0",
+                  fontSize: "14px",
+                }}
+              >
+                <strong>Total: {numberToCurrency(value.total)}</strong>
+              </TextLine>
+            </Section>
+
+            <Hr style={{ margin: "24px 0" }} />
+
+            <Text style={{ ...title, marginTop: "24px", fontSize: "16px" }}>
+              Dados do cliente
+            </Text>
+
+            {Object.entries(userInfos).map(([key, value]) => (
               <Text key={key} style={{ ...paragraph, margin: "16px 0" }}>
                 <strong>{key}:</strong> {value}
               </Text>
@@ -74,6 +128,12 @@ export default function NovoPedidoEmail({
             <Button style={button} href={buttonUrl}>
               Confirmar o pagamento!
             </Button>
+
+            <Text
+              style={{ ...paragraph, fontSize: "12px", textAlign: "right" }}
+            >
+              {id}
+            </Text>
           </Section>
         </Container>
       </Body>
@@ -106,7 +166,7 @@ const paragraph = {
   textAlign: "left" as const,
 };
 const title = {
-  color: "#08090d",
+  color: "#282e3e",
 
   fontSize: "24px",
   lineHeight: "32px",
