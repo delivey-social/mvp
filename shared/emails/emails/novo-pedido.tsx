@@ -85,12 +85,12 @@ export default function NovoPedidoEmail({
               })}
             </TextLine>
 
-            {Object.keys(billInfos).map((key) => (
+            {Object.entries(billInfos).map(([key, value]) => (
               <TextLine
                 key={key}
                 style={{ textAlign: "right", fontSize: "14px" }}
               >
-                <strong>{key}:</strong> {numberToCurrency(billInfos[key])}
+                <strong>{key}:</strong> {numberToCurrency(value)}
               </TextLine>
             ))}
 
