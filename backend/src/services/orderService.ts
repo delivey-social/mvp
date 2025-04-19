@@ -22,7 +22,7 @@ const OrderService = {
 
     const order = await OrderRepository.create({
       items,
-      payment_method: payment_method as PaymentMethods,
+      payment_method: PaymentMethods[payment_method],
       user,
       observation,
       priceDetails: {
@@ -32,27 +32,18 @@ const OrderService = {
       },
     });
 
-    if (order.payment_method !== "PIX") {
-      const [emailError] = await catchError(
-        EmailService.sendNewOrderToRestaurantEmail(order.id, order.items)
-      );
-
-      if (emailError) {
-        // TODO: Try to resend the email before throwing an error
-        console.error(emailError);
-        throw new Error("Error sending email (order was created)");
-      }
-
-      return order.id;
-    }
-
     const [emailError] = await catchError(
-      EmailService.sendNewOrderEmail(order.id, order.user, {
-        appFee: order.priceDetails.appFee,
-        deliveryFee: order.priceDetails.deliveryFee,
-        itemsTotal: order.priceDetails.itemsPrice,
-        total: order.orderTotal,
-      })
+      EmailService.sendNewOrderEmail(
+        order.id,
+        order.user,
+        {
+          appFee: order.priceDetails.appFee,
+          deliveryFee: order.priceDetails.deliveryFee,
+          itemsTotal: order.priceDetails.itemsPrice,
+          total: order.orderTotal,
+        },
+        order.payment_method
+      )
     );
 
     if (emailError) {

@@ -12,6 +12,13 @@ import {
 } from "@react-email/components";
 import numberToCurrency from "../../utils/numberToCurrency";
 import TextLine from "../components/text-line.";
+import { PaymentMethods } from "../../../backend/src/types/PaymentMethods";
+
+const HumanReadablePaymentMethods: Record<PaymentMethods, string> = {
+  CREDIT_CARD: "Cartão de crédito (entrega)",
+  DEBIT_CARD: "Cartão de débito (entrega)",
+  PIX: "Pix",
+};
 
 interface NovoPedidoEmailProps {
   value: {
@@ -28,6 +35,7 @@ interface NovoPedidoEmailProps {
   id: string;
   date: Date;
   buttonUrl: string;
+  payment_method: PaymentMethods;
 }
 export default function NovoPedidoEmail({
   client = {
@@ -44,6 +52,7 @@ export default function NovoPedidoEmail({
     itemsTotal: 123,
     total: 143.3,
   },
+  payment_method = PaymentMethods.CREDIT_CARD,
 }: NovoPedidoEmailProps) {
   const userInfos = {
     Email: client.email,
@@ -65,8 +74,11 @@ export default function NovoPedidoEmail({
           <Section style={box}>
             <Text style={title}>Oba! Pedido novo no comida.app!!</Text>
 
+            <TextLine>Confira as informações do pedido!</TextLine>
+
             <TextLine>
-              Confira as informações do pedido e confirme o pagamento!
+              <strong>Obs: </strong>Em caso de pagamento pelo aplicativo só
+              confirme após o recebimento.
             </TextLine>
 
             <Hr style={{ margin: "24px 0", textAlign: "right" }} />
@@ -82,6 +94,11 @@ export default function NovoPedidoEmail({
                 minute: "2-digit",
                 second: "2-digit",
               })}
+            </TextLine>
+
+            <TextLine>
+              <strong>Pagamento: </strong>
+              {HumanReadablePaymentMethods[payment_method]}
             </TextLine>
 
             {Object.entries(billInfos).map(([key, value]) => (
@@ -125,7 +142,7 @@ export default function NovoPedidoEmail({
             ))}
 
             <Button style={button} href={buttonUrl}>
-              Confirmar o pagamento!
+              Confirmar os dados do pedido!
             </Button>
 
             <Text

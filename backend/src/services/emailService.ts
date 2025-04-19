@@ -10,6 +10,7 @@ import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
 
 import { Order } from "../models/OrderModel";
+import { PaymentMethods } from "../types/PaymentMethods";
 
 // TODO: Remove hardcoded emails
 const SENDER_EMAIL = "admin@comida.app.br";
@@ -32,7 +33,8 @@ const EmailService = {
       deliveryFee: number;
       itemsTotal: number;
       total: number;
-    }
+    },
+    payment_method: PaymentMethods
   ) => {
     const email = renderEmailFactory(NovoPedidoEmail);
 
@@ -44,6 +46,7 @@ const EmailService = {
       buttonUrl: `${process.env.BACKEND_URL!}/orders/confirm_payment?id=${
         order_id
       }`,
+      payment_method,
     });
 
     const message: MailDataRequired = {
