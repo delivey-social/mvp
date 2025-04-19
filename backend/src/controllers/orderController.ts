@@ -4,7 +4,6 @@ import { Request, Response } from "express";
 
 import orderSchema from "../schemas/order";
 
-import NeighborhoodService from "../services/neighborhoodService";
 import OrderService from "../services/orderService";
 import EmailService from "../services/emailService";
 
@@ -23,15 +22,7 @@ const OrderController = {
       throw new BadRequestError("Invalid order data");
     }
 
-    const deliveryFee = await NeighborhoodService.getDeliveryFee(
-      data.neighborhood_id
-    );
-
-    const orderData = {
-      ...data,
-      deliveryFee,
-    };
-    const orderId = await OrderService.createOrder(orderData);
+    const orderId = await OrderService.createOrder(data);
 
     res
       .status(201)

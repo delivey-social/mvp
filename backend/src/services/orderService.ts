@@ -5,11 +5,32 @@ import { CreateOrder } from "../types/order";
 import OrderModel from "../models/OrderModel";
 
 import EmailService from "./emailService";
+import OrderRepository from "../repositories/orderRepository";
+import { PaymentMethods } from "../types/PaymentMethods";
+
+import NeighborhoodService from "./neighborhoodService";
+import MenuItemsService from "./menuItemsService";
 
 const OrderService = {
   createOrder: async (data: CreateOrder) => {
-    const order = await OrderModel.create(data);
-    await order.save();
+    const { items, neighborhood_id, payment_method, user, observation } = data;
+
+    const deliveryFee =
+      await NeighborhoodService.getDeliveryFee(neighborhood_id);
+
+    const itemsPrice = await MenuItemsService.getItemsTotal(items);
+
+    const order = await OrderRepository.create({
+      items,
+      payment_method: payment_method as PaymentMethods,
+      user,
+      observation,
+      priceDetails: {
+        deliveryFee,
+        itemsPrice,
+        appFee: itemsPrice * 0.1,
+      },
+    });
 
     if (order.payment_method !== "PIX") {
       const [emailError] = await catchError(
@@ -26,7 +47,7 @@ const OrderService = {
     }
 
     const [emailError] = await catchError(
-      EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount)
+      EmailService.sendNewOrderEmail(order.id, order.user, order.orderTotal)
     );
 
     if (emailError) {
