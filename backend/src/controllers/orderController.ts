@@ -1,5 +1,3 @@
-import { IMenuItem } from "../../public/MenuItems";
-
 import { Request, Response } from "express";
 
 import orderSchema from "../schemas/order";
@@ -8,8 +6,6 @@ import OrderService from "../services/orderService";
 import EmailService from "../services/emailService";
 
 import OrderModel from "../models/OrderModel";
-
-import menuJSON from "../../public/menu_items.json";
 
 import catchError from "../errors/catchError";
 import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
@@ -49,17 +45,6 @@ const OrderController = {
       res.status(400).json("Order already paid!");
       return;
     }
-
-    // Populates the items with the menu items
-    const populatedItems = items.map((item) => {
-      const menu = Object.values(menuJSON).flat();
-      const menuItem = menu.find(
-        (menuItem) => item.id === menuItem.id
-      ) as IMenuItem;
-
-      return { ...menuItem, quantity: item.quantity };
-    });
-
     const [updateError] = await catchError(OrderService.registerPayment(id));
 
     if (updateError) {
@@ -67,7 +52,7 @@ const OrderController = {
     }
 
     const [error] = await catchError(
-      EmailService.sendNewOrderToRestaurantEmail(order.id, populatedItems)
+      EmailService.sendNewOrderToRestaurantEmail(order.id, items)
     );
 
     if (error) {
