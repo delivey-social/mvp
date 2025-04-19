@@ -20,7 +20,6 @@ interface NovoPedidoEmailProps {
     deliveryFee: number;
     total: number;
   };
-  totalValue: number;
   client: {
     email: string;
     phone_number: string;

@@ -19,7 +19,7 @@ interface EntregaEmailProps {
   id: string;
 }
 export default function EntregaEmail({
-  restaurantAddress = "Rua Dom Pedro I, 603",
+  restaurantAddress = "Rua de Teste, 123",
   clientAddress = "Av. Silva Jardim, 994, Ap 1607",
   date = new Date(),
   buttonUrl = "http://localhost:3000/orders/delivered?id=123",

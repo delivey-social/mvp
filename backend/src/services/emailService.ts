@@ -27,12 +27,17 @@ const EmailService = {
   sendNewOrderEmail: async (
     order_id: string,
     user: CreateOrder["user"],
-    total: number
+    value: {
+      appFee: number;
+      deliveryFee: number;
+      itemsTotal: number;
+      total: number;
+    }
   ) => {
     const email = renderEmailFactory(NovoPedidoEmail);
 
     const html = await email({
-      totalValue: total,
+      value,
       client: user,
       id: order_id,
       date: new Date(),
@@ -87,9 +92,11 @@ const EmailService = {
     const email = renderEmailFactory(EntregaEmail);
 
     const html = await email({
+      restaurantAddress: "Rua Dom Pedro I, 603",
       clientAddress: data.address,
       date: new Date(),
       buttonUrl: `${process.env.BACKEND_URL!}/orders/delivered?id=${data.orderId}`,
+      id: data.orderId,
     });
 
     const message: MailDataRequired = {

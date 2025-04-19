@@ -47,7 +47,12 @@ const OrderService = {
     }
 
     const [emailError] = await catchError(
-      EmailService.sendNewOrderEmail(order.id, order.user, order.orderTotal)
+      EmailService.sendNewOrderEmail(order.id, order.user, {
+        appFee: order.priceDetails.appFee,
+        deliveryFee: order.priceDetails.deliveryFee,
+        itemsTotal: order.priceDetails.itemsPrice,
+        total: order.orderTotal,
+      })
     );
 
     if (emailError) {
