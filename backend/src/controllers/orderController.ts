@@ -3,12 +3,8 @@ import { Request, Response } from "express";
 import orderSchema from "../schemas/order";
 
 import OrderService from "../services/orderService";
-import EmailService from "../services/emailService";
 
-import OrderModel from "../models/OrderModel";
-
-import catchError from "../errors/catchError";
-import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
+import { BadRequestError } from "../errors/HTTPError";
 
 const OrderController = {
   createOrder: async (req: Request, res: Response) => {
@@ -34,30 +30,7 @@ const OrderController = {
       return;
     }
 
-    const { id } = data;
-    const order = await OrderModel.findById(id).select("status items id");
-
-    if (!order) throw new ResourceNotFoundError("Order");
-
-    const { status, items } = order;
-
-    if (status !== "WAITING_PAYMENT") {
-      res.status(400).json("Order already paid!");
-      return;
-    }
-    const [updateError] = await catchError(OrderService.registerPayment(id));
-
-    if (updateError) {
-      throw new Error("Error updating order status");
-    }
-
-    const [error] = await catchError(
-      EmailService.sendNewOrderToRestaurantEmail(order.id, items)
-    );
-
-    if (error) {
-      throw new Error("Error sending email to restaurant");
-    }
+    await OrderService.registerPayment(data.id);
 
     res.send("Payment confirmed");
   },

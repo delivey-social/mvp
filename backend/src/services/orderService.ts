@@ -55,9 +55,27 @@ const OrderService = {
     return order.id;
   },
   registerPayment: async (id: string) => {
+    const order = await OrderModel.findById(id).select("status items id");
+
+    if (!order) throw new ResourceNotFoundError("Order");
+
+    const { status, items } = order;
+
+    if (status !== "WAITING_PAYMENT") {
+      throw new BadRequestError("Order already paid!");
+    }
+
     await OrderModel.findByIdAndUpdate(id, {
       status: "PREPARING",
     });
+
+    const [error] = await catchError(
+      EmailService.sendNewOrderToRestaurantEmail(order.id, items)
+    );
+
+    if (error) {
+      throw new Error("Error sending email to restaurant");
+    }
   },
   readyForDelivery: async (id: string) => {
     const order = await OrderModel.findByIdAndUpdate(id, {
