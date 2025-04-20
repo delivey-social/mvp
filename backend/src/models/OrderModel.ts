@@ -1,10 +1,9 @@
-import menu from "../../public/menu_items.json";
 import mongoose, { Document, Schema } from "mongoose";
 
 import { OrderStatus } from "../types/OrderStatus";
 import { PaymentMethods } from "../types/PaymentMethods";
 
-export interface Order extends Document {
+export interface CreateOrder {
   items: {
     id: string;
     quantity: number;
@@ -14,11 +13,18 @@ export interface Order extends Document {
     phone_number: string;
     address: string;
   };
+  priceDetails: {
+    deliveryFee: number;
+    appFee: number;
+    itemsPrice: number;
+  };
   observation?: string;
-  status: OrderStatus;
-  deliveryFee: number;
-  totalAmount: number;
   payment_method: PaymentMethods;
+}
+
+export interface Order extends CreateOrder {
+  status: OrderStatus;
+  orderTotal: number;
 }
 
 const orderSchema = new Schema<Order & Document>(
@@ -42,32 +48,24 @@ const orderSchema = new Schema<Order & Document>(
       default: OrderStatus.WAITING_PAYMENT,
       required: true,
     },
-    deliveryFee: {
+    priceDetails: {
+      deliveryFee: { type: Number, required: true },
+      appFee: { type: Number, required: true },
+      itemsPrice: { type: Number, required: true },
+    },
+    orderTotal: {
       type: Number,
       required: true,
+      default: function () {
+        return Object.values(this.priceDetails).reduce((acc, item) => {
+          return acc + item;
+        }, 0);
+      },
     },
     payment_method: {
       type: String,
       enum: Object.values(PaymentMethods),
       required: true,
-    },
-    totalAmount: {
-      type: Number,
-      default: function () {
-        let total = 0;
-
-        this.items.forEach((item) => {
-          const menuItems = Object.values(menu).flat();
-          const menuItem = menuItems.find(
-            (menuItem) => menuItem.id === item.id
-          );
-          if (menuItem) {
-            total += menuItem.price * item.quantity;
-          }
-        });
-
-        return total * 1.1 + this.deliveryFee; // Adding 10% tax and delivery fee
-      },
     },
   },
   { timestamps: true }

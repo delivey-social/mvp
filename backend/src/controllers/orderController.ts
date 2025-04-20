@@ -1,19 +1,10 @@
-import { IMenuItem } from "../../public/MenuItems";
-
 import { Request, Response } from "express";
 
 import orderSchema from "../schemas/order";
 
-import NeighborhoodService from "../services/neighborhoodService";
 import OrderService from "../services/orderService";
-import EmailService from "../services/emailService";
 
-import OrderModel from "../models/OrderModel";
-
-import menuJSON from "../../public/menu_items.json";
-
-import catchError from "../errors/catchError";
-import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
+import { BadRequestError } from "../errors/HTTPError";
 
 const OrderController = {
   createOrder: async (req: Request, res: Response) => {
@@ -23,15 +14,7 @@ const OrderController = {
       throw new BadRequestError("Invalid order data");
     }
 
-    const deliveryFee = await NeighborhoodService.getDeliveryFee(
-      data.neighborhood_id
-    );
-
-    const orderData = {
-      ...data,
-      deliveryFee,
-    };
-    const orderId = await OrderService.createOrder(orderData);
+    const orderId = await OrderService.createOrder(data);
 
     res
       .status(201)
@@ -47,41 +30,7 @@ const OrderController = {
       return;
     }
 
-    const { id } = data;
-    const order = await OrderModel.findById(id).select("status items id");
-
-    if (!order) throw new ResourceNotFoundError("Order");
-
-    const { status, items } = order;
-
-    if (status !== "WAITING_PAYMENT") {
-      res.status(400).json("Order already paid!");
-      return;
-    }
-
-    // Populates the items with the menu items
-    const populatedItems = items.map((item) => {
-      const menu = Object.values(menuJSON).flat();
-      const menuItem = menu.find(
-        (menuItem) => item.id === menuItem.id
-      ) as IMenuItem;
-
-      return { ...menuItem, quantity: item.quantity };
-    });
-
-    const [updateError] = await catchError(OrderService.registerPayment(id));
-
-    if (updateError) {
-      throw new Error("Error updating order status");
-    }
-
-    const [error] = await catchError(
-      EmailService.sendNewOrderToRestaurantEmail(order.id, populatedItems)
-    );
-
-    if (error) {
-      throw new Error("Error sending email to restaurant");
-    }
+    await OrderService.registerPayment(data.id);
 
     res.send("Payment confirmed");
   },
