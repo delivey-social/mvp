@@ -15,6 +15,7 @@ import {
   Column,
 } from "@react-email/components";
 import numberToCurrency from "../../utils/numberToCurrency";
+import TextLine from "../components/text-line.";
 
 interface MenuItem {
   id: string;
@@ -56,10 +57,10 @@ export const PedidoEmail = ({
           <Section style={box}>
             <Text style={title}>Oba! Tem pedido novo!!</Text>
 
-            <Text style={{ ...paragraph, margin: "32px 0" }}>
+            <TextLine>
               Chegou um pedido novo para você! Agora é só produzir e quando
               estiver pronto é só clicar no botão ao final desse email!
-            </Text>
+            </TextLine>
 
             {items.map((item) => (
               <OrderItem item={item} key={item.id} />
@@ -124,17 +125,6 @@ function OrderItem({ item }: { item: MenuItem }) {
             {item.quantity} unidades -{" "}
             {numberToCurrency(item.quantity * item.price)}
           </Text>
-        </Column>
-        <Column align="right">
-          {/* <Img
-            src={`/static/menu${item.imageUrl}`}
-            alt="Image"
-            style={{
-              width: "150px",
-              height: "auto",
-              borderRadius: "8px",
-            }}
-          /> */}
         </Column>
       </Row>
     </Section>

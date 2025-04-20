@@ -1,7 +1,8 @@
 import sendgrid, { MailDataRequired } from "@sendgrid/mail";
 
-import { CreateOrder } from "../types/order";
+import { CreateOrderRequest } from "../types/order";
 
+import MenuItemsService from "./menuItemsService";
 import renderEmailFactory from "../utils/renderEmailFactory";
 
 import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
@@ -9,7 +10,7 @@ import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
 
 import { Order } from "../models/OrderModel";
-import menuJSON from "../../public/menu_items.json";
+import { PaymentMethods } from "../types/PaymentMethods";
 
 // TODO: Remove hardcoded emails
 const SENDER_EMAIL = "admin@comida.app.br";
@@ -26,19 +27,26 @@ const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
 const EmailService = {
   sendNewOrderEmail: async (
     order_id: string,
-    user: CreateOrder["user"],
-    total: number
+    user: CreateOrderRequest["user"],
+    value: {
+      appFee: number;
+      deliveryFee: number;
+      itemsTotal: number;
+      total: number;
+    },
+    payment_method: PaymentMethods
   ) => {
     const email = renderEmailFactory(NovoPedidoEmail);
 
     const html = await email({
-      totalValue: total,
+      value,
       client: user,
       id: order_id,
       date: new Date(),
       buttonUrl: `${process.env.BACKEND_URL!}/orders/confirm_payment?id=${
         order_id
       }`,
+      payment_method,
     });
 
     const message: MailDataRequired = {
@@ -57,16 +65,7 @@ const EmailService = {
   ) => {
     const email = renderEmailFactory(PedidoEmail);
 
-    const menuItems = items.map((item) => {
-      const menu = Object.values(menuJSON).flat();
-      const menuItem = menu.find((menuItem) => item.id === menuItem.id);
-
-      if (!menuItem) {
-        throw new Error(`Menu item not found, ${item}`);
-      }
-
-      return { ...menuItem, quantity: item.quantity };
-    });
+    const menuItems = await MenuItemsService.getItemsDetails(items);
 
     const html = await email({
       items: menuItems,
@@ -87,9 +86,11 @@ const EmailService = {
     const email = renderEmailFactory(EntregaEmail);
 
     const html = await email({
+      restaurantAddress: "Rua Dom Pedro I, 603",
       clientAddress: data.address,
       date: new Date(),
       buttonUrl: `${process.env.BACKEND_URL!}/orders/delivered?id=${data.orderId}`,
+      id: data.orderId,
     });
 
     const message: MailDataRequired = {
