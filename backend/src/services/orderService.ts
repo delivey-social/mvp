@@ -1,7 +1,7 @@
 import catchError from "../errors/catchError";
 import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
 
-import { CreateOrder } from "../types/order";
+import { CreateOrderRequest } from "../types/order";
 import OrderModel from "../models/OrderModel";
 
 import EmailService from "./emailService";
@@ -12,7 +12,7 @@ import NeighborhoodService from "./neighborhoodService";
 import MenuItemsService from "./menuItemsService";
 
 const OrderService = {
-  createOrder: async (data: CreateOrder) => {
+  createOrder: async (data: CreateOrderRequest) => {
     const { items, neighborhood_id, payment_method, user, observation } = data;
 
     const deliveryFee =

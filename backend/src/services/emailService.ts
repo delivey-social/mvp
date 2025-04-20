@@ -1,6 +1,6 @@
 import sendgrid, { MailDataRequired } from "@sendgrid/mail";
 
-import { CreateOrder } from "../types/order";
+import { CreateOrderRequest } from "../types/order";
 
 import MenuItemsService from "./menuItemsService";
 import renderEmailFactory from "../utils/renderEmailFactory";
@@ -27,7 +27,7 @@ const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
 const EmailService = {
   sendNewOrderEmail: async (
     order_id: string,
-    user: CreateOrder["user"],
+    user: CreateOrderRequest["user"],
     value: {
       appFee: number;
       deliveryFee: number;
