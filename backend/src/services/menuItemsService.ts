@@ -1,11 +1,11 @@
-import menu from "../../public/menu_items.json";
-
+import MenuItemRepository from "../repositories/MenuItemRepository";
 import { Order } from "../models/OrderModel";
 
 const MenuItemsService = {
   getItemsTotal: async (items: Order["items"]): Promise<number> => {
+    const menuItems = await MenuItemRepository.getAll();
+
     return items.reduce((acc, item) => {
-      const menuItems = Object.values(menu).flat();
       const menuItem = menuItems.find((menuItem) => menuItem.id === item.id);
 
       if (!menuItem) throw new Error(`Menu item with id ${item.id} not found`);
@@ -14,7 +14,7 @@ const MenuItemsService = {
     }, 0);
   },
   getItemsDetails: async (items: Order["items"]) => {
-    const menuItems = Object.values(menu).flat();
+    const menuItems = await MenuItemRepository.getAll();
 
     return items.map((item) => {
       const menuItem = menuItems.find((menuItem) => menuItem.id === item.id);

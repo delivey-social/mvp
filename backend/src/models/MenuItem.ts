@@ -2,7 +2,7 @@ import mongoose, { Document } from "mongoose";
 
 import { Status } from "../types/Status";
 
-interface MenuItem {
+export interface MenuItem {
   name: string;
   description: string;
   price: number;

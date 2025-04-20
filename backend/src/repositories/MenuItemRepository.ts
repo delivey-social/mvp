@@ -27,6 +27,11 @@ const MenuItemRepository = {
 
     return itemsByCategory;
   },
+  async getAll() {
+    const items = await MenuItemModel.find({ status: "ACTIVE" }).lean();
+
+    return items;
+  },
 };
 
 export default MenuItemRepository;
