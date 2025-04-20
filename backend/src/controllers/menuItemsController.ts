@@ -5,7 +5,7 @@ import MenuItemRepository from "../repositories/MenuItemRepository";
 const MenuItemsController = {
   getMenuItems: async (req: Request, res: Response) => {
     const [error, menuItems] = await catchError(
-      MenuItemRepository.getMenuItems()
+      MenuItemRepository.getByCategory()
     );
 
     if (error) {

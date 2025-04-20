@@ -1,7 +1,7 @@
 import MenuItemModel from "../models/MenuItem";
 
 const MenuItemRepository = {
-  async getMenuItems() {
+  async getByCategory() {
     const items = await MenuItemModel.aggregate([
       { $match: { status: "ACTIVE" } },
       {
