@@ -1,12 +1,25 @@
-import { useContext } from "react";
-import menu from "../../menu_items.json";
+import { useContext, useEffect, useState } from "react";
+
 import MenuItem from "./menu-item";
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 import { useNavigate } from "react-router";
 import { OrderContext } from "../../contexts/OrderContext";
+import { IMenuItem } from "../../MenuItems";
+import axios from "axios";
 
 export default function Home() {
+  const [menuItems, setMenuItems] = useState<Record<string, IMenuItem[]>>({});
   const { items, setItems } = useContext(OrderContext);
+
+  useEffect(() => {
+    axios
+      .get<
+        Record<string, IMenuItem[]>
+      >(`${import.meta.env.VITE_BACKEND_URL}/menu-items`)
+      .then((res) => {
+        setMenuItems(res.data);
+      });
+  }, []);
 
   function getProduct(id: string) {
     return items.find((product) => product.id === id);
@@ -36,10 +49,10 @@ export default function Home() {
   const totalProducts = items.reduce((acc, product) => {
     return (acc += product.quantity);
   }, 0);
+
   const totalAmount = items.reduce((acc, product) => {
-    const menuItems = Object.values(menu).flat();
-    const itemPrice =
-      menuItems.find((item) => item.id === product.id)?.price ?? 0;
+    const items = Object.values(menuItems).flat();
+    const itemPrice = items.find((item) => item.id === product.id)?.price ?? 0;
 
     return (acc += itemPrice * product.quantity);
   }, 0);
@@ -49,7 +62,7 @@ export default function Home() {
       <main className="px-10 flex gap-6 flex-col pb-28">
         <h2 className="font-bold text-2xl mt-6">Santo Crepe</h2>
 
-        {Object.entries(menu).map(([category, items]) => (
+        {Object.entries(menuItems).map(([category, items]) => (
           <div key={category}>
             <h3 className="font-bold my-4">{capitalize(category)}</h3>
 

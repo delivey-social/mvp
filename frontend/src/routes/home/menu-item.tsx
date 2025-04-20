@@ -44,7 +44,7 @@ export default function MenuItem({
       </div>
 
       <img
-        src={imageUrl}
+        src={`${import.meta.env.VITE_BACKEND_URL}/images/${imageUrl}`}
         className="max-[400px]:w-full max-[400px]:aspect-[16/10] w-32 [400px]:h-24 object-cover rounded-md"
       />
     </div>
