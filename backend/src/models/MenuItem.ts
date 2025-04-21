@@ -1,0 +1,33 @@
+import mongoose, { Document } from "mongoose";
+
+import { Status } from "../types/Status";
+
+export interface MenuItem {
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  category: string;
+  status: Status;
+}
+
+const menuItemSchema = new mongoose.Schema<MenuItem & Document>({
+  name: { type: String, required: true },
+  description: { type: String },
+  price: { type: Number, required: true },
+  imageUrl: { type: String, required: true },
+  category: { type: String, required: true },
+  status: {
+    type: String,
+    enum: Object.values(Status),
+    required: true,
+    default: Status.ACTIVE,
+  },
+});
+
+const MenuItemModel = mongoose.model<MenuItem & Document>(
+  "menu-item",
+  menuItemSchema
+);
+
+export default MenuItemModel;

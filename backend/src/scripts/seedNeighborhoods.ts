@@ -1,8 +1,8 @@
 import "../config/environment";
 
 import mongoose from "mongoose";
-import crypto from "crypto";
 import NeighborhoodModel from "../models/NeighborhoodModel";
+import generateHash from "../utils/generateHash";
 
 const LEVEL_1_BASE_TARIFF = 5;
 const LEVEL_2_BASE_TARIFF = 8;
@@ -62,11 +62,6 @@ const level3Neighborhoods = [
   "Santa Felicidade",
 ];
 
-function generateHash(data: unknown): string {
-  const json = JSON.stringify(data);
-  return crypto.createHash("sha256").update(json).digest("hex");
-}
-
 async function seed() {
   try {
     await mongoose.connect(process.env.DATABASE_URL!);
@@ -108,7 +103,7 @@ async function seed() {
 
     console.log("Neighborhoods seeded successfully");
   } catch (error) {
-    console.error("Seeding failed:", error);
+    console.error("Seeding neighborhoods failed:", error);
     process.exit(1);
   }
 }

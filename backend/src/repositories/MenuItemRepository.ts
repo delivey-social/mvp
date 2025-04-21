@@ -1,0 +1,38 @@
+import MenuItemModel from "../models/MenuItem";
+
+const MenuItemRepository = {
+  async getByCategory() {
+    const items = await MenuItemModel.aggregate([
+      { $match: { status: "ACTIVE" } },
+      {
+        $group: {
+          _id: "$category",
+          items: {
+            $push: {
+              id: "$_id",
+              name: "$name",
+              description: "$description",
+              price: "$price",
+              imageUrl: "$imageUrl",
+            },
+          },
+        },
+      },
+      { $sort: { _id: -1 } }, // Sorts by category name in descending order
+    ]);
+
+    const itemsByCategory = items.reduce((acc, item) => {
+      acc[item._id] = item.items;
+      return acc;
+    }, {});
+
+    return itemsByCategory;
+  },
+  async getAll() {
+    const items = await MenuItemModel.find({ status: "ACTIVE" }).lean();
+
+    return items;
+  },
+};
+
+export default MenuItemRepository;
