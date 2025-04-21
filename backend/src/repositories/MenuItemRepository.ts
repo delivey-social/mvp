@@ -18,6 +18,7 @@ const MenuItemRepository = {
           },
         },
       },
+      { $sort: { _id: -1 } }, // Sorts by category name in descending order
     ]);
 
     const itemsByCategory = items.reduce((acc, item) => {
