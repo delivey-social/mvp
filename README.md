@@ -42,6 +42,42 @@ This repository is a monorepo containing both the backend and frontend for the M
 | Tailwind       | Utility-first CSS framework for styling                                  |
 | React Email    | Library for generating transactional emails (to restaurants and drivers) |
 | Github Actions | CI/CD automation for testing and deploying the application               |
+| Figma          | Modelling tool (UML Diagrams)                                            |
+| Sendgrid       | Email Service                                                            |
+
+## Email Interactions
+
+All interactions between the system, restaurants, and delivery drivers are currently handled via email. Below is an overview of the flow:
+
+1. Order Placement
+   When a customer places an order, the restaurant receives an email notification. Depending on the payment method, the email will prompt the restaurant to either:
+
+- Confirm that the payment has been received, or
+- Begin food preparation directly.
+
+2. Restaurant Confirmation
+   The restaurant clicks a button within the email to:
+
+- Confirm payment, or
+- Mark the order as produced.
+
+3. Driver Notification
+   Once the restaurant marks the order as produced, the system sends an email to an available delivery driver. This email includes:
+
+- Pickup address (restaurant)
+- Delivery address (customer)
+- Order details
+
+4. Delivery Completion
+   After completing the delivery, the driver clicks a confirmation button in the email to mark the order as delivered.
+
+##### Why email?
+
+This communication is intentional to:
+
+- Simplify the onboarding process for restaurants and drivers
+- Avoid the need for separate dashboards or apps (for now)
+- Provide a lightweight and low-cost MVP communication method
 
 ## Infrastructure
 
