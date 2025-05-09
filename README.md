@@ -45,6 +45,16 @@ This repository is a monorepo containing both the backend and frontend for the M
 | Figma          | Modelling tool (UML Diagrams)                                            |
 | Sendgrid       | Email Service                                                            |
 
+## UML Diagrams
+
+The system was designed using UML diagrams to visualize its core architecture and workflows before implementation. A layered architecture approach was used for designing the backend and API.
+
+You can find all diagrams in the /docs directory of this repository. These include:
+
+- **Use case diagrams** - Illustrates how the different actors interact with the system.
+- **Class diagrams** - Define the structure and relationships of core entities such as orders, users, and restaurants, while ensuring the system can scale with new features.
+- **State Machine diagrams** - Describe the lifecycle of an order from placement to delivery, highlighting all state transitions and decision points.
+
 ## Email Interactions
 
 All interactions between the system, restaurants, and delivery drivers are currently handled via email. Below is an overview of the flow:
