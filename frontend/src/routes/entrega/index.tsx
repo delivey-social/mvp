@@ -156,7 +156,7 @@ function PaymentMethodSelect() {
       </option>
       <option value={"PIX"}>Pix</option>
       <option value={"DEBIT_CARD"}>Débito (no recebimento)</option>
-      <option value={"CREDIT_CARD"}>Crédito (no recebimento)</option>
+{/*       <option value={"CREDIT_CARD"}>Crédito (no recebimento)</option> */}
     </Select>
   );
 }
