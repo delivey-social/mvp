@@ -1,5 +1,3 @@
-import sendgrid, { MailDataRequired } from "@sendgrid/mail";
-
 import { CreateOrder } from "../types/order";
 
 import renderEmailFactory from "../utils/renderEmailFactory";
@@ -10,8 +8,8 @@ import EntregaEmail from "../../../shared/emails/emails/entrega";
 
 import { Order } from "../models/OrderModel";
 import menuJSON from "../../public/menu_items.json";
+import transporter from "../config/emails";
 
-// TODO: Remove hardcoded emails
 const SENDER_EMAIL = "admin@comida.app.br";
 const DELIVERY_EMAIL =
   process.env.MODE === "PRODUCTION"
@@ -41,15 +39,13 @@ const EmailService = {
       }`,
     });
 
-    const message: MailDataRequired = {
+    await transporter.sendMail({
       subject: "Oba! Tem pedido novo!",
       from: SENDER_EMAIL,
       to: DELIVERY_EMAIL,
       bcc: SENDER_EMAIL,
       html,
-    };
-
-    await sendgrid.send(message);
+    });
   },
   sendNewOrderToRestaurantEmail: async (
     orderId: string,
@@ -73,15 +69,13 @@ const EmailService = {
       buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${orderId}`,
     });
 
-    const message: MailDataRequired = {
+    await transporter.sendMail({
       subject: "Novo pedido no seu restaurante!",
       from: SENDER_EMAIL,
       to: RESTAURANT_EMAIL,
       bcc: SENDER_EMAIL,
       html,
-    };
-
-    await sendgrid.send(message);
+    });
   },
   sendDeliveryEmail: async (data: { orderId: string; address: string }) => {
     const email = renderEmailFactory(EntregaEmail);
@@ -92,15 +86,13 @@ const EmailService = {
       buttonUrl: `${process.env.BACKEND_URL!}/orders/delivered?id=${data.orderId}`,
     });
 
-    const message: MailDataRequired = {
+    await transporter.sendMail({
       subject: "Oba, tem entrega nova!",
       from: SENDER_EMAIL,
       to: MOTOBOY_EMAIL,
       bcc: SENDER_EMAIL,
       html,
-    };
-
-    await sendgrid.send(message);
+    });
   },
 };
 
