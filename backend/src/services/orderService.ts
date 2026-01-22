@@ -8,9 +8,14 @@ import EmailService from "./emailService";
 
 const OrderService = {
   getOrder: async (id: string): Promise<Order | null> => {
-    const order = await OrderModel.findById(id).lean<Order>();
+    const [error, order] = await catchError(
+      OrderModel.findById(id).lean<Order>(),
+    );
+    if (error) {
+      throw new Error("Error fetching: Order not found");
+    }
 
-    return order;
+    return order ?? null;
   },
   createOrder: async (data: CreateOrder) => {
     const order = await OrderModel.create(data);

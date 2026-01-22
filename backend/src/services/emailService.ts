@@ -10,7 +10,8 @@ import { Order } from "../models/OrderModel";
 import menuJSON from "../../public/menu_items.json";
 import transporter from "../config/emails";
 import OrderService from "./orderService";
-import { PaymentMethods } from "../types/PaymentMethods";
+
+import humanReadablePaymentMethod from "../constants/humanReadablePaymentMethod";
 
 const SENDER_EMAIL = "admin@comida.app.br";
 const DELIVERY_EMAIL =
@@ -109,12 +110,6 @@ const EmailService = {
       html,
     });
   },
-};
-
-const humanReadablePaymentMethod: Record<PaymentMethods, string> = {
-  [PaymentMethods.CREDIT_CARD]: "Cartão de crédito",
-  [PaymentMethods.DEBIT_CARD]: "Cartão de débito",
-  [PaymentMethods.PIX]: "Pix",
 };
 
 export default EmailService;
