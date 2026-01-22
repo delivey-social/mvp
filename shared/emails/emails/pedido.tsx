@@ -41,7 +41,7 @@ export const PedidoEmail = ({
   buttonURL = "http://localhost:3000/orders/ready_for_delivery?id=123",
   appFee = 5,
   deliveryFee = 10,
-  deliveryAddress = "Av. Silva Jardim, 994 - Rebouças - AP 1607",
+  deliveryAddress = "Av. Silva Jardim, 994 - Rebouças - Ap. 1607 - 80230000",
   paymentMethod = "Pix",
 }: {
   items: MenuItem[];
@@ -56,6 +56,17 @@ export const PedidoEmail = ({
   }, 0);
 
   const orderTotal = itemsTotal + deliveryFee + appFee;
+
+  const prices: Record<string, number> = {
+    "Total dos itens": itemsTotal,
+    "Valor da entrega": deliveryFee,
+    "Taxa comida.app": appFee,
+  };
+
+  const details: Record<string, string> = {
+    Endereço: deliveryAddress,
+    "Forma de pagamento": paymentMethod,
+  };
 
   return (
     <Html>
@@ -75,65 +86,23 @@ export const PedidoEmail = ({
               <OrderItem item={item} key={item.id} />
             ))}
 
-            <Section style={{ padding: "10px", backgroundColor: "#f9f9f9" }}>
-              <Row>
-                <Column align="right">
-                  <Text
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      color: "#333",
-                      marginBottom: 0,
-                    }}
-                  >
-                    Total dos itens: {numberToCurrency(itemsTotal)}
-                  </Text>
-                </Column>
-              </Row>
-              <Row>
-                <Column align="right">
-                  <Text
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      color: "#333",
-                      marginTop: 0,
-                      marginBottom: 0,
-                    }}
-                  >
-                    Valor da entrega: {numberToCurrency(deliveryFee)}
-                  </Text>
-                </Column>
-              </Row>
-              <Row>
-                <Column align="right">
-                  <Text
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "bold",
-                      color: "#333",
-                      marginTop: 0,
-                      marginBottom: 0,
-                    }}
-                  >
-                    Taxa comida.app: {numberToCurrency(appFee)}
-                  </Text>
-                </Column>
-              </Row>
-              <Row>
-                <Column align="right">
-                  <Text
-                    style={{
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      color: "#333",
-                      marginBottom: 0,
-                    }}
-                  >
-                    Total: {numberToCurrency(orderTotal)}
-                  </Text>
-                </Column>
-              </Row>
+            <Section style={{ padding: "20px", backgroundColor: "#f9f9f9" }}>
+              {Object.entries(prices).map(([label, price]) => (
+                <DetailItemRow
+                  label={label}
+                  value={numberToCurrency(price)}
+                  key={label}
+                />
+              ))}
+              <DetailItemRow
+                styles={{
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  color: "#333",
+                }}
+                label="Total"
+                value={numberToCurrency(orderTotal)}
+              />
             </Section>
             <Section
               style={{
@@ -142,32 +111,9 @@ export const PedidoEmail = ({
                 backgroundColor: "#f9f9f9",
               }}
             >
-              <Row>
-                <Column align="right">
-                  <Text
-                    style={{
-                      fontSize: "14px",
-                      color: "#333",
-                      marginBottom: 0,
-                    }}
-                  >
-                    Endereço: {deliveryAddress}
-                  </Text>
-                </Column>
-              </Row>
-              <Row>
-                <Column align="right">
-                  <Text
-                    style={{
-                      fontSize: "14px",
-                      color: "#333",
-                      marginTop: 0,
-                    }}
-                  >
-                    Forma de pagamento: {paymentMethod}
-                  </Text>
-                </Column>
-              </Row>
+              {Object.entries(details).map(([label, value], idx) => (
+                <DetailItemRow label={label} value={value} key={label} />
+              ))}
             </Section>
 
             <Button style={button} href={buttonURL}>
@@ -227,6 +173,38 @@ function OrderItem({ item }: { item: MenuItem }) {
         </Column>
       </Row>
     </Section>
+  );
+}
+
+interface Stringable {
+  toString(): string;
+}
+
+function DetailItemRow({
+  label,
+  value,
+  styles,
+}: {
+  label: string;
+  value: Stringable;
+  styles?: React.CSSProperties;
+}) {
+  const style: React.CSSProperties = {
+    fontSize: "14px",
+    color: "#333",
+    marginBottom: 2,
+    marginTop: 2,
+    ...styles,
+  };
+
+  return (
+    <Row key={label}>
+      <Column align="right">
+        <Text style={style}>
+          {label}: {value.toString()}
+        </Text>
+      </Column>
+    </Row>
   );
 }
 
