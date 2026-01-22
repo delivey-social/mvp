@@ -39,13 +39,23 @@ export const PedidoEmail = ({
     },
   ],
   buttonURL = "http://localhost:3000/orders/ready_for_delivery?id=123",
+  appFee = 5,
+  deliveryFee = 10,
+  deliveryAddress = "Av. Silva Jardim, 994 - Rebouças - AP 1607",
+  paymentMethod = "Pix",
 }: {
   items: MenuItem[];
+  deliveryFee: number;
+  appFee: number;
+  deliveryAddress: string;
+  paymentMethod: string;
   buttonURL: string;
 }) => {
-  const orderTotal = items.reduce((total, item) => {
+  const itemsTotal = items.reduce((total, item) => {
     return (total += item.price * item.quantity);
   }, 0);
+
+  const orderTotal = itemsTotal + deliveryFee + appFee;
 
   return (
     <Html>
@@ -70,12 +80,91 @@ export const PedidoEmail = ({
                 <Column align="right">
                   <Text
                     style={{
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      color: "#333",
+                      marginBottom: 0,
+                    }}
+                  >
+                    Total dos itens: {numberToCurrency(itemsTotal)}
+                  </Text>
+                </Column>
+              </Row>
+              <Row>
+                <Column align="right">
+                  <Text
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      color: "#333",
+                      marginTop: 0,
+                      marginBottom: 0,
+                    }}
+                  >
+                    Valor da entrega: {numberToCurrency(deliveryFee)}
+                  </Text>
+                </Column>
+              </Row>
+              <Row>
+                <Column align="right">
+                  <Text
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                      color: "#333",
+                      marginTop: 0,
+                      marginBottom: 0,
+                    }}
+                  >
+                    Taxa comida.app: {numberToCurrency(appFee)}
+                  </Text>
+                </Column>
+              </Row>
+              <Row>
+                <Column align="right">
+                  <Text
+                    style={{
                       fontSize: "16px",
                       fontWeight: "bold",
                       color: "#333",
+                      marginBottom: 0,
                     }}
                   >
                     Total: {numberToCurrency(orderTotal)}
+                  </Text>
+                </Column>
+              </Row>
+            </Section>
+            <Section
+              style={{
+                padding: "10px",
+                marginTop: "20px",
+                backgroundColor: "#f9f9f9",
+              }}
+            >
+              <Row>
+                <Column align="right">
+                  <Text
+                    style={{
+                      fontSize: "14px",
+                      color: "#333",
+                      marginBottom: 0,
+                    }}
+                  >
+                    Endereço: {deliveryAddress}
+                  </Text>
+                </Column>
+              </Row>
+              <Row>
+                <Column align="right">
+                  <Text
+                    style={{
+                      fontSize: "14px",
+                      color: "#333",
+                      marginTop: 0,
+                    }}
+                  >
+                    Forma de pagamento: {paymentMethod}
                   </Text>
                 </Column>
               </Row>

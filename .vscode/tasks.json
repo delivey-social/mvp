@@ -4,7 +4,7 @@
     {
       "label": "Watch Frontend and Backend",
       "type": "shell",
-      "command": "npx concurrently \"tsc -p frontend --watch\" \"tsc -p backend --watch\"",
+      "command": "npx concurrently \"npx tsc -p frontend --watch\" \"npx tsc -p backend --watch\"",
       "isBackground": true,
       "problemMatcher": [
         {

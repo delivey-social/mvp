@@ -9,6 +9,8 @@ import EntregaEmail from "../../../shared/emails/emails/entrega";
 import { Order } from "../models/OrderModel";
 import menuJSON from "../../public/menu_items.json";
 import transporter from "../config/emails";
+import OrderService from "./orderService";
+import { PaymentMethods } from "../types/PaymentMethods";
 
 const SENDER_EMAIL = "admin@comida.app.br";
 const DELIVERY_EMAIL =
@@ -25,7 +27,7 @@ const EmailService = {
   sendNewOrderEmail: async (
     order_id: string,
     user: CreateOrder["user"],
-    total: number
+    total: number,
   ) => {
     const email = renderEmailFactory(NovoPedidoEmail);
 
@@ -49,7 +51,7 @@ const EmailService = {
   },
   sendNewOrderToRestaurantEmail: async (
     orderId: string,
-    items: Order["items"]
+    items: Order["items"],
   ) => {
     const email = renderEmailFactory(PedidoEmail);
 
@@ -61,11 +63,24 @@ const EmailService = {
         throw new Error(`Menu item not found, ${item}`);
       }
 
-      return { ...menuItem, quantity: item.quantity };
+      return { ...menuItem, quantity: item.quantity, price: menuItem.price };
     });
+
+    const order = await OrderService.getOrder(orderId);
+
+    if (!order) {
+      throw new Error("order not found");
+    }
+
+    const appFee = order.totalAmount * 0.1;
+    const deliveryFee = order.deliveryFee;
 
     const html = await email({
       items: menuItems,
+      deliveryAddress: order.user.address,
+      paymentMethod: humanReadablePaymentMethod[order.payment_method],
+      appFee: appFee,
+      deliveryFee: deliveryFee,
       buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${orderId}`,
     });
 
@@ -94,6 +109,12 @@ const EmailService = {
       html,
     });
   },
+};
+
+const humanReadablePaymentMethod: Record<PaymentMethods, string> = {
+  [PaymentMethods.CREDIT_CARD]: "Cartão de crédito",
+  [PaymentMethods.DEBIT_CARD]: "Cartão de débito",
+  [PaymentMethods.PIX]: "Pix",
 };
 
 export default EmailService;

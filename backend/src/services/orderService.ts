@@ -2,18 +2,23 @@ import catchError from "../errors/catchError";
 import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
 
 import { CreateOrder } from "../types/order";
-import OrderModel from "../models/OrderModel";
+import OrderModel, { Order } from "../models/OrderModel";
 
 import EmailService from "./emailService";
 
 const OrderService = {
+  getOrder: async (id: string): Promise<Order | null> => {
+    const order = await OrderModel.findById(id).lean<Order>();
+
+    return order;
+  },
   createOrder: async (data: CreateOrder) => {
     const order = await OrderModel.create(data);
     await order.save();
 
     if (order.payment_method !== "PIX") {
       const [emailError] = await catchError(
-        EmailService.sendNewOrderToRestaurantEmail(order.id, order.items)
+        EmailService.sendNewOrderToRestaurantEmail(order.id, order.items),
       );
 
       if (emailError) {
@@ -26,7 +31,7 @@ const OrderService = {
     }
 
     const [emailError] = await catchError(
-      EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount)
+      EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount),
     );
 
     if (emailError) {
@@ -55,7 +60,7 @@ const OrderService = {
       EmailService.sendDeliveryEmail({
         orderId: order.id,
         address: order.user.address,
-      })
+      }),
     );
 
     if (emailError) {
@@ -73,7 +78,7 @@ const OrderService = {
 
     if (order.status !== "READY_FOR_DELIVERY") {
       throw new BadRequestError(
-        "Order not ready for delivered or already delivered"
+        "Order not ready for delivered or already delivered",
       );
     }
 
