@@ -1,5 +1,3 @@
-export type PaymentMethods = "PIX" | "CREDIT_CARD" | "DEBIT_CARD";
-
 export interface CreateOrderDTO {
   items: {
     id: string;
@@ -13,4 +11,10 @@ export interface CreateOrderDTO {
   neighborhood_id: string;
   payment_method: PaymentMethods;
   observation?: string | undefined;
+}
+
+export enum PaymentMethods {
+  Pix = "PIX",
+  CartaoDebito = "DEBIT_CARD",
+  CartaoCredito = "CREDIT_CARD",
 }
