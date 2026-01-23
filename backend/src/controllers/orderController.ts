@@ -1,4 +1,4 @@
-import { IMenuItem } from "../../public/MenuItems";
+import { MenuItem } from "../../public/MenuItems";
 
 import { Request, Response } from "express";
 
@@ -14,6 +14,7 @@ import menuJSON from "../../public/menu_items.json";
 
 import catchError from "../errors/catchError";
 import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
+import { OrderItem } from "../types/order";
 
 const OrderController = {
   createOrder: async (req: Request, res: Response) => {
@@ -24,7 +25,7 @@ const OrderController = {
     }
 
     const deliveryFee = await NeighborhoodService.getDeliveryFee(
-      data.neighborhood_id
+      data.neighborhoodId,
     );
 
     const orderData = {
@@ -39,7 +40,7 @@ const OrderController = {
   },
   registerPayment: async (req: Request, res: Response) => {
     const { data, error: queryError } = orderSchema.registerPayment.safeParse(
-      req.query
+      req.query,
     );
 
     if (queryError) {
@@ -60,13 +61,17 @@ const OrderController = {
     }
 
     // Populates the items with the menu items
-    const populatedItems = items.map((item) => {
+    const populatedItems: OrderItem[] = items.map((item) => {
       const menu = Object.values(menuJSON).flat();
       const menuItem = menu.find(
-        (menuItem) => item.id === menuItem.id
-      ) as IMenuItem;
+        (menuItem) => item.id === menuItem.id,
+      ) as MenuItem;
 
-      return { ...menuItem, quantity: item.quantity };
+      return {
+        ...menuItem,
+        quantity: item.quantity,
+        priceSnapshot: item.priceSnapshot,
+      };
     });
 
     const [updateError] = await catchError(OrderService.registerPayment(id));
@@ -76,7 +81,7 @@ const OrderController = {
     }
 
     const [error] = await catchError(
-      EmailService.sendNewOrderToRestaurantEmail(order.id, populatedItems)
+      EmailService.sendNewOrderToRestaurantEmail(order.id, populatedItems),
     );
 
     if (error) {

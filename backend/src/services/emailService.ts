@@ -6,7 +6,7 @@ import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
 
-import { Order } from "../models/OrderModel";
+import { OrderDocument } from "../models/OrderModel";
 import menuJSON from "../../public/menu_items.json";
 import transporter from "../config/emails";
 import OrderService from "./orderService";
@@ -52,7 +52,7 @@ const EmailService = {
   },
   sendNewOrderToRestaurantEmail: async (
     orderId: string,
-    items: Order["items"],
+    items: OrderDocument["items"],
   ) => {
     const email = renderEmailFactory(PedidoEmail);
 
@@ -79,7 +79,7 @@ const EmailService = {
     const html = await email({
       items: menuItems,
       deliveryAddress: order.user.address,
-      paymentMethod: humanReadablePaymentMethod[order.payment_method],
+      paymentMethod: humanReadablePaymentMethod[order.paymentMethod],
       appFee: appFee,
       deliveryFee: deliveryFee,
       buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${orderId}`,

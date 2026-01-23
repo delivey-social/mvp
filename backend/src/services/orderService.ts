@@ -2,14 +2,14 @@ import catchError from "../errors/catchError";
 import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
 
 import { CreateOrder } from "../types/order";
-import OrderModel, { Order } from "../models/OrderModel";
+import OrderModel, { OrderDocument } from "../models/OrderModel";
 
 import EmailService from "./emailService";
 
 const OrderService = {
-  getOrder: async (id: string): Promise<Order | null> => {
+  getOrder: async (id: string): Promise<OrderDocument | null> => {
     const [error, order] = await catchError(
-      OrderModel.findById(id).lean<Order>(),
+      OrderModel.findById(id).lean<OrderDocument>(),
     );
     if (error) {
       throw new Error("Error fetching: Order not found");
@@ -21,7 +21,7 @@ const OrderService = {
     const order = await OrderModel.create(data);
     await order.save();
 
-    if (order.payment_method !== "PIX") {
+    if (order.paymentMethod !== "PIX") {
       const [emailError] = await catchError(
         EmailService.sendNewOrderToRestaurantEmail(order.id, order.items),
       );
