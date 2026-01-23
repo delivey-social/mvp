@@ -1,6 +1,6 @@
 export type PaymentMethods = "PIX" | "CREDIT_CARD" | "DEBIT_CARD";
 
-export interface CreateOrder {
+export interface CreateOrderDTO {
   items: {
     id: string;
     quantity: number;

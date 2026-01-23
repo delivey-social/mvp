@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import { CreateOrder, PaymentMethods } from "../types/Order";
+import { CreateOrderDTO, PaymentMethods } from "../types/Order";
 
 interface Order {
   items: {
@@ -26,7 +26,7 @@ interface IOrderContext {
   sendOrder: (
     user: Order["user"],
     payment_method: PaymentMethods,
-    observation?: string
+    observation?: string,
   ) => Promise<void>;
 }
 
@@ -55,9 +55,9 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
   async function sendOrder(
     user: Order["user"],
     payment_method: PaymentMethods,
-    observation?: string
+    observation?: string,
   ) {
-    const data: CreateOrder = {
+    const data: CreateOrderDTO = {
       items: items.map((item) => ({
         id: item.id,
         quantity: item.quantity,
@@ -68,9 +68,9 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
       payment_method,
     };
 
-    await axios.post<void, CreateOrder>(
+    await axios.post<void, CreateOrderDTO>(
       `${import.meta.env.VITE_BACKEND_URL}/orders`,
-      data
+      data,
     );
 
     localStorage.setItem("user", JSON.stringify(user));
