@@ -1,4 +1,4 @@
-import { CreateOrder } from "../types/order";
+import { CreateOrderDTO } from "../types/order";
 
 import renderEmailFactory from "../utils/renderEmailFactory";
 
@@ -27,7 +27,7 @@ const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
 const EmailService = {
   sendNewOrderEmail: async (
     order_id: string,
-    user: CreateOrder["user"],
+    user: CreateOrderDTO["user"],
     total: number,
   ) => {
     const email = renderEmailFactory(NovoPedidoEmail);

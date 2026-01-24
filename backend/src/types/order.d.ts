@@ -3,7 +3,7 @@ import { PaymentMethods } from "./PaymentMethods";
 import { z } from "zod";
 import orderSchema from "../schemas/order";
 
-export type CreateOrder = z.infer<typeof orderSchema.create>;
+export type CreateOrderDTO = z.infer<typeof orderSchema.create>;
 
 export type Order = {
   items: OrderItem[];

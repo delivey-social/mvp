@@ -1,7 +1,7 @@
 import catchError from "../errors/catchError";
 import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
 
-import { CreateOrder } from "../types/order";
+import { CreateOrderDTO } from "../types/order";
 import OrderModel, { OrderDocument } from "../models/OrderModel";
 
 import EmailService from "./emailService";
@@ -17,7 +17,7 @@ const OrderService = {
 
     return order ?? null;
   },
-  createOrder: async (data: CreateOrder) => {
+  createOrder: async (data: CreateOrderDTO) => {
     const order = await OrderModel.create(data);
     await order.save();
 
