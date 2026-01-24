@@ -9,7 +9,6 @@ import EntregaEmail from "../../../shared/emails/emails/entrega";
 import { OrderDocument } from "../models/OrderModel";
 import menuJSON from "../../public/menu_items.json";
 import transporter from "../config/emails";
-import OrderService from "./orderService";
 
 import humanReadablePaymentMethod from "../constants/humanReadablePaymentMethod";
 
