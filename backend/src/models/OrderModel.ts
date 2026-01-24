@@ -27,7 +27,7 @@ const orderSchema = new Schema<OrderDocument & Document>(
     status: {
       type: String,
       enum: Object.values(OrderStatus),
-      default: OrderStatus.WAITING_PAYMENT,
+      default: OrderStatus.WaitingPayment,
       required: true,
     },
     deliveryFee: {

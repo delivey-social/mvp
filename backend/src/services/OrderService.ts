@@ -1,18 +1,8 @@
+import { OrderStatus } from "../types/OrderStatus";
 import { CreateOrderDTO, Order } from "../types/order";
+
+import { OrderRepository } from "../repositories/OrderRepository.d";
 import { OrderService as IOrderService, Result } from "./OrderService.d";
-
-enum OrderStatus {
-  WaitingPayment = "WAITING_PAYMENT",
-  Preparing = "PREPARING",
-  ReadyForDelivery = "READY_FOR_DELIVERY",
-  Finished = "Finished",
-}
-
-export interface OrderRepository {
-  findById(id: string): Promise<Order | null>;
-  create(data: CreateOrderDTO): Promise<string>;
-  changeStatus(id: string, status: OrderStatus): Promise<void>;
-}
 
 export class OrderService implements IOrderService {
   constructor(private repository: OrderRepository) {}
