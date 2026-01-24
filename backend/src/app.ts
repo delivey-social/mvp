@@ -1,24 +1,44 @@
-import "./config/environment";
-import "./config/database";
-import "./config/emails";
+import configureApp from "./config/server";
 
-import "./routes";
+import dotenv from "dotenv";
+import connectToDatabase from "./config/database";
+import configureEmails from "./config/emails";
 
 import express from "express";
 import OrderModel from "./models/OrderModel";
 import { OrderMongoRepository } from "./repositories/OrderRepository";
 import { OrderService } from "./services/OrderService";
 import { OrderHandler } from "../handlers/OrderHandler";
-import app from "./config/server";
+
+import neighborhoodsRoute from "./routes/neighborhoods";
+import openRoute from "./routes/open";
+import errorHandler from "./middleware/errorHandler";
 
 function main() {
-  const route = express.Router();
+  dotenv.config();
+
+  const app = configureApp();
+
+  connectToDatabase();
+  configureEmails();
+
+  const router = express.Router();
 
   const orderRepo = new OrderMongoRepository(OrderModel);
   const orderService = new OrderService(orderRepo);
-  new OrderHandler(route, orderService);
+  new OrderHandler(router, orderService);
 
-  app.use("/orders", route);
+  app.use("/orders", router);
+
+  app.get("/", (_, res) => {
+    res.send("Service is online");
+  });
+
+  app.use("/neighborhoods", neighborhoodsRoute);
+  app.use("/open", openRoute);
+
+  app.use(errorHandler);
+
   console.log("OrderHandler initialized");
 }
 
