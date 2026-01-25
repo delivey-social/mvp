@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import connectToDatabase from "./config/database";
 import configureEmails from "./config/emails";
 
-import express from "express";
 import OrderModel from "./models/OrderModel";
 import { OrderMongoRepository } from "./repositories/OrderRepository";
 import { OrderService } from "./services/OrderService";
@@ -22,13 +21,9 @@ function main() {
   connectToDatabase();
   configureEmails();
 
-  const router = express.Router();
-
   const orderRepo = new OrderMongoRepository(OrderModel);
   const orderService = new OrderService(orderRepo);
-  new OrderHandler(router, orderService);
-
-  app.use("/orders", router);
+  new OrderHandler(app, orderService);
 
   app.get("/", (_, res) => {
     res.send("Service is online");

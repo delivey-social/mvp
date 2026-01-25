@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import express, { Request, Response, Express } from "express";
 
 import { BadRequestError } from "../src/errors/HTTPError";
 
@@ -8,13 +8,17 @@ import { OrderService } from "../src/services/OrderService.d";
 
 export class OrderHandler {
   constructor(
-    router: Router,
+    app: Express,
     private orderService: OrderService,
   ) {
+    const router = express.Router();
+
     router.post("/", this.createOrder);
     router.get("/confirm_payment", this.registerPayment);
     router.get("/ready_for_delivery", this.readyForDelivery);
     router.get("/delivered", this.delivered);
+
+    app.use("/orders", router);
   }
 
   async createOrder(req: Request, res: Response) {
