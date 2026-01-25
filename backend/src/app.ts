@@ -15,6 +15,8 @@ import { NeighborhoodHandler } from "./handlers/NeighborhoodHandler";
 
 import errorHandler from "./middleware/errorHandler";
 import { NeighborhoodRepository } from "./repositories/NeighborhoodRepository";
+import { EventBus } from "./infra/EventBus";
+import { NotificationsService } from "./services/NotificationsService";
 
 function main() {
   dotenv.config();
@@ -24,8 +26,12 @@ function main() {
   connectToDatabase();
   configureEmails();
 
+  const eventBus = new EventBus();
+
+  new NotificationsService([], eventBus);
+
   const orderRepo = new OrderMongoRepository(OrderModel);
-  const orderService = new OrderService(orderRepo);
+  const orderService = new OrderService(orderRepo, eventBus);
   new OrderHandler(app, orderService);
 
   const neighborhoodsRepo = new NeighborhoodRepository(NeighborhoodModel);

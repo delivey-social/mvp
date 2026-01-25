@@ -1,18 +1,27 @@
-import { OrderStatus } from "../types/OrderStatus";
-import { CreateOrderDTO, Order } from "../types/order";
+import { OrderStatus } from "../types/OrderStatus.d";
+import { CreateOrderDTO, Order } from "../types/order.d";
 
 import { OrderRepository } from "../repositories/OrderRepository.d";
 import { OrderService as IOrderService, Result } from "./OrderService.d";
 
+import { Event, EventPublisher } from "../types/Events.d";
+
 export class OrderService implements IOrderService {
-  constructor(private repository: OrderRepository) {}
+  constructor(
+    private repository: OrderRepository,
+    private eventPublisher: EventPublisher,
+  ) {}
 
   async getOrderById(id: string): Promise<Order | null> {
     return await this.repository.findById(id);
   }
 
   async createOrder(data: CreateOrderDTO): Promise<string> {
-    return await this.repository.create(data);
+    const id = await this.repository.create(data);
+
+    this.eventPublisher.publish(Event.OrderCreated, {});
+
+    return id;
   }
 
   async registerPayment(id: string): Promise<Result> {
@@ -33,6 +42,8 @@ export class OrderService implements IOrderService {
     }
 
     await this.repository.changeStatus(id, OrderStatus.Preparing);
+
+    this.eventPublisher.publish(Event.OrderPaid, {});
 
     return { success: true };
   }
@@ -56,6 +67,8 @@ export class OrderService implements IOrderService {
 
     await this.repository.changeStatus(id, OrderStatus.ReadyForDelivery);
 
+    this.eventPublisher.publish(Event.OrderReadyForDelivery, {});
+
     return { success: true };
   }
 
@@ -77,6 +90,8 @@ export class OrderService implements IOrderService {
     }
 
     await this.repository.changeStatus(id, OrderStatus.Finished);
+
+    this.eventPublisher.publish(Event.OrderFinished, {});
 
     return { success: true };
   }
