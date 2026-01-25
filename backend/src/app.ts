@@ -13,7 +13,6 @@ import NeighborhoodModel from "./models/NeighborhoodModel";
 import { NeighborhoodService } from "./services/NeighborhoodService";
 import { NeighborhoodHandler } from "./handlers/NeighborhoodHandler";
 
-import openRoute from "./routes/open";
 import errorHandler from "./middleware/errorHandler";
 import { NeighborhoodRepository } from "./repositories/NeighborhoodRepository";
 
@@ -36,8 +35,6 @@ function main() {
   app.get("/", (_, res) => {
     res.send("Service is online");
   });
-
-  app.use("/open", openRoute);
 
   app.use(errorHandler);
 }

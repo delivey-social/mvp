@@ -1,4 +1,4 @@
-import { PaymentMethods } from "../types/PaymentMethods";
+import { PaymentMethods } from "../types/PaymentMethods.d";
 
 const humanReadablePaymentMethod: Record<PaymentMethods, string> = {
   [PaymentMethods.CartaoCredito]: "Cartão de crédito",
