@@ -19,6 +19,9 @@ import { NeighborhoodRepository } from "./repositories/NeighborhoodRepository";
 import { EventBus } from "./infra/EventBus";
 import { NotificationsService } from "./services/NotificationsService";
 import loggerChannel from "./services/loggerChannel";
+import { MenuItemsRepository } from "./repositories/MenuItemsRespository";
+import { MenuItemsService } from "./services/MenuItemsService";
+import { MenuItemsHandler } from "./handlers/MenuItemsHandler";
 
 function main() {
   dotenv.config();
@@ -39,6 +42,10 @@ function main() {
   const neighborhoodsRepo = new NeighborhoodRepository(NeighborhoodModel);
   const neighborhoodsService = new NeighborhoodService(neighborhoodsRepo);
   new NeighborhoodHandler(app, neighborhoodsService);
+
+  const menuItemsRepo = new MenuItemsRepository();
+  const menuItemsService = new MenuItemsService(menuItemsRepo);
+  new MenuItemsHandler(app, menuItemsService);
 
   app.get("/", (_, res) => {
     res.send("Service is online");
