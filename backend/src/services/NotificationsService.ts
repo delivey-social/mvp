@@ -1,11 +1,18 @@
-import { Channel, EventSubscriber } from "../types/Events";
+import {
+  Channel,
+  Event,
+  EventCallback,
+  EventSubscriber,
+} from "../types/Events";
 
 export class NotificationsService {
   constructor(channels: Channel[], subscriber: EventSubscriber) {
     channels.forEach((ch) => {
-      ch.forEach((cb, ev) => {
-        subscriber.subscribe(ev, cb);
-      });
+      (Object.entries(ch) as [Event, EventCallback<Event>][]).forEach(
+        ([event, callback]) => {
+          subscriber.subscribe(event, callback);
+        },
+      );
     });
   }
 }

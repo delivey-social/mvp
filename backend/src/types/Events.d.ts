@@ -1,27 +1,27 @@
 export enum Event {
-  OrderCreated,
-  OrderPaid,
-  OrderReadyForDelivery,
-  OrderFinished,
+  OrderCreated = "OrderCreated",
+  OrderPaid = "OrderPaid",
+  OrderReadyForDelivery = "OrderReadyForDelivery",
+  OrderFinished = "OrderFinished",
 }
 
-interface OrderEventPayloads {
+export interface EventPayloads {
   [Event.OrderCreated]: object;
   [Event.OrderPaid]: object;
   [Event.OrderReadyForDelivery]: object;
   [Event.OrderFinished]: object;
 }
 
-export type EventData<T extends Event> = OrderEventPayloads[T];
-
 export interface EventPublisher {
-  publish: <T extends Event>(ev: T, data: EventData<T>) => void;
+  publish: <T extends Event>(ev: T, data: EventPayloads[T]) => void;
 }
 
 export interface EventSubscriber {
-  subscribe: <T extends Event>(event: T, callback: EventCallback) => void;
+  subscribe: <T extends Event>(event: T, callback: EventCallback<T>) => void;
 }
 
-type EventCallback = <T extends Event>(data: EventData<T>) => void;
+export type EventCallback<T extends Event> = (data: EventPayloads[T]) => void;
 
-export type Channel = Map<Event, EventCallback>;
+export type Channel = {
+  [K in Event]: EventCallback<K>;
+};
