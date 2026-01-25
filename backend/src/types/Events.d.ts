@@ -1,3 +1,5 @@
+import { Order } from "./order";
+
 export enum Event {
   OrderCreated = "OrderCreated",
   OrderPaid = "OrderPaid",
@@ -6,10 +8,10 @@ export enum Event {
 }
 
 export interface EventPayloads {
-  [Event.OrderCreated]: object;
-  [Event.OrderPaid]: object;
-  [Event.OrderReadyForDelivery]: object;
-  [Event.OrderFinished]: object;
+  [Event.OrderCreated]: Order;
+  [Event.OrderPaid]: Order;
+  [Event.OrderReadyForDelivery]: Order;
+  [Event.OrderFinished]: Order;
 }
 
 export interface EventPublisher {

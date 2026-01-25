@@ -17,11 +17,11 @@ export class OrderService implements IOrderService {
   }
 
   async createOrder(data: CreateOrderDTO): Promise<string> {
-    const id = await this.repository.create(data);
+    const order = await this.repository.create(data);
 
-    this.eventPublisher.publish(Event.OrderCreated, {});
+    this.eventPublisher.publish(Event.OrderCreated, order);
 
-    return id;
+    return order.id;
   }
 
   async registerPayment(id: string): Promise<Result> {
@@ -43,7 +43,7 @@ export class OrderService implements IOrderService {
 
     await this.repository.changeStatus(id, OrderStatus.Preparing);
 
-    this.eventPublisher.publish(Event.OrderPaid, {});
+    this.eventPublisher.publish(Event.OrderPaid, order);
 
     return { success: true };
   }
@@ -67,7 +67,7 @@ export class OrderService implements IOrderService {
 
     await this.repository.changeStatus(id, OrderStatus.ReadyForDelivery);
 
-    this.eventPublisher.publish(Event.OrderReadyForDelivery, {});
+    this.eventPublisher.publish(Event.OrderReadyForDelivery, order);
 
     return { success: true };
   }
@@ -91,7 +91,7 @@ export class OrderService implements IOrderService {
 
     await this.repository.changeStatus(id, OrderStatus.Finished);
 
-    this.eventPublisher.publish(Event.OrderFinished, {});
+    this.eventPublisher.publish(Event.OrderFinished, order);
 
     return { success: true };
   }

@@ -6,6 +6,7 @@ import orderSchema from "../schemas/order";
 export type CreateOrderDTO = z.infer<typeof orderSchema.create>;
 
 export type Order = {
+  id: string;
   items: OrderItem[];
   user: OrderUser;
   observation?: string;

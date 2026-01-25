@@ -12,11 +12,11 @@ export class OrderMongoRepository implements IOrderRepository {
     return order ?? null;
   }
 
-  async create(data: CreateOrderDTO): Promise<string> {
+  async create(data: CreateOrderDTO): Promise<Order> {
     const order = await this.model.create(data);
     await order.save();
 
-    return order.id;
+    return order;
   }
 
   async changeStatus(id: string, status: OrderStatus): Promise<void> {
