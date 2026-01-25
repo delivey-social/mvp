@@ -13,10 +13,10 @@ export class OrderHandler {
   ) {
     const router = express.Router();
 
-    router.post("/", this.createOrder);
-    router.get("/confirm_payment", this.registerPayment);
-    router.get("/ready_for_delivery", this.readyForDelivery);
-    router.get("/delivered", this.delivered);
+    router.post("/", this.createOrder.bind(this));
+    router.get("/confirm_payment", this.registerPayment.bind(this));
+    router.get("/ready_for_delivery", this.readyForDelivery.bind(this));
+    router.get("/delivered", this.delivered.bind(this));
 
     app.use("/orders", router);
   }

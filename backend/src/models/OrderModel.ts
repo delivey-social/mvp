@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 import { Order } from "../types/order";
-import { OrderStatus } from "../types/OrderStatus";
+import { OrderStatus } from "../types/OrderStatus.d";
 import { PaymentMethods } from "../types/PaymentMethods.d";
 
 export type OrderDocument = Order & Document;
@@ -13,6 +13,7 @@ const orderSchema = new Schema<OrderDocument & Document>(
         _id: false,
         id: { type: String, required: true },
         quantity: { type: Number, required: true, min: 1 },
+        priceSnapshot: { type: Number, required: true, min: 0 },
       },
     ],
     user: {

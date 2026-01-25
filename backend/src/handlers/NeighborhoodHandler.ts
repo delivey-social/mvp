@@ -9,7 +9,7 @@ export class NeighborhoodHandler {
   ) {
     const router = express.Router();
 
-    router.get("/", this.getAll);
+    router.get("/", this.getAll.bind(this));
 
     app.use("/neighborhoods", router);
   }
