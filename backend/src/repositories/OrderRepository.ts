@@ -1,4 +1,4 @@
-import { CreateOrderDTO, Order } from "../types/order";
+import { CreateOrderDTO, Order } from "../types/Order";
 import { OrderRepository as IOrderRepository } from "./OrderRepository.d";
 import OrderModel from "../models/OrderModel";
 import { OrderStatus } from "../types/OrderStatus";

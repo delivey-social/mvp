@@ -1,5 +1,5 @@
 import { OrderStatus } from "../types/OrderStatus.d";
-import { CreateOrderDTO, Order } from "../types/order.d";
+import { CreateOrderDTO, Order } from "../types/Order";
 
 import { OrderRepository } from "../repositories/OrderRepository.d";
 import { OrderService as IOrderService, Result } from "./OrderService.d";

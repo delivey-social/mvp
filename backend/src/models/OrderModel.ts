@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-import { Order } from "../types/order";
+import { Order } from "../types/Order";
 import { OrderStatus } from "../types/OrderStatus.d";
 import { PaymentMethods } from "../types/PaymentMethods.d";
 

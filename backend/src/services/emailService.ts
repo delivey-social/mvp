@@ -1,4 +1,4 @@
-import { CreateOrderDTO } from "../types/order";
+import { CreateOrderDTO } from "../types/Order";
 
 import renderEmailFactory from "../utils/renderEmailFactory";
 
