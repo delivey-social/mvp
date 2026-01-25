@@ -1,4 +1,4 @@
 export interface Neighborhood {
   name: string;
-  baseTariff: number;
+  deliveryFee: number;
 }

@@ -16,7 +16,7 @@ import { PaymentMethods } from "../../types/Order";
 interface GetNeighborhoodsResponseItem {
   _id: string;
   name: string;
-  baseTariff: number;
+  deliveryFee: number;
 }
 
 export default function Entrega() {
@@ -74,7 +74,7 @@ export default function Entrega() {
   const [selectedNeighborhood, setSelectedNeighborhood] =
     useState<GetNeighborhoodsResponseItem | null>(null);
   const appFee = itemsTotal * 0.1;
-  const total = itemsTotal + appFee + (selectedNeighborhood?.baseTariff ?? 0);
+  const total = itemsTotal + appFee + (selectedNeighborhood?.deliveryFee ?? 0);
 
   return (
     <div className="flex flex-col gap-4 h-full w-full min-w-dvw">
@@ -124,7 +124,7 @@ export default function Entrega() {
             <ResultLine label="Taxa Delivery Social" value={appFee} />
             <ResultLine
               label="Taxa de entrega"
-              value={selectedNeighborhood?.baseTariff}
+              value={selectedNeighborhood?.deliveryFee}
             />
             <ResultLine label="Total" value={total} />
           </div>
