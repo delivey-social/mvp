@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PaymentMethods } from "../types/PaymentMethods";
 import idSchema from "./id";
 
 const orderSchema = {
@@ -19,7 +20,7 @@ const orderSchema = {
       }),
       neighborhoodId: z.string(),
       observation: z.string().optional(),
-      paymentMethod: z.enum(["PIX", "CREDIT_CARD", "DEBIT_CARD"]),
+      paymentMethod: z.nativeEnum(PaymentMethods),
     })
     .strict(),
   registerPayment: z.object({ id: idSchema }).strict(),
