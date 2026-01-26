@@ -1,4 +1,4 @@
-import { CreateOrderDTO, Order } from "../types/Order";
+import { CreateOrderRequest, Order } from "../types/Order";
 
 export type Result =
   | {
@@ -11,7 +11,7 @@ export type Result =
 
 export interface OrderService {
   getOrderById: (id: string) => Promise<Order | null>;
-  createOrder: (data: CreateOrderDTO) => Promise<string>;
+  createOrder: (data: CreateOrderRequest) => Promise<string>;
   registerPayment: (id: string) => Promise<Result>;
   readyForDelivery: (id: string) => Promise<Result>;
   delivered: (id: string) => Promise<Result>;

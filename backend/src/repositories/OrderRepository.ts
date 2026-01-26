@@ -1,4 +1,4 @@
-import { CreateOrderDTO, Order } from "../types/Order";
+import { CreateOrderRequest, Order } from "../types/Order";
 import { OrderRepository as IOrderRepository } from "./OrderRepository.d";
 import OrderModel from "../models/OrderModel";
 import { OrderStatus } from "../types/OrderStatus";
@@ -12,7 +12,7 @@ export class OrderMongoRepository implements IOrderRepository {
     return order ?? null;
   }
 
-  async create(data: CreateOrderDTO): Promise<Order> {
+  async create(data: CreateOrderRequest): Promise<Order> {
     const order = await this.model.create(data);
     await order.save();
 

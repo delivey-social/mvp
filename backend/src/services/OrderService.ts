@@ -1,23 +1,51 @@
 import { OrderStatus } from "../types/OrderStatus.d";
-import { CreateOrderDTO, Order } from "../types/Order";
+import { CreateOrderRequest, EnrichedOrderDTO, Order } from "../types/Order";
 
 import { OrderRepository } from "../repositories/OrderRepository.d";
 import { OrderService as IOrderService, Result } from "./OrderService.d";
 
 import { Event, EventPublisher } from "../types/Events.d";
+import { NeighborhoodService } from "./NeighborhoodService.d";
+import { MenuItemsService } from "./MenuItemsService.d";
 
 export class OrderService implements IOrderService {
   constructor(
     private repository: OrderRepository,
     private eventPublisher: EventPublisher,
+    private neighborhoodService: NeighborhoodService,
+    private menuItemsService: MenuItemsService,
   ) {}
 
   async getOrderById(id: string): Promise<Order | null> {
     return await this.repository.findById(id);
   }
 
-  async createOrder(data: CreateOrderDTO): Promise<string> {
-    const order = await this.repository.create(data);
+  async createOrder(data: CreateOrderRequest): Promise<string> {
+    const deliveryFee = await this.neighborhoodService.getDeliveryFee(
+      data.neighborhoodId,
+    );
+
+    const items = await Promise.all(
+      data.items.map(async (item) => {
+        const menuItem = await this.menuItemsService.findById(item.id);
+        if (!menuItem) {
+          throw new Error(`Menu item with id ${item.id} not found`);
+        }
+        return {
+          ...item,
+          priceSnapshot: menuItem.price,
+        };
+      }),
+    );
+
+    const enrichedOrder: EnrichedOrderDTO = {
+      ...data,
+      items,
+      deliveryFee,
+    };
+
+    console.log("Enriched Order:", enrichedOrder);
+    const order = await this.repository.create(enrichedOrder);
 
     this.eventPublisher.publish(Event.OrderCreated, order);
 

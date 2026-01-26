@@ -35,10 +35,6 @@ function main() {
 
   new NotificationsService([loggerChannel], eventBus);
 
-  const orderRepo = new OrderMongoRepository(OrderModel);
-  const orderService = new OrderService(orderRepo, eventBus);
-  new OrderHandler(app, orderService);
-
   const neighborhoodsRepo = new NeighborhoodRepository(NeighborhoodModel);
   const neighborhoodsService = new NeighborhoodService(neighborhoodsRepo);
   new NeighborhoodHandler(app, neighborhoodsService);
@@ -46,6 +42,15 @@ function main() {
   const menuItemsRepo = new MenuItemsRepository();
   const menuItemsService = new MenuItemsService(menuItemsRepo);
   new MenuItemsHandler(app, menuItemsService);
+
+  const orderRepo = new OrderMongoRepository(OrderModel);
+  const orderService = new OrderService(
+    orderRepo,
+    eventBus,
+    neighborhoodsService,
+    menuItemsService,
+  );
+  new OrderHandler(app, orderService);
 
   app.get("/", (_, res) => {
     res.send("Service is online");

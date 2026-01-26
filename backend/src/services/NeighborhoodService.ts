@@ -1,3 +1,4 @@
+import { ResourceNotFoundError } from "../errors/HTTPError";
 import { NeighborhoodRepository } from "../repositories/NeighborhoodRepository.d";
 import { Neighborhood } from "../types/Neighborhood";
 import { NeighborhoodService as INeighborhoodService } from "./NeighborhoodService.d";
@@ -11,5 +12,15 @@ export class NeighborhoodService implements INeighborhoodService {
 
   async findById(id: string): Promise<Neighborhood | null> {
     return await this.repo.findById(id);
+  }
+
+  async getDeliveryFee(id: string) {
+    const neighborhood = await this.repo.findById(id);
+
+    if (!neighborhood) {
+      throw new ResourceNotFoundError("Neighborhood");
+    }
+
+    return neighborhood.deliveryFee;
   }
 }

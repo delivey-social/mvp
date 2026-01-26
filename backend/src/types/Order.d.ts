@@ -3,7 +3,12 @@ import { PaymentMethods } from "./PaymentMethods";
 import { z } from "zod";
 import orderSchema from "../schemas/order";
 
-export type CreateOrderDTO = z.infer<typeof orderSchema.create>;
+export type CreateOrderRequest = z.infer<typeof orderSchema.create>;
+
+export type EnrichedOrderDTO = CreateOrderRequest & {
+  items: OrderItem[];
+  deliveryFee: number;
+};
 
 export type Order = {
   id: string;
