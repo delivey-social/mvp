@@ -22,6 +22,7 @@ import loggerChannel from "./services/loggerChannel";
 import { MenuItemsRepository } from "./repositories/MenuItemsRespository";
 import { MenuItemsService } from "./services/MenuItemsService";
 import { MenuItemsHandler } from "./handlers/MenuItemsHandler";
+import { EmailChannel } from "./services/EmailChannel";
 
 function main() {
   dotenv.config();
@@ -33,15 +34,17 @@ function main() {
 
   const eventBus = new EventBus();
 
-  new NotificationsService([loggerChannel], eventBus);
+  const menuItemsRepo = new MenuItemsRepository();
+  const menuItemsService = new MenuItemsService(menuItemsRepo);
+  new MenuItemsHandler(app, menuItemsService);
+
+  const emailChannel = new EmailChannel(menuItemsService);
+
+  new NotificationsService([loggerChannel, emailChannel], eventBus);
 
   const neighborhoodsRepo = new NeighborhoodRepository(NeighborhoodModel);
   const neighborhoodsService = new NeighborhoodService(neighborhoodsRepo);
   new NeighborhoodHandler(app, neighborhoodsService);
-
-  const menuItemsRepo = new MenuItemsRepository();
-  const menuItemsService = new MenuItemsService(menuItemsRepo);
-  new MenuItemsHandler(app, menuItemsService);
 
   const orderRepo = new OrderMongoRepository(OrderModel);
   const orderService = new OrderService(

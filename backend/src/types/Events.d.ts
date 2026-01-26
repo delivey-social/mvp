@@ -25,5 +25,5 @@ export interface EventSubscriber {
 export type EventCallback<T extends Event> = (data: EventPayloads[T]) => void;
 
 export type Channel = {
-  [K in Event]: EventCallback<K>;
+  [K in Event]?: EventCallback<K>;
 };
