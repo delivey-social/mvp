@@ -31,9 +31,19 @@ const orderSchema = new Schema<OrderDocument & Document>(
       default: OrderStatus.WaitingPayment,
       required: true,
     },
-    deliveryFee: {
+    priceDetails: {
+      deliveryFee: { type: Number, required: true },
+      appFee: { type: Number, required: true },
+      itemsPrice: { type: Number, required: true },
+    },
+    orderTotal: {
       type: Number,
       required: true,
+      default: function () {
+        return Object.values(this.priceDetails).reduce((acc, item) => {
+          return acc + item;
+        }, 0);
+      },
     },
     paymentMethod: {
       type: String,

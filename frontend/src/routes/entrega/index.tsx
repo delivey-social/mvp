@@ -3,8 +3,6 @@ import { useNavigate } from "react-router";
 
 import axios from "axios";
 
-import menu from "../../menu_items.json";
-
 import { OrderContext } from "../../contexts/OrderContext";
 
 import Input from "../../shared-components/input";
@@ -12,6 +10,7 @@ import Select from "../../shared-components/select";
 
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 import { PaymentMethods } from "../../types/Order";
+import { IMenuItem } from "../../MenuItems";
 
 interface GetNeighborhoodsResponseItem {
   _id: string;
@@ -24,10 +23,21 @@ export default function Entrega() {
   const { items, setUserProperty, sendOrder, setTotal, user } =
     useContext(OrderContext);
 
+  const [menuItems, setMenuItems] = useState<Record<string, IMenuItem[]>>({});
+
+  useEffect(() => {
+    axios
+      .get<
+        Record<string, IMenuItem[]>
+      >(`${import.meta.env.VITE_BACKEND_URL}/menu-items`)
+      .then((res) => {
+        setMenuItems(res.data);
+      });
+  }, []);
+
   const itemsTotal = items.reduce((acc, product) => {
-    const menuItems = Object.values(menu).flat();
-    const itemPrice =
-      menuItems.find((item) => item.id === product.id)?.price ?? 0;
+    const items = Object.values(menuItems).flat();
+    const itemPrice = items.find((item) => item.id === product.id)?.price ?? 0;
 
     return (acc += itemPrice * product.quantity);
   }, 0);
