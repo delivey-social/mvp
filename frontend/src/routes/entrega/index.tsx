@@ -16,7 +16,7 @@ import { PaymentMethods } from "../../types/Order";
 interface GetNeighborhoodsResponseItem {
   _id: string;
   name: string;
-  baseTariff: number;
+  deliveryFee: number;
 }
 
 export default function Entrega() {
@@ -38,7 +38,7 @@ export default function Entrega() {
     const data = new FormData(ev.currentTarget as HTMLFormElement);
 
     const email = data.get("email") as string;
-    const phone_number = data.get("phone_number") as string;
+    const phoneNumber = data.get("phoneNumber") as string;
     const address = data.get("address") as string;
     const observation = data.get("observations") as string;
     const payment_method = data.get("payment_method") as PaymentMethods;
@@ -52,8 +52,8 @@ export default function Entrega() {
         {
           email,
           address,
-          phone_number,
-          neighborhood_id: selectedNeighborhood._id,
+          phoneNumber: phoneNumber,
+          neighborhoodId: selectedNeighborhood._id,
         },
         payment_method,
         observation,
@@ -74,7 +74,7 @@ export default function Entrega() {
   const [selectedNeighborhood, setSelectedNeighborhood] =
     useState<GetNeighborhoodsResponseItem | null>(null);
   const appFee = itemsTotal * 0.1;
-  const total = itemsTotal + appFee + (selectedNeighborhood?.baseTariff ?? 0);
+  const total = itemsTotal + appFee + (selectedNeighborhood?.deliveryFee ?? 0);
 
   return (
     <div className="flex flex-col gap-4 h-full w-full min-w-dvw">
@@ -93,12 +93,12 @@ export default function Entrega() {
           <Input
             type="text"
             placeholder="Telefone"
-            name="phone_number"
+            name="phoneNumber"
             required
-            value={user.phone_number}
+            value={user.phoneNumber}
             onChange={(ev) =>
               setUserProperty(
-                "phone_number",
+                "phoneNumber",
                 (ev.target as HTMLInputElement).value,
               )
             }
@@ -114,7 +114,7 @@ export default function Entrega() {
             }
           />
           <SelectNeighborhood
-            selectedNeighborhoodId={user.neighborhood_id}
+            selectedNeighborhoodId={user.neighborhoodId}
             setSelectedNeighborhood={setSelectedNeighborhood}
           />
           <Input type="text" placeholder="Observações" name="observations" />
@@ -124,7 +124,7 @@ export default function Entrega() {
             <ResultLine label="Taxa Delivery Social" value={appFee} />
             <ResultLine
               label="Taxa de entrega"
-              value={selectedNeighborhood?.baseTariff}
+              value={selectedNeighborhood?.deliveryFee}
             />
             <ResultLine label="Total" value={total} />
           </div>
@@ -194,7 +194,7 @@ function SelectNeighborhood({
           )!,
         );
         setUserProperty(
-          "neighborhood_id",
+          "neighborhoodId",
           (ev.target as HTMLSelectElement).value,
         );
       }}

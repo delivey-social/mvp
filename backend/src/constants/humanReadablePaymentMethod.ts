@@ -1,9 +1,9 @@
-import { PaymentMethods } from "../types/PaymentMethods";
+import { PaymentMethods } from "../types/PaymentMethods.d";
 
 const humanReadablePaymentMethod: Record<PaymentMethods, string> = {
-  [PaymentMethods.CREDIT_CARD]: "Cartão de crédito",
-  [PaymentMethods.DEBIT_CARD]: "Cartão de débito",
-  [PaymentMethods.PIX]: "Pix",
+  [PaymentMethods.CartaoCredito]: "Cartão de crédito",
+  [PaymentMethods.CartaoDebito]: "Cartão de débito",
+  [PaymentMethods.Pix]: "Pix",
 };
 
 export default humanReadablePaymentMethod;

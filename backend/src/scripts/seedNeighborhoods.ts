@@ -1,4 +1,4 @@
-import "../config/environment";
+import dotenv from "dotenv";
 
 import mongoose from "mongoose";
 import crypto from "crypto";
@@ -68,6 +68,8 @@ function generateHash(data: unknown): string {
 }
 
 async function seed() {
+  dotenv.config();
+
   try {
     await mongoose.connect(process.env.DATABASE_URL!);
 
@@ -77,15 +79,15 @@ async function seed() {
     const neighborhoodsData = [
       ...level1Neighborhoods.map((name) => ({
         name,
-        baseTariff: LEVEL_1_BASE_TARIFF,
+        deliveryFee: LEVEL_1_BASE_TARIFF,
       })),
       ...level2Neighborhoods.map((name) => ({
         name,
-        baseTariff: LEVEL_2_BASE_TARIFF,
+        deliveryFee: LEVEL_2_BASE_TARIFF,
       })),
       ...level3Neighborhoods.map((name) => ({
         name,
-        baseTariff: LEVEL_3_BASE_TARIFF,
+        deliveryFee: LEVEL_3_BASE_TARIFF,
       })),
     ];
 
@@ -103,7 +105,7 @@ async function seed() {
     await metadata.updateOne(
       { key: "neighborhoodsHash" },
       { $set: { value: newHash } },
-      { upsert: true }
+      { upsert: true },
     );
 
     console.log("Neighborhoods seeded successfully");
