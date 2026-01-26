@@ -43,9 +43,10 @@ const orderSchema = new Schema<OrderDocument & Document>(
     itemsTotal: {
       type: Number,
       default: function () {
-        return this.items
-          .map((i) => i.priceSnapshot)
-          .reduce((i, acc) => (acc += i), 0);
+        return this.items.reduce(
+          (acc, i) => (acc += i.priceSnapshot * i.quantity),
+          0,
+        );
       },
     },
     appFee: {
