@@ -1,0 +1,14 @@
+import RestaurantModel from "../models/RestaurantModel";
+
+import { CreateRestaurantRequest } from "../types/Restaurant";
+import { RestaurantRepository as IRestaurantRepository } from "./RestaurantRepository.d";
+
+export class RestaurantRepository implements IRestaurantRepository {
+  constructor() {}
+
+  async create(data: CreateRestaurantRequest): Promise<string> {
+    const restaurant = await RestaurantModel.create(data);
+
+    return restaurant.id;
+  }
+}
