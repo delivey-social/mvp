@@ -2,6 +2,7 @@ import EntregaEmail from "../../../shared/emails/emails/entrega";
 import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 import PedidoEmail from "../../../shared/emails/emails/pedido";
 import configureEmails from "../config/emails";
+import humanReadablePaymentMethod from "../constants/humanReadablePaymentMethod";
 import { Channel, Event } from "../types/Events.d";
 import { Order } from "../types/Order";
 import renderEmailFactory from "../utils/renderEmailFactory";
@@ -58,7 +59,7 @@ export class EmailChannel implements Channel {
     const html = await email({
       items,
       deliveryAddress: data.user.address,
-      paymentMethod: data.paymentMethod,
+      paymentMethod: humanReadablePaymentMethod[data.paymentMethod],
       appFee: data.appFee,
       deliveryFee: data.deliveryFee,
       buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${data.id}`,
