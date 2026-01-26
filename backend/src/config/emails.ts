@@ -1,11 +1,20 @@
-import sendgrid from "@sendgrid/mail";
+import nodemailer from "nodemailer";
 
-const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+// TODO: Remove hardcoded emails
+const SENDER_EMAIL = "admin@comida.app.br";
+const SENDER_PASS = process.env.ZOHO_PASSWORD;
 
-if (!SENDGRID_API_KEY) {
-  throw new Error(
-    "SENDGRID_API_KEY is not defined in the environment variables."
-  );
-}
+const transporter = nodemailer.createTransport({
+  host: "smtp.zoho.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: SENDER_EMAIL,
+    pass: SENDER_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
 
-sendgrid.setApiKey(SENDGRID_API_KEY);
+export default transporter;

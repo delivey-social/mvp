@@ -66,7 +66,7 @@ export default function Entrega() {
           neighborhood_id: selectedNeighborhood._id,
         },
         payment_method,
-        observation
+        observation,
       );
       setTotal(total);
 
@@ -109,7 +109,7 @@ export default function Entrega() {
             onChange={(ev) =>
               setUserProperty(
                 "phone_number",
-                (ev.target as HTMLInputElement).value
+                (ev.target as HTMLInputElement).value,
               )
             }
           />
@@ -157,7 +157,7 @@ function PaymentMethodSelect() {
   return (
     <Select
       placeholder="Forma de pagamento"
-      defaultValue={""}
+      defaultValue={"PIX"}
       required
       name="payment_method"
     >
@@ -165,8 +165,8 @@ function PaymentMethodSelect() {
         Forma de pagamento
       </option>
       <option value={"PIX"}>Pix</option>
-      <option value={"DEBIT_CARD"}>Débito (no recebimento)</option>
-      <option value={"CREDIT_CARD"}>Crédito (no recebimento)</option>
+      {/* <option value={"DEBIT_CARD"}>Débito (no recebimento)</option> */}
+      {/*       <option value={"CREDIT_CARD"}>Crédito (no recebimento)</option> */}
     </Select>
   );
 }
@@ -200,12 +200,12 @@ function SelectNeighborhood({
         setSelectedNeighborhood(
           neighborhoods.find(
             (neighborhood) =>
-              neighborhood._id === (ev.target as HTMLSelectElement).value
-          )!
+              neighborhood._id === (ev.target as HTMLSelectElement).value,
+          )!,
         );
         setUserProperty(
           "neighborhood_id",
-          (ev.target as HTMLSelectElement).value
+          (ev.target as HTMLSelectElement).value,
         );
       }}
     >

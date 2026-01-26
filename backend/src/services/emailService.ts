@@ -1,6 +1,4 @@
-import sendgrid, { MailDataRequired } from "@sendgrid/mail";
-
-import { CreateOrderRequest } from "../types/order";
+import { CreateOrder } from "../types/order";
 
 import MenuItemsService from "./menuItemsService";
 import renderEmailFactory from "../utils/renderEmailFactory";
@@ -10,9 +8,12 @@ import PedidoEmail from "../../../shared/emails/emails/pedido";
 import EntregaEmail from "../../../shared/emails/emails/entrega";
 
 import { Order } from "../models/OrderModel";
-import { PaymentMethods } from "../types/PaymentMethods";
+import menuJSON from "../../public/menu_items.json";
+import transporter from "../config/emails";
+import OrderService from "./orderService";
 
-// TODO: Remove hardcoded emails
+import humanReadablePaymentMethod from "../constants/humanReadablePaymentMethod";
+
 const SENDER_EMAIL = "admin@comida.app.br";
 const DELIVERY_EMAIL =
   process.env.MODE === "PRODUCTION"
@@ -27,14 +28,8 @@ const MOTOBOY_EMAIL = "thiagotolotti@gmail.com";
 const EmailService = {
   sendNewOrderEmail: async (
     order_id: string,
-    user: CreateOrderRequest["user"],
-    value: {
-      appFee: number;
-      deliveryFee: number;
-      itemsTotal: number;
-      total: number;
-    },
-    payment_method: PaymentMethods
+    user: CreateOrder["user"],
+    total: number,
   ) => {
     const email = renderEmailFactory(NovoPedidoEmail);
 
@@ -49,38 +44,56 @@ const EmailService = {
       payment_method,
     });
 
-    const message: MailDataRequired = {
+    await transporter.sendMail({
       subject: "Oba! Tem pedido novo!",
       from: SENDER_EMAIL,
       to: DELIVERY_EMAIL,
       bcc: SENDER_EMAIL,
       html,
-    };
-
-    await sendgrid.send(message);
+    });
   },
   sendNewOrderToRestaurantEmail: async (
     orderId: string,
-    items: Order["items"]
+    items: Order["items"],
   ) => {
     const email = renderEmailFactory(PedidoEmail);
 
-    const menuItems = await MenuItemsService.getItemsDetails(items);
+    const menuItems = items.map((item) => {
+      const menu = Object.values(menuJSON).flat();
+      const menuItem = menu.find((menuItem) => item.id === menuItem.id);
+
+      if (!menuItem) {
+        throw new Error(`Menu item not found, ${item}`);
+      }
+
+      return { ...menuItem, quantity: item.quantity, price: menuItem.price };
+    });
+
+    const order = await OrderService.getOrder(orderId);
+
+    if (!order) {
+      throw new Error("order not found");
+    }
+
+    const appFee = order.totalAmount * 0.1;
+    const deliveryFee = order.deliveryFee;
 
     const html = await email({
       items: menuItems,
+      deliveryAddress: order.user.address,
+      paymentMethod: humanReadablePaymentMethod[order.payment_method],
+      appFee: appFee,
+      deliveryFee: deliveryFee,
       buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${orderId}`,
     });
 
-    const message: MailDataRequired = {
+    await transporter.sendMail({
       subject: "Novo pedido no seu restaurante!",
       from: SENDER_EMAIL,
       to: RESTAURANT_EMAIL,
       bcc: SENDER_EMAIL,
       html,
-    };
-
-    await sendgrid.send(message);
+    });
   },
   sendDeliveryEmail: async (data: { orderId: string; address: string }) => {
     const email = renderEmailFactory(EntregaEmail);
@@ -93,15 +106,13 @@ const EmailService = {
       id: data.orderId,
     });
 
-    const message: MailDataRequired = {
+    await transporter.sendMail({
       subject: "Oba, tem entrega nova!",
       from: SENDER_EMAIL,
       to: MOTOBOY_EMAIL,
       bcc: SENDER_EMAIL,
       html,
-    };
-
-    await sendgrid.send(message);
+    });
   },
 };
 

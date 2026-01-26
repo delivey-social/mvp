@@ -1,8 +1,8 @@
 import catchError from "../errors/catchError";
 import { BadRequestError, ResourceNotFoundError } from "../errors/HTTPError";
 
-import { CreateOrderRequest } from "../types/order";
-import OrderModel from "../models/OrderModel";
+import { CreateOrder } from "../types/order";
+import OrderModel, { Order } from "../models/OrderModel";
 
 import EmailService from "./emailService";
 import OrderRepository from "../repositories/orderRepository";
@@ -12,11 +12,24 @@ import NeighborhoodService from "./neighborhoodService";
 import MenuItemsService from "./menuItemsService";
 
 const OrderService = {
-  createOrder: async (data: CreateOrderRequest) => {
-    const { items, neighborhood_id, payment_method, user, observation } = data;
+  getOrder: async (id: string): Promise<Order | null> => {
+    const [error, order] = await catchError(
+      OrderModel.findById(id).lean<Order>(),
+    );
+    if (error) {
+      throw new Error("Error fetching: Order not found");
+    }
 
-    const deliveryFee =
-      await NeighborhoodService.getDeliveryFee(neighborhood_id);
+    return order ?? null;
+  },
+  createOrder: async (data: CreateOrder) => {
+    const order = await OrderModel.create(data);
+    await order.save();
+
+    if (order.payment_method !== "PIX") {
+      const [emailError] = await catchError(
+        EmailService.sendNewOrderToRestaurantEmail(order.id, order.items),
+      );
 
     const itemsPrice = await MenuItemsService.getItemsTotal(items);
 
@@ -33,17 +46,7 @@ const OrderService = {
     });
 
     const [emailError] = await catchError(
-      EmailService.sendNewOrderEmail(
-        order.id,
-        order.user,
-        {
-          appFee: order.priceDetails.appFee,
-          deliveryFee: order.priceDetails.deliveryFee,
-          itemsTotal: order.priceDetails.itemsPrice,
-          total: order.orderTotal,
-        },
-        order.payment_method
-      )
+      EmailService.sendNewOrderEmail(order.id, order.user, order.totalAmount),
     );
 
     if (emailError) {
@@ -90,7 +93,7 @@ const OrderService = {
       EmailService.sendDeliveryEmail({
         orderId: order.id,
         address: order.user.address,
-      })
+      }),
     );
 
     if (emailError) {
@@ -108,7 +111,7 @@ const OrderService = {
 
     if (order.status !== "READY_FOR_DELIVERY") {
       throw new BadRequestError(
-        "Order not ready for delivered or already delivered"
+        "Order not ready for delivered or already delivered",
       );
     }
 
