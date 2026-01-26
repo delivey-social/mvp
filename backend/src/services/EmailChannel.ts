@@ -1,15 +1,19 @@
+import configureEmails from "../config/emails";
+
 import EntregaEmail from "../../../shared/emails/emails/entrega";
 import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
 import PedidoEmail from "../../../shared/emails/emails/pedido";
-import configureEmails from "../config/emails";
+
 import humanReadablePaymentMethod from "../constants/humanReadablePaymentMethod";
-import { Channel, Event } from "../types/Events.d";
-import { Order } from "../types/Order";
 import renderEmailFactory from "../utils/renderEmailFactory";
+
 import { MenuItemsService } from "./MenuItemsService";
 
+import { Channel, Event } from "../types/Events.d";
+import { Order } from "../types/Order.d";
+
 export class EmailChannel implements Channel {
-  private senderEmail = "admin@comida.app.br";
+  private senderEmail = process.env.EMAIL_USER!;
   private deliveryEmail =
     process.env.MODE === "PRODUCTION"
       ? "santocrepecwb@gmail.com"
