@@ -1,9 +1,8 @@
 import nodemailer from "nodemailer";
 
 export default function configureEmails() {
-  // TODO: Remove hardcoded emails
-  const SENDER_EMAIL = "admin@comida.app.br";
-  const SENDER_PASS = process.env.ZOHO_PASSWORD;
+  const SENDER_EMAIL = process.env.EMAIL_USER;
+  const SENDER_PASS = process.env.EMAIL_PASSWORD;
 
   const transporter = nodemailer.createTransport({
     host: "smtp.zoho.com",
