@@ -1,9 +1,9 @@
-import { MenuItem } from "../../public/MenuItems";
+import { IMenuItem } from "../../public/MenuItems";
 import { MenuItemsRepository as IMenuItemsRepository } from "./MenuItemsRepository.d";
 
 import menuItems from "../../public/menu_items.json";
 
-const allItems: MenuItem[] = [
+const allItems: IMenuItem[] = [
   ...menuItems.bebidas,
   ...menuItems.salgados,
   ...menuItems.doces,
@@ -12,11 +12,11 @@ const allItems: MenuItem[] = [
 export class MenuItemsRepository implements IMenuItemsRepository {
   constructor() {}
 
-  async findById(id: string): Promise<MenuItem | null> {
+  async findById(id: string): Promise<IMenuItem | null> {
     return allItems.find((item) => item.id === id) ?? null;
   }
 
-  async getAll(): Promise<MenuItem[]> {
+  async getAll(): Promise<IMenuItem[]> {
     return allItems;
   }
 }

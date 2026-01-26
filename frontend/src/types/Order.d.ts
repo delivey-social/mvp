@@ -5,11 +5,11 @@ export interface CreateOrderDTO {
   }[];
   user: {
     email: string;
-    phone_number: string;
+    phoneNumber: string;
     address: string;
   };
-  neighborhood_id: string;
-  payment_method: PaymentMethods;
+  neighborhoodId: string;
+  paymentMethod: PaymentMethods;
   observation?: string | undefined;
 }
 
