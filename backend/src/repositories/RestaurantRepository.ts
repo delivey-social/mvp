@@ -12,12 +12,12 @@ export class RestaurantRepository implements IRestaurantRepository {
     return restaurant.id;
   }
 
-  async fetchALl(): Promise<Restaurant[]> {
+  async fetchAll(): Promise<Restaurant[]> {
     const restaurants = await RestaurantModel.find({}).lean().exec();
 
     return restaurants.map((r) => ({
       ...r,
-      id: r.id,
+      id: r["_id"].toString(),
       __v: undefined,
       _id: undefined,
     }));

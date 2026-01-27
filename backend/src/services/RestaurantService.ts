@@ -11,6 +11,6 @@ export class RestaurantService implements IRestaurantService {
   }
 
   async getAll(): Promise<Restaurant[]> {
-    return await this.repo.fetchALl();
+    return await this.repo.fetchAll();
   }
 }

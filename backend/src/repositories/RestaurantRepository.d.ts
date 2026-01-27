@@ -1,6 +1,6 @@
-import { CreateRestaurantRequest } from "../types/Restaurant";
+import { CreateRestaurantRequest, Restaurant } from "../types/Restaurant";
 
 export interface RestaurantRepository {
   create(data: CreateRestaurantRequest): Promise<string>;
-  fetchALl(): Promise<Restaurant[]>;
+  fetchAll(): Promise<Restaurant[]>;
 }

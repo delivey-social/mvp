@@ -22,6 +22,7 @@ import loggerChannel from "./services/loggerChannel";
 import { MenuItemsRepository } from "./repositories/MenuItemsRespository";
 import { MenuItemsService } from "./services/MenuItemsService";
 import { MenuItemsHandler } from "./handlers/MenuItemsHandler";
+import MenuItemModel from "./models/MenuItemModel";
 import { EmailChannel } from "./services/EmailChannel";
 
 import { RestaurantService } from "./services/RestaurantService";
@@ -38,7 +39,7 @@ function main() {
 
   const eventBus = new EventBus();
 
-  const menuItemsRepo = new MenuItemsRepository();
+  const menuItemsRepo = new MenuItemsRepository(MenuItemModel);
   const menuItemsService = new MenuItemsService(menuItemsRepo);
   new MenuItemsHandler(app, menuItemsService);
 
