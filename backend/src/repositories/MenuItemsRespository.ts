@@ -1,22 +1,23 @@
-import { IMenuItem } from "../../public/MenuItems";
+import MenuItemModel from "../models/MenuItemModel";
+
 import { MenuItemsRepository as IMenuItemsRepository } from "./MenuItemsRepository.d";
 
-import menuItems from "../../public/menu_items.json";
-
-const allItems: IMenuItem[] = [
-  ...menuItems.bebidas,
-  ...menuItems.salgados,
-  ...menuItems.doces,
-];
+import { CreateMenuItemRequest, MenuItem } from "../types/MenuItems.d";
 
 export class MenuItemsRepository implements IMenuItemsRepository {
-  constructor() {}
+  constructor(private model: typeof MenuItemModel) {}
 
-  async findById(id: string): Promise<IMenuItem | null> {
-    return allItems.find((item) => item.id === id) ?? null;
+  async findById(id: string): Promise<MenuItem | null> {
+    return this.model.findById(id).lean().exec();
   }
 
-  async getAll(): Promise<IMenuItem[]> {
-    return allItems;
+  async getAll(): Promise<MenuItem[]> {
+    return this.model.find({}).lean().exec();
+  }
+
+  async create(data: CreateMenuItemRequest) {
+    const menuItem = await this.model.create(data);
+
+    return menuItem.id;
   }
 }
