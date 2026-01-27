@@ -26,6 +26,7 @@ import { EmailChannel } from "./services/EmailChannel";
 
 import { RestaurantService } from "./services/RestaurantService";
 import { RestaurantRepository } from "./repositories/RestaurantRepository";
+import { RestaurantHandler } from "./handlers/RestaurantHandler";
 
 function main() {
   dotenv.config();
@@ -59,7 +60,8 @@ function main() {
   new OrderHandler(app, orderService);
 
   const restaurantRepo = new RestaurantRepository();
-  new RestaurantService(restaurantRepo);
+  const restaurantService = new RestaurantService(restaurantRepo);
+  new RestaurantHandler(app, restaurantService);
 
   app.get("/", (_, res) => {
     res.send("Service is online");
