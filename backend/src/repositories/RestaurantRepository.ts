@@ -13,8 +13,13 @@ export class RestaurantRepository implements IRestaurantRepository {
   }
 
   async fetchALl(): Promise<Restaurant[]> {
-    const restaurants = await RestaurantModel.find({});
+    const restaurants = await RestaurantModel.find({}).lean().exec();
 
-    return restaurants;
+    return restaurants.map((r) => ({
+      ...r,
+      id: r.id,
+      __v: undefined,
+      _id: undefined,
+    }));
   }
 }
