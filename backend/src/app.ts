@@ -4,10 +4,10 @@ import dotenv from "dotenv";
 import connectToDatabase from "./config/database";
 import configureEmails from "./config/emails";
 
-import OrderModel from "./models/OrderModel";
-import { OrderMongoRepository } from "./repositories/OrderRepository";
-import { OrderService } from "./services/OrderService";
-import { OrderHandler } from "./handlers/OrderHandler";
+import OrderModel from "./order/model";
+import { OrderMongoRepository } from "./order/repository";
+import { OrderService } from "./order/service";
+import { OrderHandler } from "./order/handler";
 
 import NeighborhoodModel from "./models/NeighborhoodModel";
 import { NeighborhoodService } from "./services/NeighborhoodService";

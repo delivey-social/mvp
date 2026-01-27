@@ -1,12 +1,12 @@
-import { OrderStatus } from "../types/OrderStatus.d";
-import { CreateOrderRequest, EnrichedOrderDTO, Order } from "../types/Order";
+import { OrderStatus } from "../types/OrderStatus";
+import { CreateOrderRequest, EnrichedOrderDTO, Order } from "./types.d";
 
-import { OrderRepository } from "../order/repository";
-import { OrderService as IOrderService, Result } from "../order/service";
+import { OrderRepository } from "./repository.d";
+import { OrderService as IOrderService, Result } from "./service.d";
 
-import { Event, EventPublisher } from "../types/Events.d";
-import { NeighborhoodService } from "./NeighborhoodService.d";
-import { MenuItemsService } from "./MenuItemsService.d";
+import { Event, EventPublisher } from "../types/Events";
+import { NeighborhoodService } from "../services/NeighborhoodService";
+import { MenuItemsService } from "../services/MenuItemsService";
 
 export class OrderService implements IOrderService {
   constructor(

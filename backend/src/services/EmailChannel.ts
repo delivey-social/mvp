@@ -10,7 +10,7 @@ import renderEmailFactory from "../utils/renderEmailFactory";
 import { MenuItemsService } from "./MenuItemsService";
 
 import { Channel, Event } from "../types/Events.d";
-import { Order } from "../types/Order.d";
+import { Order } from "../order/types.d";
 
 export class EmailChannel implements Channel {
   private senderEmail = process.env.EMAIL_USER!;

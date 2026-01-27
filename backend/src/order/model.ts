@@ -1,8 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-import { Order } from "../types/Order";
-import { OrderStatus } from "../types/OrderStatus.d";
-import { PaymentMethods } from "../types/PaymentMethods.d";
+import { Order } from "./types";
+import { OrderStatus } from "../types/OrderStatus";
+import { PaymentMethods } from "../types/PaymentMethods";
 
 export type OrderDocument = Order & Document;
 

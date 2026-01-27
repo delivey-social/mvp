@@ -4,7 +4,7 @@ import { BadRequestError } from "../errors/HTTPError";
 
 import orderSchema from "../schemas/order";
 
-import { OrderService } from "../services/OrderService.d";
+import { OrderService } from "./service";
 
 export class OrderHandler {
   constructor(

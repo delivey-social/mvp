@@ -1,6 +1,6 @@
-import { CreateOrderRequest, Order } from "../types/Order";
-import { OrderRepository as IOrderRepository } from "./OrderRepository.d";
-import OrderModel from "../models/OrderModel";
+import { CreateOrderRequest, Order } from "./types.d";
+import { OrderRepository as IOrderRepository } from "./repository.d";
+import OrderModel from "./model";
 import { OrderStatus } from "../types/OrderStatus";
 
 export class OrderMongoRepository implements IOrderRepository {
