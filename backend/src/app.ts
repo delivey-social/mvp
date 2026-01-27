@@ -22,7 +22,12 @@ import loggerChannel from "./services/loggerChannel";
 import { MenuItemsRepository } from "./repositories/MenuItemsRespository";
 import { MenuItemsService } from "./services/MenuItemsService";
 import { MenuItemsHandler } from "./handlers/MenuItemsHandler";
+import MenuItemModel from "./models/MenuItemModel";
 import { EmailChannel } from "./services/EmailChannel";
+
+import { RestaurantService } from "./services/RestaurantService";
+import { RestaurantRepository } from "./repositories/RestaurantRepository";
+import { RestaurantHandler } from "./handlers/RestaurantHandler";
 
 function main() {
   dotenv.config();
@@ -34,7 +39,7 @@ function main() {
 
   const eventBus = new EventBus();
 
-  const menuItemsRepo = new MenuItemsRepository();
+  const menuItemsRepo = new MenuItemsRepository(MenuItemModel);
   const menuItemsService = new MenuItemsService(menuItemsRepo);
   new MenuItemsHandler(app, menuItemsService);
 
@@ -54,6 +59,10 @@ function main() {
     menuItemsService,
   );
   new OrderHandler(app, orderService);
+
+  const restaurantRepo = new RestaurantRepository();
+  const restaurantService = new RestaurantService(restaurantRepo);
+  new RestaurantHandler(app, restaurantService);
 
   app.get("/", (_, res) => {
     res.send("Service is online");

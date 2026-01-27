@@ -1,5 +1,7 @@
-import express, { Express } from "express";
-import { MenuItemsService } from "../services/MenuItemsService";
+import express, { Express, Request, Response } from "express";
+
+import { MenuItemsService } from "../services/MenuItemsService.d";
+import { CreateMenuItemRequest } from "../types/MenuItems.d";
 
 export class MenuItemsHandler {
   constructor(
@@ -8,13 +10,22 @@ export class MenuItemsHandler {
   ) {
     const router = express.Router();
 
-    router.get("/", this.getAllMenuItems.bind(this));
+    router.get("/", this.getAll.bind(this));
+    router.post("/", this.create.bind(this));
 
     app.use("/menu-items", router);
   }
 
-  private async getAllMenuItems(req: express.Request, res: express.Response) {
+  private async getAll(req: Request, res: Response) {
     const items = await this.service.getAll();
     res.status(200).json(items);
+  }
+
+  private async create(req: Request, res: Response) {
+    const data: CreateMenuItemRequest = req.body;
+
+    const id = await this.service.create(data);
+
+    res.status(201).json({ message: "Item criado com sucesso", id });
   }
 }
