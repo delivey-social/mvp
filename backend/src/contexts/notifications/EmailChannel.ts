@@ -67,10 +67,7 @@ export class EmailChannel implements Channel {
     );
 
     const html = await email({
-      items: items.map((i) => ({
-        ...i,
-        id: i.id.toHexString(),
-      })),
+      items,
       deliveryAddress: data.user.address,
       paymentMethod: humanReadablePaymentMethod[data.paymentMethod],
       appFee: data.appFee,

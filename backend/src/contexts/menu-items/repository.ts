@@ -11,10 +11,11 @@ export class MenuItemsRepository implements IMenuItemsRepository {
   }
 
   async getAll(): Promise<MenuItem[]> {
-    const items = await this.model.find({});
+    const items = await this.model.find({}).lean().exec();
 
     return items.map((i) => ({
-      ...i.toObject(),
+      ...i,
+      id: i._id.toString(),
       _id: undefined,
       __v: undefined,
     }));

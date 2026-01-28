@@ -15,10 +15,6 @@ const menuItemSchema = new Schema<MenuItem & Document>({
   },
 });
 
-menuItemSchema.virtual("id").get(function (this: MenuItem & Document) {
-  return this._id;
-});
-
 menuItemSchema.set("toObject", {
   virtuals: true,
 });

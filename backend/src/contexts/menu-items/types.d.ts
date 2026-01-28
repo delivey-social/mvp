@@ -10,7 +10,7 @@ export interface CreateMenuItemRequest {
 }
 
 export interface MenuItem {
-  id: Types.ObjectId;
+  id: string;
   name: string;
   description?: string;
   price: number;

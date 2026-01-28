@@ -7,7 +7,9 @@ export class MenuItemsService implements IMenuItemsService {
   constructor(private repo: MenuItemsRepository) {}
 
   async findById(id: string): Promise<MenuItem | null> {
-    return this.repo.findById(id);
+    const item = await this.repo.findById(id);
+
+    return item;
   }
 
   async getAll(): Promise<MenuItem[]> {
