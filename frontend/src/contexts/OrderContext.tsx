@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import { CreateOrder, PaymentMethods } from "../types/Order";
+import { PaymentMethods } from "../types/Order";
+import { CreateOrderRequest } from "../../../backend/src/contexts/order/types.d";
 
 interface Order {
   items: {
@@ -9,9 +10,9 @@ interface Order {
   }[];
   user: {
     email: string;
-    phone_number: string;
+    phoneNumber: string;
     address: string;
-    neighborhood_id: string;
+    neighborhoodId: string;
   };
   observations?: string;
 }
@@ -26,7 +27,7 @@ interface IOrderContext {
   sendOrder: (
     user: Order["user"],
     payment_method: PaymentMethods,
-    observation?: string
+    observation?: string,
   ) => Promise<void>;
 }
 
@@ -40,7 +41,7 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
     ? JSON.parse(localStorage.getItem("user")!)
     : {
         email: "",
-        phone_number: "",
+        phoneNumber: "",
         address: "",
       };
   const [total, setTotal] = useState<number>(0);
@@ -54,23 +55,23 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
 
   async function sendOrder(
     user: Order["user"],
-    payment_method: PaymentMethods,
-    observation?: string
+    paymentMethod: PaymentMethods,
+    observation?: string,
   ) {
-    const data: CreateOrder = {
+    const data: CreateOrderRequest = {
       items: items.map((item) => ({
         id: item.id,
         quantity: item.quantity,
       })),
       user,
       observation,
-      neighborhood_id: user.neighborhood_id,
-      payment_method,
+      neighborhoodId: user.neighborhoodId,
+      paymentMethod,
     };
 
-    await axios.post<void, CreateOrder>(
+    await axios.post<void, CreateOrderRequest>(
       `${import.meta.env.VITE_BACKEND_URL}/orders`,
-      data
+      data,
     );
 
     localStorage.setItem("user", JSON.stringify(user));

@@ -11,12 +11,14 @@
     "copy:all": "npm run copy:client && npm run copy:server",
     "dev:client": "cd frontend && npm run dev",
     "build": "cd client && npm run build",
-    "install": "concurrently \"cd frontend && npm install\" \"cd backend && npm install\" \"cd shared/emails && npm install\""
+    "install": "concurrently \"cd frontend && npm install\" \"cd backend && npm install\" \"cd shared/emails && npm install\"",
+    "prepare": "husky"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^9.1.2",
+    "husky": "^9.1.7",
     "typescript": "^5.9.3"
   },
   "dependencies": {
