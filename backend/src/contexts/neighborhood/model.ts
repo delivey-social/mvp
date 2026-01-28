@@ -1,5 +1,5 @@
 import mongoose, { Document } from "mongoose";
-import { Neighborhood } from "../types/Neighborhood";
+import { Neighborhood } from "./types.d";
 
 const neighborhoodSchema = new mongoose.Schema<Neighborhood & Document>({
   name: { type: String, required: true },

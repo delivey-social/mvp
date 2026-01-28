@@ -1,6 +1,7 @@
-import { NeighborhoodRepository as INeighborhoodRepository } from "./NeighborhoodRepository.d";
-import NeighborhoodModel from "../models/NeighborhoodModel";
-import { Neighborhood } from "../types/Neighborhood";
+import NeighborhoodModel from "./model";
+
+import { NeighborhoodRepository as INeighborhoodRepository } from "./repository.d";
+import { Neighborhood } from "./types.d";
 
 export class NeighborhoodRepository implements INeighborhoodRepository {
   constructor(private model: typeof NeighborhoodModel) {}

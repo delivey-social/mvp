@@ -1,7 +1,8 @@
-import { ResourceNotFoundError } from "../errors/HTTPError";
-import { NeighborhoodRepository } from "../repositories/NeighborhoodRepository.d";
-import { Neighborhood } from "../types/Neighborhood";
-import { NeighborhoodService as INeighborhoodService } from "./NeighborhoodService.d";
+import { ResourceNotFoundError } from "../../errors/HTTPError";
+
+import { Neighborhood } from "./types.d";
+import { NeighborhoodRepository } from "./repository.d";
+import { NeighborhoodService as INeighborhoodService } from "./service.d";
 
 export class NeighborhoodService implements INeighborhoodService {
   constructor(private repo: NeighborhoodRepository) {}

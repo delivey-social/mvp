@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
-import { NeighborhoodService } from "../services/NeighborhoodService.d";
-import { ResourceNotFoundError } from "../errors/HTTPError";
+import { ResourceNotFoundError } from "../../errors/HTTPError";
+
+import { NeighborhoodService } from "./service.d";
 
 export class NeighborhoodHandler {
   constructor(

@@ -9,25 +9,25 @@ import { OrderMongoRepository } from "./contexts/order/repository";
 import { OrderService } from "./contexts/order/service";
 import { OrderHandler } from "./contexts/order/handler";
 
-import NeighborhoodModel from "./models/NeighborhoodModel";
-import { NeighborhoodService } from "./services/NeighborhoodService";
-import { NeighborhoodHandler } from "./handlers/NeighborhoodHandler";
+import NeighborhoodModel from "./contexts/neighborhood/model";
+import { NeighborhoodRepository } from "./contexts/neighborhood/repository";
+import { NeighborhoodService } from "./contexts/neighborhood/service";
+import { NeighborhoodHandler } from "./contexts/neighborhood/handler";
 
 import errorHandler from "./middleware/errorHandler";
-import { NeighborhoodRepository } from "./repositories/NeighborhoodRepository";
 
 import { EventBus } from "./contexts/notifications/EventBus";
+import { NotificationsService } from "./contexts/notifications/service";
 import { EmailChannel } from "./contexts/notifications/EmailChannel";
 import loggerChannel from "./contexts/notifications/loggerChannel";
-import { NotificationsService } from "./contexts/notifications/service";
 
+import MenuItemModel from "./contexts/menu-items/model";
 import { MenuItemsRepository } from "./contexts/menu-items/repository";
 import { MenuItemsService } from "./contexts/menu-items/service";
 import { MenuItemsHandler } from "./contexts/menu-items/handler";
-import MenuItemModel from "./contexts/menu-items/model";
 
-import { RestaurantService } from "./contexts/restaurant/service";
 import { RestaurantRepository } from "./contexts/restaurant/repository";
+import { RestaurantService } from "./contexts/restaurant/service";
 import { RestaurantHandler } from "./contexts/restaurant/handler";
 
 function main() {

@@ -6,7 +6,7 @@ import { OrderService as IOrderService, Result } from "./service.d";
 
 import { Event, EventPublisher } from "../notifications/Events";
 import { MenuItemsService } from "../menu-items/service.d";
-import { NeighborhoodService } from "../../services/NeighborhoodService";
+import { NeighborhoodService } from "../neighborhood/service";
 
 export class OrderService implements IOrderService {
   constructor(
