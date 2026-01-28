@@ -1,5 +1,5 @@
-import { OrderStatus } from "../types/OrderStatus";
-import { EnrichedOrderDTO, Order } from "../types/Order";
+import { EnrichedOrderDTO, Order } from "./types.d";
+import { OrderStatus } from "./OrderStatus.d";
 
 export interface OrderRepository {
   findById(id: string): Promise<Order | null>;

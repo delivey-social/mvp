@@ -1,4 +1,4 @@
-import { Neighborhood } from "../types/Neighborhood";
+import { Neighborhood } from "./types.d";
 
 export interface NeighborhoodRepository {
   getAll: () => Promise<Array<Neighborhood>>;

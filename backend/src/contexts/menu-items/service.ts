@@ -6,7 +6,7 @@ import { MenuItemsRepository } from "./repository.d";
 export class MenuItemsService implements IMenuItemsService {
   constructor(private repo: MenuItemsRepository) {}
 
-  async findById(id: string): Promise<MenuItem> {
+  async findById(id: string): Promise<MenuItem | null> {
     return this.repo.findById(id);
   }
 
@@ -15,7 +15,6 @@ export class MenuItemsService implements IMenuItemsService {
 
     return items.map((i) => ({
       ...i,
-      id: i["_id"].toString(),
       __v: undefined,
       _id: undefined,
     }));

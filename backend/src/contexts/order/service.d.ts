@@ -1,4 +1,4 @@
-import { CreateOrderRequest, Order } from "../types/Order";
+import { CreateOrderRequest, Order } from "./types.d";
 
 export type Result =
   | {

@@ -1,8 +1,7 @@
-import { MenuItem } from "../../public/MenuItems";
-import { CreateMenuItemRequest } from "../types/MenuItems";
+import { CreateMenuItemRequest, MenuItem } from "./types.d";
 
 export interface MenuItemsService {
   create: (data: CreateMenuItemRequest) => Promise<string>;
-  findById: (id: string) => Promise<MenuItem>;
+  findById: (id: string) => Promise<MenuItem | null>;
   getAll: () => Promise<MenuItem[]>;
 }

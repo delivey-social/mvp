@@ -1,7 +1,7 @@
 import { CreateOrderRequest, Order } from "./types.d";
 import { OrderRepository as IOrderRepository } from "./repository.d";
 import OrderModel from "./model";
-import { OrderStatus } from "../types/OrderStatus";
+import { OrderStatus } from "./OrderStatus.d";
 
 export class OrderMongoRepository implements IOrderRepository {
   constructor(private model: typeof OrderModel) {}

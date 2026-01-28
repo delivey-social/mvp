@@ -3,10 +3,15 @@ import configureEmails from "../../config/emails";
 import renderEmailFactory from "../../utils/renderEmailFactory";
 import humanReadablePaymentMethod from "../../constants/humanReadablePaymentMethod";
 
+import NovoPedidoEmail from "@shared/emails/emails/novo-pedido";
+import PedidoEmail from "@shared/emails/emails/pedido";
+import EntregaEmail from "@shared/emails/emails/entrega";
+
 import { MenuItemsService } from "../menu-items/service.d";
 
 import { Channel, Event } from "./Events.d";
 import { Order } from "../order/types.d";
+import { ResourceNotFoundError } from "../../errors/HTTPError";
 
 export class EmailChannel implements Channel {
   private senderEmail = process.env.EMAIL_USER!;
@@ -47,6 +52,11 @@ export class EmailChannel implements Channel {
     const items = await Promise.all(
       data.items.map(async (item) => {
         const menuItem = await this.menuItemsService.findById(item.id);
+
+        if (!menuItem) {
+          throw new ResourceNotFoundError("menu item");
+        }
+
         return {
           id: menuItem.id,
           name: menuItem.name,
@@ -57,7 +67,10 @@ export class EmailChannel implements Channel {
     );
 
     const html = await email({
-      items,
+      items: items.map((i) => ({
+        ...i,
+        id: i.id.toHexString(),
+      })),
       deliveryAddress: data.user.address,
       paymentMethod: humanReadablePaymentMethod[data.paymentMethod],
       appFee: data.appFee,

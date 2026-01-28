@@ -1,7 +1,8 @@
 import { PaymentMethods } from "./PaymentMethods";
 
 import { z } from "zod";
-import orderSchema from "../schemas/order";
+import { OrderStatus } from "./OrderStatus";
+import orderSchema from "./schema";
 
 export type CreateOrderRequest = z.infer<typeof orderSchema.create>;
 

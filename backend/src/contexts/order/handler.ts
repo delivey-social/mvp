@@ -1,9 +1,8 @@
 import express, { Request, Response, Express } from "express";
 
-import { BadRequestError } from "../errors/HTTPError";
+import { BadRequestError } from "../../errors/HTTPError";
 
-import orderSchema from "../schemas/order";
-
+import orderSchema from "./schema";
 import { OrderService } from "./service";
 
 export class OrderHandler {

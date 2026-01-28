@@ -1,4 +1,4 @@
-import { CreateMenuItemRequest } from "../types/MenuItems";
+import { CreateMenuItemRequest, MenuItem } from "./types.d";
 
 export interface MenuItemsRepository {
   create: (data: CreateMenuItemRequest) => Promise<string>;
