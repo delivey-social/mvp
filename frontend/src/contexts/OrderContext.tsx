@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
 import { PaymentMethods } from "../types/Order";
-import { CreateOrderRequest } from "../../../backend/src/types/Order.d";
+import { CreateOrderRequest } from "../../../backend/src/contexts/order/types.d";
 
 interface Order {
   items: {
