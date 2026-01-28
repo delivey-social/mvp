@@ -7,10 +7,10 @@ import PedidoEmail from "../../../shared/emails/emails/pedido";
 import humanReadablePaymentMethod from "../constants/humanReadablePaymentMethod";
 import renderEmailFactory from "../utils/renderEmailFactory";
 
-import { MenuItemsService } from "./MenuItemsService";
+import { MenuItemsService } from "../services/MenuItemsService";
 
-import { Channel, Event } from "../types/Events.d";
-import { Order } from "../order/types.d";
+import { Channel, Event } from "./Events";
+import { Order } from "../order/types";
 
 export class EmailChannel implements Channel {
   private senderEmail = process.env.EMAIL_USER!;

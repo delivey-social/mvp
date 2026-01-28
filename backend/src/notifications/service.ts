@@ -1,9 +1,4 @@
-import {
-  Channel,
-  Event,
-  EventCallback,
-  EventSubscriber,
-} from "../types/Events";
+import { Channel, Event, EventCallback, EventSubscriber } from "./Events";
 
 export class NotificationsService {
   constructor(channels: Channel[], subscriber: EventSubscriber) {

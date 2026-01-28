@@ -16,14 +16,15 @@ import { NeighborhoodHandler } from "./handlers/NeighborhoodHandler";
 import errorHandler from "./middleware/errorHandler";
 import { NeighborhoodRepository } from "./repositories/NeighborhoodRepository";
 
-import { EventBus } from "./infra/EventBus";
-import { NotificationsService } from "./services/NotificationsService";
-import loggerChannel from "./services/loggerChannel";
+import { EventBus } from "./notifications/EventBus";
+import { EmailChannel } from "./notifications/EmailChannel";
+import loggerChannel from "./notifications/loggerChannel";
+import { NotificationsService } from "./notifications/service";
+
 import { MenuItemsRepository } from "./repositories/MenuItemsRespository";
 import { MenuItemsService } from "./services/MenuItemsService";
 import { MenuItemsHandler } from "./handlers/MenuItemsHandler";
 import MenuItemModel from "./models/MenuItemModel";
-import { EmailChannel } from "./services/EmailChannel";
 
 import { RestaurantService } from "./services/RestaurantService";
 import { RestaurantRepository } from "./repositories/RestaurantRepository";

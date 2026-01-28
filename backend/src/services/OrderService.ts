@@ -4,7 +4,7 @@ import { CreateOrderRequest, EnrichedOrderDTO, Order } from "../types/Order";
 import { OrderRepository } from "../order/repository";
 import { OrderService as IOrderService, Result } from "../order/service";
 
-import { Event, EventPublisher } from "../types/Events.d";
+import { Event, EventPublisher } from "../notifications/Events";
 import { NeighborhoodService } from "./NeighborhoodService.d";
 import { MenuItemsService } from "./MenuItemsService.d";
 

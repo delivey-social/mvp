@@ -4,7 +4,7 @@ import {
   EventPayloads,
   EventPublisher,
   EventSubscriber,
-} from "../types/Events";
+} from "./Events";
 
 type SubscriberPair = {
   [K in Event]: {
