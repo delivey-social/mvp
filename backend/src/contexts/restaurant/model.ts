@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { Restaurant } from "../types/Restaurant";
+
+import { Restaurant } from "./types";
 
 const restaurantSchema = new Schema<Restaurant & Document>({
   name: { type: String, required: true },

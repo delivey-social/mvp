@@ -1,7 +1,7 @@
-import RestaurantModel from "../models/RestaurantModel";
+import RestaurantModel from "./model";
 
-import { CreateRestaurantRequest, Restaurant } from "../types/Restaurant";
-import { RestaurantRepository as IRestaurantRepository } from "./RestaurantRepository.d";
+import { CreateRestaurantRequest, Restaurant } from "./types.d";
+import { RestaurantRepository as IRestaurantRepository } from "./repository";
 
 export class RestaurantRepository implements IRestaurantRepository {
   constructor() {}

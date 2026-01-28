@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
-import { RestaurantService } from "../services/RestaurantService.d";
-import { CreateRestaurantRequest } from "../types/Restaurant";
+
+import { RestaurantService } from "./service.d";
+import { CreateRestaurantRequest } from "./types.d";
 
 export class RestaurantHandler {
   constructor(

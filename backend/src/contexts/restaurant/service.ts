@@ -1,7 +1,7 @@
-import { RestaurantService as IRestaurantService } from "./RestaurantService.d";
-import { RestaurantRepository } from "../repositories/RestaurantRepository";
+import { RestaurantService as IRestaurantService } from "./service";
 
-import { CreateRestaurantRequest, Restaurant } from "../types/Restaurant";
+import { RestaurantRepository } from "./repository.d";
+import { CreateRestaurantRequest, Restaurant } from "./types.d";
 
 export class RestaurantService implements IRestaurantService {
   constructor(private repo: RestaurantRepository) {}

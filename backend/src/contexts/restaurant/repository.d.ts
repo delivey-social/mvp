@@ -1,4 +1,4 @@
-import { CreateRestaurantRequest, Restaurant } from "../types/Restaurant";
+import { CreateRestaurantRequest, Restaurant } from "./types.d";
 
 export interface RestaurantRepository {
   create(data: CreateRestaurantRequest): Promise<string>;

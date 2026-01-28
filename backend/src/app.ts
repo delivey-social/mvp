@@ -4,10 +4,10 @@ import dotenv from "dotenv";
 import connectToDatabase from "./config/database";
 import configureEmails from "./config/emails";
 
-import OrderModel from "./order/model";
-import { OrderMongoRepository } from "./order/repository";
-import { OrderService } from "./order/service";
-import { OrderHandler } from "./order/handler";
+import OrderModel from "./contexts/order/model";
+import { OrderMongoRepository } from "./contexts/order/repository";
+import { OrderService } from "./contexts/order/service";
+import { OrderHandler } from "./contexts/order/handler";
 
 import NeighborhoodModel from "./models/NeighborhoodModel";
 import { NeighborhoodService } from "./services/NeighborhoodService";
@@ -16,19 +16,19 @@ import { NeighborhoodHandler } from "./handlers/NeighborhoodHandler";
 import errorHandler from "./middleware/errorHandler";
 import { NeighborhoodRepository } from "./repositories/NeighborhoodRepository";
 
-import { EventBus } from "./notifications/EventBus";
-import { EmailChannel } from "./notifications/EmailChannel";
-import loggerChannel from "./notifications/loggerChannel";
-import { NotificationsService } from "./notifications/service";
+import { EventBus } from "./contexts/notifications/EventBus";
+import { EmailChannel } from "./contexts/notifications/EmailChannel";
+import loggerChannel from "./contexts/notifications/loggerChannel";
+import { NotificationsService } from "./contexts/notifications/service";
 
 import { MenuItemsRepository } from "./repositories/MenuItemsRespository";
 import { MenuItemsService } from "./services/MenuItemsService";
 import { MenuItemsHandler } from "./handlers/MenuItemsHandler";
 import MenuItemModel from "./models/MenuItemModel";
 
-import { RestaurantService } from "./services/RestaurantService";
-import { RestaurantRepository } from "./repositories/RestaurantRepository";
-import { RestaurantHandler } from "./handlers/RestaurantHandler";
+import { RestaurantService } from "./contexts/restaurant/service";
+import { RestaurantRepository } from "./contexts/restaurant/repository";
+import { RestaurantHandler } from "./contexts/restaurant/handler";
 
 function main() {
   dotenv.config();
