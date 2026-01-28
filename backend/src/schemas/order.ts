@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PaymentMethods } from "../types/PaymentMethods.d";
+import { PaymentMethods } from "../contexts/order/PaymentMethods";
 import idSchema from "./id";
 
 const orderSchema = {
