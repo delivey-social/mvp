@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 
 import mongoose from "mongoose";
 import crypto from "crypto";
-import NeighborhoodModel from "../models/NeighborhoodModel";
+import NeighborhoodModel from "../contexts/neighborhood/model";
 
 const LEVEL_1_BASE_TARIFF = 5;
 const LEVEL_2_BASE_TARIFF = 8;
