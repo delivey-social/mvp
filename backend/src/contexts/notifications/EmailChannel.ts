@@ -1,16 +1,12 @@
-import configureEmails from "../config/emails";
+import configureEmails from "../../config/emails";
 
-import EntregaEmail from "../../../shared/emails/emails/entrega";
-import NovoPedidoEmail from "../../../shared/emails/emails/novo-pedido";
-import PedidoEmail from "../../../shared/emails/emails/pedido";
+import renderEmailFactory from "../../utils/renderEmailFactory";
+import humanReadablePaymentMethod from "../../constants/humanReadablePaymentMethod";
 
-import humanReadablePaymentMethod from "../constants/humanReadablePaymentMethod";
-import renderEmailFactory from "../utils/renderEmailFactory";
+import { MenuItemsService } from "../menu-items/service.d";
 
-import { MenuItemsService } from "../services/MenuItemsService";
-
-import { Channel, Event } from "./Events";
-import { Order } from "../order/types";
+import { Channel, Event } from "./Events.d";
+import { Order } from "../order/types.d";
 
 export class EmailChannel implements Channel {
   private senderEmail = process.env.EMAIL_USER!;
