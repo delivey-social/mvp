@@ -13,11 +13,7 @@ export class MenuItemsService implements IMenuItemsService {
   async getAll(): Promise<MenuItem[]> {
     const items = await this.repo.getAll();
 
-    return items.map((i) => ({
-      ...i,
-      __v: undefined,
-      _id: undefined,
-    }));
+    return items;
   }
 
   async create(data: CreateMenuItemRequest): Promise<string> {

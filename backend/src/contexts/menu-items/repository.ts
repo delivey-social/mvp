@@ -11,7 +11,13 @@ export class MenuItemsRepository implements IMenuItemsRepository {
   }
 
   async getAll(): Promise<MenuItem[]> {
-    return this.model.find({}).lean().exec();
+    const items = await this.model.find({});
+
+    return items.map((i) => ({
+      ...i.toObject(),
+      _id: undefined,
+      __v: undefined,
+    }));
   }
 
   async create(data: CreateMenuItemRequest) {

@@ -1,10 +1,9 @@
-import { OrderStatus } from "./OrderStatus";
+import { OrderStatus } from "./OrderStatus.d";
 import { CreateOrderRequest, EnrichedOrderDTO, Order } from "./types.d";
-
 import { OrderRepository } from "./repository.d";
 import { OrderService as IOrderService, Result } from "./service.d";
+import { Event, EventPublisher } from "../notifications/Events.d";
 
-import { Event, EventPublisher } from "../notifications/Events";
 import { MenuItemsService } from "../menu-items/service.d";
 import { NeighborhoodService } from "../neighborhood/service";
 

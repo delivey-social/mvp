@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { PaymentMethods } from "./PaymentMethods";
 import idSchema from "../../shared/idSchema";
+import { PaymentMethods } from "./PaymentMethods.d";
 
 // TODO: Derive schema from models
 const orderSchema = {

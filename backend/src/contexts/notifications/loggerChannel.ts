@@ -1,4 +1,4 @@
-import { Channel, Event } from "./Events";
+import { Channel, Event } from "./Events.d";
 
 const loggerChannel: Channel = {
   [Event.OrderCreated]: (data) => {
