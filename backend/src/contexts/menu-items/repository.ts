@@ -1,8 +1,7 @@
-import MenuItemModel from "../models/MenuItemModel";
+import MenuItemModel from "./model";
 
-import { MenuItemsRepository as IMenuItemsRepository } from "./MenuItemsRepository.d";
-
-import { CreateMenuItemRequest, MenuItem } from "../types/MenuItems.d";
+import { MenuItemsRepository as IMenuItemsRepository } from "./repository.d";
+import { CreateMenuItemRequest, MenuItem } from "./types.d";
 
 export class MenuItemsRepository implements IMenuItemsRepository {
   constructor(private model: typeof MenuItemModel) {}

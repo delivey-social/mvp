@@ -1,7 +1,7 @@
-import { MenuItemsRepository } from "../repositories/MenuItemsRepository.d";
-import { MenuItemsService as IMenuItemsService } from "./MenuItemsService.d";
+import { MenuItemsService as IMenuItemsService } from "./service";
 
-import { CreateMenuItemRequest, MenuItem } from "../types/MenuItems.d";
+import { CreateMenuItemRequest, MenuItem } from "./types.d";
+import { MenuItemsRepository } from "./repository.d";
 
 export class MenuItemsService implements IMenuItemsService {
   constructor(private repo: MenuItemsRepository) {}

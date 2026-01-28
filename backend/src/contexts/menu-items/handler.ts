@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 
-import { MenuItemsService } from "../services/MenuItemsService.d";
-import { CreateMenuItemRequest } from "../types/MenuItems.d";
+import { MenuItemsService } from "./service.d";
+import { CreateMenuItemRequest } from "./types.d";
 
 export class MenuItemsHandler {
   constructor(

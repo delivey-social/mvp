@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { MenuItem } from "../types/MenuItems";
+
+import { MenuItem } from "./types.d";
 
 const menuItemSchema = new Schema<MenuItem & Document>({
   name: { type: String, required: true },

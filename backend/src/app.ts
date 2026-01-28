@@ -21,10 +21,10 @@ import { EmailChannel } from "./contexts/notifications/EmailChannel";
 import loggerChannel from "./contexts/notifications/loggerChannel";
 import { NotificationsService } from "./contexts/notifications/service";
 
-import { MenuItemsRepository } from "./repositories/MenuItemsRespository";
-import { MenuItemsService } from "./services/MenuItemsService";
-import { MenuItemsHandler } from "./handlers/MenuItemsHandler";
-import MenuItemModel from "./models/MenuItemModel";
+import { MenuItemsRepository } from "./contexts/menu-items/repository";
+import { MenuItemsService } from "./contexts/menu-items/service";
+import { MenuItemsHandler } from "./contexts/menu-items/handler";
+import MenuItemModel from "./contexts/menu-items/model";
 
 import { RestaurantService } from "./contexts/restaurant/service";
 import { RestaurantRepository } from "./contexts/restaurant/repository";
