@@ -1,6 +1,6 @@
 import { ResourceNotFoundError } from "../../errors/HTTPError";
 
-import { Neighborhood } from "./types.d";
+import { CreateNeighborhoodRequest, Neighborhood } from "./types.d";
 import { NeighborhoodRepository } from "./repository.d";
 import { NeighborhoodService as INeighborhoodService } from "./service.d";
 
@@ -23,5 +23,9 @@ export class NeighborhoodService implements INeighborhoodService {
     }
 
     return neighborhood.deliveryFee;
+  }
+
+  async create(data: CreateNeighborhoodRequest): Promise<string> {
+    return await this.repo.create(data);
   }
 }

@@ -1,7 +1,7 @@
 import NeighborhoodModel from "./model";
 
 import { NeighborhoodRepository as INeighborhoodRepository } from "./repository.d";
-import { Neighborhood } from "./types.d";
+import { CreateNeighborhoodRequest, Neighborhood } from "./types.d";
 
 import cleanMongooseObject from "@/utils/cleanMongooseObject";
 
@@ -23,5 +23,11 @@ export class NeighborhoodRepository implements INeighborhoodRepository {
     const item = await this.model.findById(id).lean().exec();
 
     return item ? cleanMongooseObject<Neighborhood>(item) : null;
+  }
+
+  async create(data: CreateNeighborhoodRequest): Promise<string> {
+    const res = await this.model.create(data);
+
+    return res.id;
   }
 }

@@ -11,6 +11,7 @@ export class NeighborhoodHandler {
     const router = express.Router();
 
     router.get("/", this.getAll.bind(this));
+    router.post("/", this.create.bind(this));
 
     app.use("/neighborhoods", router);
   }
@@ -23,5 +24,14 @@ export class NeighborhoodHandler {
     }
 
     res.status(200).json(neighborhoods);
+  }
+
+  async create(req: Request, res: Response) {
+    // TODO: Validate input
+    const data = req.body;
+
+    const id = await this.service.create(data);
+
+    res.status(201).json({ id });
   }
 }
