@@ -20,7 +20,7 @@ interface NovoPedidoEmailProps {
   totalValue: number;
   client: {
     email: string;
-    phoneNumber: string;
+    phone_number: string;
     address: string;
   };
   id: string;
@@ -32,7 +32,7 @@ export default function NovoPedidoEmail({
   client = {
     address: "Rua de Teste 123",
     email: "test@test.com",
-    phoneNumber: "(41) 99999-9999",
+    phone_number: "(41) 99999-9999",
   },
   id = "123",
   date = new Date(),
@@ -41,7 +41,7 @@ export default function NovoPedidoEmail({
   const textInfos = {
     "Valor total": numberToCurrency(totalValue),
     "Email do Cliente": client.email,
-    "Telefone do Cliente": client.phoneNumber,
+    "Telefone do Cliente": client.phone_number,
     "Endereço do Cliente": client.address,
     Data: date.toLocaleDateString("pt-BR", {
       hour: "2-digit",
