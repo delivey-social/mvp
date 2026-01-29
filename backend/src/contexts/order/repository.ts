@@ -2,6 +2,7 @@ import { CreateOrderRequest, Order } from "./types.d";
 import { OrderRepository as IOrderRepository } from "./repository.d";
 import OrderModel from "./model";
 import { OrderStatus } from "./OrderStatus.d";
+import cleanMongooseObject from "../../utils/cleanMongooseObject";
 
 export class OrderMongoRepository implements IOrderRepository {
   constructor(private model: typeof OrderModel) {}
@@ -23,5 +24,13 @@ export class OrderMongoRepository implements IOrderRepository {
     await this.model.findByIdAndUpdate(id, {
       status: status,
     });
+  }
+
+  async list(): Promise<Order[]> {
+    const items = await this.model.find({});
+
+    const res = items.map((i) => cleanMongooseObject<Order>(i));
+
+    return res;
   }
 }

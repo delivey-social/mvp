@@ -16,6 +16,7 @@ export class OrderHandler {
     router.get("/confirm_payment", this.registerPayment.bind(this));
     router.get("/ready_for_delivery", this.readyForDelivery.bind(this));
     router.get("/delivered", this.delivered.bind(this));
+    router.get("/", this.list.bind(this));
 
     app.use("/orders", router);
   }
@@ -95,5 +96,11 @@ export class OrderHandler {
     }
 
     res.status(200).json({ message: "Order marked as finished" });
+  }
+
+  async list(req: Request, res: Response) {
+    const orders = await this.orderService.list();
+
+    res.status(200).json(orders);
   }
 }

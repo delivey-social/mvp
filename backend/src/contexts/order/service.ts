@@ -122,4 +122,8 @@ export class OrderService implements IOrderService {
 
     return { success: true };
   }
+
+  async list(): Promise<Order[]> {
+    return await this.repository.list();
+  }
 }

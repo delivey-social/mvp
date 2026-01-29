@@ -15,4 +15,5 @@ export interface OrderService {
   registerPayment: (id: string) => Promise<Result>;
   readyForDelivery: (id: string) => Promise<Result>;
   delivered: (id: string) => Promise<Result>;
+  list: () => Promise<Order[]>;
 }
