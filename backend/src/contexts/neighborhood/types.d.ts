@@ -5,3 +5,4 @@ export interface Neighborhood {
 }
 
 export type CreateNeighborhoodRequest = Omit<Neighborhood, "id">;
+export type UpdateNeighborhoodRequest = Partial<CreateNeighborhoodRequest>;

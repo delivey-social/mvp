@@ -1,6 +1,10 @@
 import { ResourceNotFoundError } from "../../errors/HTTPError";
 
-import { CreateNeighborhoodRequest, Neighborhood } from "./types.d";
+import {
+  CreateNeighborhoodRequest,
+  Neighborhood,
+  UpdateNeighborhoodRequest,
+} from "./types.d";
 import { NeighborhoodRepository } from "./repository.d";
 import { NeighborhoodService as INeighborhoodService } from "./service.d";
 
@@ -27,5 +31,13 @@ export class NeighborhoodService implements INeighborhoodService {
 
   async create(data: CreateNeighborhoodRequest): Promise<string> {
     return await this.repo.create(data);
+  }
+
+  async update(id: string, data: UpdateNeighborhoodRequest): Promise<boolean> {
+    return await this.repo.update(id, data);
+  }
+
+  async delete(id: string): Promise<boolean> {
+    return await this.repo.delete(id);
   }
 }
