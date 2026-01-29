@@ -6,4 +6,5 @@ export interface OrderRepository {
   findById(id: string): Promise<Order | null>;
   create(data: EnrichedOrderDTO): Promise<Order>;
   changeStatus(id: string, status: OrderStatus): Promise<void>;
+  delete: (id: string) => Promise<boolean>;
 }

@@ -17,6 +17,7 @@ export class OrderHandler {
     router.get("/ready_for_delivery", this.readyForDelivery.bind(this));
     router.get("/delivered", this.delivered.bind(this));
     router.get("/", this.list.bind(this));
+    router.delete("/:id", this.delete.bind(this));
 
     app.use("/orders", router);
   }
@@ -102,5 +103,17 @@ export class OrderHandler {
     const orders = await this.orderService.list();
 
     res.status(200).json(orders);
+  }
+
+  async delete(req: Request, res: Response) {
+    const { id } = req.params;
+    const success = await this.orderService.delete(id);
+
+    if (!success) {
+      res.status(400).json({ message: "Failed to delete order" });
+      return;
+    }
+
+    res.status(200).json({ message: "Order deleted successfully" });
   }
 }

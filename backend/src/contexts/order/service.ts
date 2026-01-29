@@ -3,9 +3,8 @@ import { CreateOrderRequest, EnrichedOrderDTO, Order } from "./types.d";
 import { OrderRepository } from "./repository.d";
 import { OrderService as IOrderService, Result } from "./service.d";
 import { Event, EventPublisher } from "../notifications/Events.d";
-
 import { MenuItemsService } from "../menu-items/service.d";
-import { NeighborhoodService } from "../neighborhood/service";
+import { NeighborhoodService } from "../neighborhood/service.d";
 
 export class OrderService implements IOrderService {
   constructor(
@@ -125,5 +124,9 @@ export class OrderService implements IOrderService {
 
   async list(): Promise<Order[]> {
     return await this.repository.list();
+  }
+
+  async delete(id: string): Promise<boolean> {
+    return await this.repository.delete(id);
   }
 }

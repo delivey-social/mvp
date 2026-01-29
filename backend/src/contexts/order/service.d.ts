@@ -16,4 +16,5 @@ export interface OrderService {
   readyForDelivery: (id: string) => Promise<Result>;
   delivered: (id: string) => Promise<Result>;
   list: () => Promise<Order[]>;
+  delete: (id: string) => Promise<boolean>;
 }

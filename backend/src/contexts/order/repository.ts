@@ -33,4 +33,8 @@ export class OrderMongoRepository implements IOrderRepository {
 
     return res;
   }
+
+  async delete(id: string): Promise<boolean> {
+    return Boolean(await this.model.findByIdAndDelete(id));
+  }
 }
