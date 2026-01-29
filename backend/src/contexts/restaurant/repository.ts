@@ -3,6 +3,8 @@ import RestaurantModel from "./model";
 import { CreateRestaurantRequest, Restaurant } from "./types.d";
 import { RestaurantRepository as IRestaurantRepository } from "./repository";
 
+import cleanMongooseObject from "@/utils/cleanMongooseObject";
+
 export class RestaurantRepository implements IRestaurantRepository {
   constructor() {}
 
@@ -15,11 +17,6 @@ export class RestaurantRepository implements IRestaurantRepository {
   async fetchAll(): Promise<Restaurant[]> {
     const restaurants = await RestaurantModel.find({}).lean().exec();
 
-    return restaurants.map((r) => ({
-      ...r,
-      id: r["_id"].toString(),
-      __v: undefined,
-      _id: undefined,
-    }));
+    return restaurants.map((r) => cleanMongooseObject<Restaurant>(r));
   }
 }

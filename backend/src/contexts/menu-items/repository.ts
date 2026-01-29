@@ -3,6 +3,8 @@ import MenuItemModel from "./model";
 import { MenuItemsRepository as IMenuItemsRepository } from "./repository.d";
 import { CreateMenuItemRequest, MenuItem } from "./types.d";
 
+import cleanMongooseObject from "@/utils/cleanMongooseObject";
+
 export class MenuItemsRepository implements IMenuItemsRepository {
   constructor(private model: typeof MenuItemModel) {}
 
@@ -13,12 +15,7 @@ export class MenuItemsRepository implements IMenuItemsRepository {
   async getAll(): Promise<MenuItem[]> {
     const items = await this.model.find({}).lean().exec();
 
-    return items.map((i) => ({
-      ...i,
-      id: i._id.toString(),
-      _id: undefined,
-      __v: undefined,
-    }));
+    return items.map((i) => cleanMongooseObject<MenuItem>(i));
   }
 
   async create(data: CreateMenuItemRequest) {
