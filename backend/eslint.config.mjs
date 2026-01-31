@@ -14,7 +14,10 @@ export default defineConfig([
     languageOptions: { globals: globals.browser },
   },
   {
-    rules: { "no-unused-vars": ["error"] },
+    rules: {
+      ...tseslint.configs.recommended,
+      "no-unused-vars": ["error"],
+      "@typescript-eslint/no-empty-object-type": ["off"],
+    },
   },
-  tseslint.configs.recommended,
 ]);

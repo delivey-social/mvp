@@ -12,7 +12,7 @@ export class NeighborhoodService implements INeighborhoodService {
   constructor(private repo: NeighborhoodRepository) {}
 
   async getAll(): Promise<Array<Neighborhood>> {
-    return await this.repo.getAll();
+    return await this.repo.list();
   }
 
   async findById(id: string): Promise<Neighborhood | null> {
@@ -29,11 +29,14 @@ export class NeighborhoodService implements INeighborhoodService {
     return neighborhood.deliveryFee;
   }
 
-  async create(data: CreateNeighborhoodRequest): Promise<string> {
+  async create(data: CreateNeighborhoodRequest): Promise<Neighborhood> {
     return await this.repo.create(data);
   }
 
-  async update(id: string, data: UpdateNeighborhoodRequest): Promise<boolean> {
+  async update(
+    id: string,
+    data: UpdateNeighborhoodRequest,
+  ): Promise<Neighborhood> {
     return await this.repo.update(id, data);
   }
 
