@@ -120,6 +120,7 @@ export class OrderHandler {
   }
 
   async update(req: Request, res: Response) {
+    // TODO: Validate data
     const id = req.params.id;
     const data: UpdateOrderRequest = req.body;
 
