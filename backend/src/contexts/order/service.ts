@@ -131,8 +131,8 @@ export class OrderService implements IOrderService {
     return await this.repository.list();
   }
 
-  async delete(id: string): Promise<boolean> {
-    return await this.repository.delete(id);
+  async delete(id: string): Promise<void> {
+    await this.repository.delete(id);
   }
 
   async update(id: string, data: UpdateOrderRequest) {

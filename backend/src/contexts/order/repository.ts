@@ -41,8 +41,8 @@ export class OrderMongoRepository implements IOrderRepository {
     return res;
   }
 
-  async delete(id: string): Promise<boolean> {
-    return Boolean(await this.model.findByIdAndDelete(id));
+  async delete(id: string): Promise<void> {
+    await this.model.findByIdAndDelete(id);
   }
 
   async update(id: string, data: Partial<EnrichedOrderDTO>): Promise<Order> {

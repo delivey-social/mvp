@@ -25,7 +25,7 @@ export class MenuItemsService implements IMenuItemsService {
     return this.repo.update(id, data);
   }
 
-  async delete(id: string): Promise<boolean> {
-    return this.repo.delete(id);
+  async delete(id: string): Promise<void> {
+    await this.repo.delete(id);
   }
 }

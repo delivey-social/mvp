@@ -28,8 +28,8 @@ export class RestaurantRepository implements IRestaurantRepository {
     return item;
   }
 
-  async delete(id: string): Promise<boolean> {
-    return Boolean(await this.model.findByIdAndDelete(id));
+  async delete(id: string): Promise<void> {
+    await this.model.findByIdAndDelete(id);
   }
 
   async list(): Promise<Restaurant[]> {

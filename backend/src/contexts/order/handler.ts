@@ -109,12 +109,8 @@ export class OrderHandler {
 
   async delete(req: Request, res: Response) {
     const { id } = req.params;
-    const success = await this.service.delete(id);
 
-    if (!success) {
-      res.status(400).json({ message: "Failed to delete order" });
-      return;
-    }
+    await this.service.delete(id);
 
     res.status(200).json({ message: "Order deleted successfully" });
   }

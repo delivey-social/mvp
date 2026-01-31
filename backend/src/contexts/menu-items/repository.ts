@@ -34,7 +34,10 @@ export class MenuItemsRepository implements IMenuItemsRepository {
   }
 
   async update(id: string, data: UpdateMenuItemRequest): Promise<MenuItem> {
-    const item = await this.model.findByIdAndUpdate(id, data);
+    const item = await this.model.findByIdAndUpdate(id, data, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!item) {
       throw new ResourceNotFoundError("menu item");
@@ -43,7 +46,7 @@ export class MenuItemsRepository implements IMenuItemsRepository {
     return cleanMongooseObject(item);
   }
 
-  async delete(id: string): Promise<boolean> {
-    return Boolean(await this.model.findByIdAndDelete(id));
+  async delete(id: string): Promise<void> {
+    await this.model.findByIdAndDelete(id);
   }
 }

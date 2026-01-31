@@ -14,6 +14,7 @@ export class NeighborhoodHandler {
     router.post("/", this.create.bind(this));
     router.patch("/:id", this.update.bind(this));
     router.delete("/:id", this.delete.bind(this));
+    router.get("/:id", this.findById.bind(this));
 
     app.use("/neighborhoods", router);
   }
@@ -32,12 +33,13 @@ export class NeighborhoodHandler {
     // TODO: Validate input
     const data = req.body;
 
-    const id = await this.service.create(data);
+    const item = await this.service.create(data);
 
-    res.status(201).json({ id });
+    res.status(201).json({ ...item });
   }
 
   async update(req: Request, res: Response) {
+    // TODO: Validate input
     const id = req.params.id;
     const data = req.body;
 
@@ -51,16 +53,20 @@ export class NeighborhoodHandler {
   }
 
   async delete(req: Request, res: Response) {
+    // TODO: Validate input
     const id = req.params.id;
 
-    const success = await this.service.delete(id);
-    if (!success) {
-      res
-        .status(400)
-        .json({ message: "there was an error deleting the neighborhood" });
-      return;
-    }
+    await this.service.delete(id);
 
     res.status(200).json({ message: "neighborhood deleted successfully!" });
+  }
+
+  async findById(req: Request, res: Response) {
+    // TODO: Validate input
+    const id = req.params.id;
+
+    const item = await this.service.findById(id);
+
+    res.status(200).json({ ...item });
   }
 }

@@ -42,7 +42,7 @@ export class NeighborhoodService implements INeighborhoodService {
     return await this.repo.update(id, data);
   }
 
-  async delete(id: string): Promise<boolean> {
-    return await this.repo.delete(id);
+  async delete(id: string): Promise<void> {
+    await this.repo.delete(id);
   }
 }
