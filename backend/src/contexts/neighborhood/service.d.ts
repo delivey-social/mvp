@@ -1,17 +1,6 @@
-import {
-  CreateNeighborhoodRequest,
-  UpdateNeighborhoodRequest,
-  Neighborhood,
-} from "./types.d";
+import { CRUDService } from "@/utils/CRUD";
+import { Neighborhood } from "./types.d";
 
-export interface NeighborhoodService {
-  getAll: () => Promise<Array<Neighborhood>>;
-  findById: (id: string) => Promise<Neighborhood | null>;
+export interface NeighborhoodService extends CRUDService<Neighborhood> {
   getDeliveryFee: (id: string) => Promise<number>;
-  create: (data: CreateNeighborhoodRequest) => Promise<Neighborhood>;
-  update: (
-    id: string,
-    data: UpdateNeighborhoodRequest,
-  ) => Promise<Neighborhood>;
-  delete: (id: string) => Promise<boolean>;
 }
