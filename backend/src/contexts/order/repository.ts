@@ -1,7 +1,9 @@
 import { CreateOrderRequest, EnrichedOrderDTO, Order } from "./types.d";
 import { OrderRepository as IOrderRepository } from "./repository.d";
-import OrderModel from "./model";
 import { OrderStatus } from "./OrderStatus.d";
+
+import OrderModel from "./model";
+
 import cleanMongooseObject from "../../utils/cleanMongooseObject";
 
 export class OrderMongoRepository implements IOrderRepository {

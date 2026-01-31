@@ -19,7 +19,7 @@ export class NeighborhoodHandler {
   }
 
   async getAll(_: Request, res: Response) {
-    const neighborhoods = await this.service.getAll();
+    const neighborhoods = await this.service.list();
 
     if (!neighborhoods.length) {
       throw new ResourceNotFoundError("Neighborhoods");

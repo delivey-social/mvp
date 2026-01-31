@@ -1,11 +1,8 @@
 import { EnrichedOrderDTO, Order } from "./types.d";
 import { OrderStatus } from "./OrderStatus.d";
+import { CRUDRepository } from "@/utils/CRUD";
 
-export interface OrderRepository {
-  list(): Promise<Order[]>;
-  findById(id: string): Promise<Order | null>;
-  create(data: EnrichedOrderDTO): Promise<Order>;
+export interface OrderRepository
+  extends CRUDRepository<Order, EnrichedOrderDTO, Partial<EnrichedOrderDTO>> {
   changeStatus(id: string, status: OrderStatus): Promise<void>;
-  delete: (id: string) => Promise<boolean>;
-  update: (id: string, data: Partial<EnrichedOrderDTO>) => Promise<Order>;
 }
