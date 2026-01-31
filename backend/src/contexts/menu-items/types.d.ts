@@ -9,6 +9,8 @@ export interface CreateMenuItemRequest {
   restaurantId: string;
 }
 
+export type UpdateMenuItemRequest = Partial<CreateMenuItemRequest>;
+
 export interface MenuItem {
   id: string;
   name: string;
