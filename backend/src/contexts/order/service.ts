@@ -20,11 +20,11 @@ export class OrderService implements IOrderService {
     private menuItemsService: MenuItemsService,
   ) {}
 
-  async getOrderById(id: string): Promise<Order | null> {
+  async findById(id: string): Promise<Order | null> {
     return await this.repository.findById(id);
   }
 
-  async createOrder(data: CreateOrderRequest): Promise<string> {
+  async create(data: CreateOrderRequest): Promise<Order> {
     const deliveryFee = await this.neighborhoodService.getDeliveryFee(
       data.neighborhoodId,
     );
@@ -52,7 +52,7 @@ export class OrderService implements IOrderService {
 
     this.eventPublisher.publish(Event.OrderCreated, order);
 
-    return order.id;
+    return order;
   }
 
   async registerPayment(id: string): Promise<Result> {
@@ -175,6 +175,6 @@ export class OrderService implements IOrderService {
 
     this.eventPublisher.publish(Event.OrderCreated, order);
 
-    return order.id;
+    return order;
   }
 }

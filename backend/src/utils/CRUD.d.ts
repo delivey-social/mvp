@@ -13,9 +13,13 @@ export interface CRUDRepository<
   findById(id: string): Promise<T | null>;
 }
 
-export interface CRUDService<T> {
-  create(data: CreateRequest<T>): Promise<T>;
-  update(id: string, data: UpdateRequest<T>): Promise<T>;
+export interface CRUDService<
+  T,
+  TCreate = CreateRequest<T>,
+  TUpdate = UpdateRequest<T>,
+> {
+  create(data: TCreate): Promise<T>;
+  update(id: string, data: TUpdate): Promise<T>;
   delete(id: string): Promise<boolean>;
   list(): Promise<T[]>;
   findById(id: string): Promise<T | null>;
