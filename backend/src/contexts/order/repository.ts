@@ -24,7 +24,7 @@ export class OrderMongoRepository implements IOrderRepository {
     const order = await this.model.create(data);
     await order.save();
 
-    return order;
+    return cleanMongooseObject(order);
   }
 
   async changeStatus(id: string, status: OrderStatus): Promise<void> {

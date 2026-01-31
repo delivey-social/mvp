@@ -32,9 +32,9 @@ export class OrderHandler {
       throw new BadRequestError("Invalid order data");
     }
 
-    const id = await this.service.create(data);
+    const order = await this.service.create(data);
 
-    res.status(201).json({ message: "Order created successfully", id });
+    res.status(201).json({ message: "Order created successfully", order });
   }
 
   async registerPayment(req: Request, res: Response) {
