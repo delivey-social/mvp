@@ -1,4 +1,4 @@
-import { CreateOrderRequest, Order } from "./types.d";
+import { CreateOrderRequest, EnrichedOrderDTO, Order } from "./types.d";
 import { OrderRepository as IOrderRepository } from "./repository.d";
 import OrderModel from "./model";
 import { OrderStatus } from "./OrderStatus.d";
@@ -36,5 +36,9 @@ export class OrderMongoRepository implements IOrderRepository {
 
   async delete(id: string): Promise<boolean> {
     return Boolean(await this.model.findByIdAndDelete(id));
+  }
+
+  async update(id: string, data: Partial<EnrichedOrderDTO>): Promise<Order> {
+    return (await this.model.findByIdAndUpdate(id, data))!;
   }
 }

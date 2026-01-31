@@ -1,10 +1,16 @@
 import { OrderStatus } from "./OrderStatus.d";
-import { CreateOrderRequest, EnrichedOrderDTO, Order } from "./types.d";
+import {
+  CreateOrderRequest,
+  EnrichedOrderDTO,
+  Order,
+  UpdateOrderRequest,
+} from "./types.d";
 import { OrderRepository } from "./repository.d";
 import { OrderService as IOrderService, Result } from "./service.d";
 import { Event, EventPublisher } from "../notifications/Events.d";
 import { MenuItemsService } from "../menu-items/service.d";
 import { NeighborhoodService } from "../neighborhood/service.d";
+import { ResourceNotFoundError } from "@/errors/HTTPError";
 
 export class OrderService implements IOrderService {
   constructor(
@@ -42,7 +48,6 @@ export class OrderService implements IOrderService {
       deliveryFee,
     };
 
-    console.log("Enriched Order:", enrichedOrder);
     const order = await this.repository.create(enrichedOrder);
 
     this.eventPublisher.publish(Event.OrderCreated, order);
@@ -128,5 +133,48 @@ export class OrderService implements IOrderService {
 
   async delete(id: string): Promise<boolean> {
     return await this.repository.delete(id);
+  }
+
+  async update(id: string, data: UpdateOrderRequest) {
+    const originalOrder = await this.repository.findById(id);
+    if (!originalOrder) {
+      throw new ResourceNotFoundError("order");
+    }
+
+    let deliveryFee = originalOrder.deliveryFee;
+    if (data.neighborhoodId) {
+      deliveryFee = await this.neighborhoodService.getDeliveryFee(
+        data.neighborhoodId,
+      );
+    }
+
+    let items = originalOrder.items;
+    if (data.items) {
+      items = await Promise.all(
+        data.items.map(async (item) => {
+          const menuItem = await this.menuItemsService.findById(item.id);
+          if (!menuItem) {
+            throw new Error(`Menu item with id ${item.id} not found`);
+          }
+          return {
+            ...item,
+            priceSnapshot: menuItem.price,
+          };
+        }),
+      );
+    }
+
+    const enrichedOrder: Partial<EnrichedOrderDTO> = {
+      ...originalOrder,
+      ...data,
+      items,
+      deliveryFee,
+    };
+
+    const order = await this.repository.update(id, enrichedOrder);
+
+    this.eventPublisher.publish(Event.OrderCreated, order);
+
+    return order.id;
   }
 }

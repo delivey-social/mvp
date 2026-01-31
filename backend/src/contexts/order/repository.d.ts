@@ -7,4 +7,5 @@ export interface OrderRepository {
   create(data: EnrichedOrderDTO): Promise<Order>;
   changeStatus(id: string, status: OrderStatus): Promise<void>;
   delete: (id: string) => Promise<boolean>;
+  update: (id: string, data: Partial<EnrichedOrderDTO>) => Promise<Order>;
 }
