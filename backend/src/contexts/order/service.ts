@@ -20,7 +20,7 @@ export class OrderService implements IOrderService {
     private menuItemsService: MenuItemsService,
   ) {}
 
-  async findById(id: string): Promise<Order | null> {
+  async findById(id: string): Promise<Order> {
     return await this.repository.findById(id);
   }
 

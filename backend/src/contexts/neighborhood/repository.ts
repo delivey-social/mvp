@@ -22,10 +22,14 @@ export class NeighborhoodRepository implements INeighborhoodRepository {
     return items.map((i) => cleanMongooseObject<Neighborhood>(i));
   }
 
-  async findById(id: string): Promise<Neighborhood | null> {
+  async findById(id: string): Promise<Neighborhood> {
     const item = await this.model.findById(id);
 
-    return item ? cleanMongooseObject<Neighborhood>(item) : null;
+    if (!item) {
+      throw new ResourceNotFoundError("neighborhood");
+    }
+
+    return cleanMongooseObject(item);
   }
 
   async create(data: CreateNeighborhoodRequest): Promise<Neighborhood> {

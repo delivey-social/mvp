@@ -1,11 +1,8 @@
+import { CRUDService } from "@/utils/CRUD";
 import {
   CreateRestaurantRequest,
   UpdateRestaurantRequest,
   Restaurant,
 } from "./types.d";
 
-export interface RestaurantService {
-  create(data: CreateRestaurantRequest): Promise<string>;
-  update(id: string, data: UpdateRestaurantRequest): Promise<void>;
-  getAll(): Promise<Restaurant[]>;
-}
+export interface RestaurantService extends CRUDService<Restaurant> {}

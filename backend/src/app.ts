@@ -26,6 +26,7 @@ import { MenuItemsRepository } from "./contexts/menu-items/repository";
 import { MenuItemsService } from "./contexts/menu-items/service";
 import { MenuItemsHandler } from "./contexts/menu-items/handler";
 
+import RestaurantModel from "./contexts/restaurant/model";
 import { RestaurantRepository } from "./contexts/restaurant/repository";
 import { RestaurantService } from "./contexts/restaurant/service";
 import { RestaurantHandler } from "./contexts/restaurant/handler";
@@ -61,7 +62,7 @@ function main() {
   );
   new OrderHandler(app, orderService);
 
-  const restaurantRepo = new RestaurantRepository();
+  const restaurantRepo = new RestaurantRepository(RestaurantModel);
   const restaurantService = new RestaurantService(restaurantRepo);
   new RestaurantHandler(app, restaurantService);
 

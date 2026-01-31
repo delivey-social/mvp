@@ -5,14 +5,19 @@ import { OrderStatus } from "./OrderStatus.d";
 import OrderModel from "./model";
 
 import cleanMongooseObject from "../../utils/cleanMongooseObject";
+import { ResourceNotFoundError } from "@/errors/HTTPError";
 
 export class OrderMongoRepository implements IOrderRepository {
   constructor(private model: typeof OrderModel) {}
 
-  async findById(id: string): Promise<Order | null> {
-    const order = await this.model.findById(id).lean<Order>();
+  async findById(id: string): Promise<Order> {
+    const order = await this.model.findById(id);
 
-    return order ?? null;
+    if (!order) {
+      throw new ResourceNotFoundError("order");
+    }
+
+    return cleanMongooseObject(order);
   }
 
   async create(data: CreateOrderRequest): Promise<Order> {

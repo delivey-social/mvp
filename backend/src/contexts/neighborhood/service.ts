@@ -8,6 +8,8 @@ import {
 import { NeighborhoodRepository } from "./repository.d";
 import { NeighborhoodService as INeighborhoodService } from "./service.d";
 
+import cleanMongooseObject from "@/utils/cleanMongooseObject";
+
 export class NeighborhoodService implements INeighborhoodService {
   constructor(private repo: NeighborhoodRepository) {}
 
@@ -15,7 +17,7 @@ export class NeighborhoodService implements INeighborhoodService {
     return await this.repo.list();
   }
 
-  async findById(id: string): Promise<Neighborhood | null> {
+  async findById(id: string): Promise<Neighborhood> {
     return await this.repo.findById(id);
   }
 

@@ -10,7 +10,7 @@ export interface CRUDRepository<
   update(id: string, data: TUpdate): Promise<T>;
   delete(id: string): Promise<boolean>;
   list(): Promise<T[]>;
-  findById(id: string): Promise<T | null>;
+  findById(id: string): Promise<T>;
 }
 
 export interface CRUDService<
@@ -22,5 +22,5 @@ export interface CRUDService<
   update(id: string, data: TUpdate): Promise<T>;
   delete(id: string): Promise<boolean>;
   list(): Promise<T[]>;
-  findById(id: string): Promise<T | null>;
+  findById(id: string): Promise<T>;
 }
