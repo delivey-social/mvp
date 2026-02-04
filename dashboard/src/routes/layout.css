@@ -147,6 +147,10 @@
 		@apply border px-4 py-2 text-start font-bold [&[align=center]]:text-center [&[align=right]]:text-end;
 	}
 
+	thead tr {
+		@apply bg-muted;
+	}
+
 	tr {
 		@apply even:bg-muted m-0 border-t p-0;
 	}
@@ -178,5 +182,9 @@
 
 	.muted {
 		@apply text-muted-foreground text-sm;
+	}
+
+	button {
+		@apply cursor-pointer;
 	}
 }
