@@ -11,7 +11,7 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section class="m-10 flex flex-col gap-10 max-w-3xl w-full mx-auto">
+<section class="grid gap-10 max-w-3xl mx-auto my-10">
 	<h1>Pedidos</h1>
 
 	<OrderTable items={data.items} />

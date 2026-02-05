@@ -1,14 +1,22 @@
 <script lang="ts">
 	import './layout.css';
+
 	import { Toaster } from '$lib/components/ui/sonner';
+
+	import * as Sidebar from '$lib/components/ui/sidebar';
+	import AppSidebar from '$lib/components/layout/app-sidebar/app-sidebar.svelte';
 
 	let { children } = $props();
 </script>
 
-<div class="app">
-	<main>
-		<Toaster position="top-center" />
+<Sidebar.Provider class="w-full">
+	<Toaster position="top-center" />
+
+	<AppSidebar />
+
+	<main class="w-full">
+		<Sidebar.Trigger />
 
 		{@render children()}
 	</main>
-</div>
+</Sidebar.Provider>
