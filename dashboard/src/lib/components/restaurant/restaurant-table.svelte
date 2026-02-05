@@ -2,48 +2,41 @@
 	import type { Restaurant } from '../../../app';
 
 	import * as Table from '$lib/components/ui/table/index.js';
+	import DataTable from '../layout/data-table/data-table.svelte';
 
 	import { toast } from 'svelte-sonner';
 
 	const { items }: { items: Restaurant[] } = $props();
 </script>
 
-<Table.Root>
-	<Table.Caption>Restaurantes cadastrados no comida.app.</Table.Caption>
-	<Table.Header>
+<DataTable
+	caption="Pedidos recentes realizados no comida.app."
+	columns={[
+		{ name: 'id' },
+		{ name: 'Nome' },
+		{ name: 'Status' },
+		{ name: 'Endereço' },
+		{ name: 'Ações', className: 'text-end' }
+	]}
+>
+	{#each items as item}
 		<Table.Row>
-			<Table.Head>id</Table.Head>
+			<Table.Cell
+				class="max-w-10 truncate cursor-pointer"
+				onclick={() => {
+					navigator.clipboard.writeText(item.id);
+					toast.success('id copiado para a área de transferência!');
+				}}
+				title={item.id}>{item.id}</Table.Cell
+			>
 
-			<Table.Head>Nome</Table.Head>
+			<Table.Cell>{item.name}</Table.Cell>
 
-			<Table.Head>Status</Table.Head>
+			<Table.Cell>Ativo</Table.Cell>
 
-			<Table.Head>Endereço</Table.Head>
+			<Table.Cell>{item.address}</Table.Cell>
 
-			<Table.Head class="text-end">Ações</Table.Head>
+			<Table.Cell></Table.Cell>
 		</Table.Row>
-	</Table.Header>
-
-	<Table.Body>
-		{#each items as item}
-			<Table.Row>
-				<Table.Cell
-					class="max-w-10 truncate cursor-pointer"
-					onclick={() => {
-						navigator.clipboard.writeText(item.id);
-						toast.success('id copiado para a área de transferência!');
-					}}
-					title={item.id}>{item.id}</Table.Cell
-				>
-
-				<Table.Cell>{item.name}</Table.Cell>
-
-				<Table.Cell>Ativo</Table.Cell>
-
-				<Table.Cell>{item.address}</Table.Cell>
-
-				<Table.Cell></Table.Cell>
-			</Table.Row>
-		{/each}
-	</Table.Body>
-</Table.Root>
+	{/each}
+</DataTable>
