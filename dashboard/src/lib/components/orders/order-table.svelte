@@ -2,8 +2,11 @@
 	import type { Order } from '../../../app';
 
 	import * as Table from '$lib/components/ui/table/index.js';
+
 	import EditModal from './edit-modal.svelte';
 	import DeleteModal from './delete-modal.svelte';
+
+	import { toast } from 'svelte-sonner';
 
 	const { items }: { items: Order[] } = $props();
 </script>
@@ -27,7 +30,14 @@
 	<Table.Body>
 		{#each items as item}
 			<Table.Row>
-				<Table.Cell>{item.id}</Table.Cell>
+				<Table.Cell
+					class="max-w-10 truncate cursor-pointer"
+					onclick={() => {
+						navigator.clipboard.writeText(item.id);
+						toast.success('id copiado para a área de transferência!');
+					}}
+					title={item.id}>{item.id}</Table.Cell
+				>
 
 				<Table.Cell>{item.status}</Table.Cell>
 
