@@ -1,13 +1,25 @@
 <script lang="ts">
-	import BankNoteIcon from '@lucide/svelte/icons/banknote';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import BankNoteIcon from '@lucide/svelte/icons/banknote';
+	import BuildingIcon from '@lucide/svelte/icons/building';
+	import ChefHatIcon from '@lucide/svelte/icons/chef-hat';
 
 	// Menu items.
 	const items = [
 		{
 			title: 'Pedidos',
-			url: '#',
+			url: '/',
 			icon: BankNoteIcon
+		},
+		{
+			title: 'Bairros',
+			url: '/bairros',
+			icon: BuildingIcon
+		},
+		{
+			title: 'Restaurantes',
+			url: '/restaurantes',
+			icon: ChefHatIcon
 		}
 	];
 </script>
