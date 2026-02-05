@@ -1,11 +1,9 @@
 <script lang="ts">
 	import type { Order } from '../../../app';
 
-	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Table from '$lib/components/ui/table/index.js';
-
-	import { Pencil, Trash } from '@lucide/svelte';
 	import EditModal from './edit-modal.svelte';
+	import DeleteModal from './delete-modal.svelte';
 
 	const { items }: { items: Order[] } = $props();
 </script>
@@ -40,9 +38,7 @@
 				<Table.Cell class="text-end flex gap-2 justify-end">
 					<EditModal />
 
-					<Button variant="destructive">
-						<Trash />
-					</Button>
+					<DeleteModal />
 				</Table.Cell>
 			</Table.Row>
 		{/each}
