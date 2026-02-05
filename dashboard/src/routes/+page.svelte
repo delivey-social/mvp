@@ -1,7 +1,12 @@
 <script lang="ts">
+	import type { PageProps } from './$types';
+
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Table from '$lib/components/ui/table/index.js';
+
 	import { Pencil, Trash } from '@lucide/svelte';
+
+	let { data }: PageProps = $props();
 </script>
 
 <svelte:head>
@@ -24,20 +29,26 @@
 			</Table.Row>
 		</Table.Header>
 		<Table.Body>
-			<Table.Row>
-				<Table.Cell class="font-medium">INV001</Table.Cell>
-				<Table.Cell>Paid</Table.Cell>
-				<Table.Cell>Credit Card</Table.Cell>
-				<Table.Cell class="text-end">$250.00</Table.Cell>
-				<Table.Cell class="text-end flex gap-2 justify-end">
-					<Button variant="outline">
-						<Pencil />
-					</Button>
-					<Button variant="destructive">
-						<Trash />
-					</Button>
-				</Table.Cell>
-			</Table.Row>
+			{#each data.items as item}
+				<Table.Row>
+					<Table.Cell>{item.id}</Table.Cell>
+
+					<Table.Cell>{item.status}</Table.Cell>
+
+					<Table.Cell>{item.paymentMethod}</Table.Cell>
+
+					<Table.Cell>{item.totalAmount}</Table.Cell>
+
+					<Table.Cell class="text-end flex gap-2 justify-end">
+						<Button variant="outline">
+							<Pencil />
+						</Button>
+						<Button variant="destructive">
+							<Trash />
+						</Button>
+					</Table.Cell>
+				</Table.Row>
+			{/each}
 		</Table.Body>
 	</Table.Root>
 </section>
