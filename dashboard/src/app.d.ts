@@ -33,13 +33,14 @@ type OrderUser = {
 	phoneNumber: string;
 	address: string;
 };
-enum PaymentMethods {
+
+export enum PaymentMethods {
 	Pix = 'PIX',
 	CartaoCredito = 'CREDIT_CARD',
 	CartaoDebito = 'DEBIT_CARD'
 }
 
-enum OrderStatus {
+export enum OrderStatus {
 	WaitingPayment = 'WAITING_PAYMENT',
 	Preparing = 'PREPARING',
 	ReadyForDelivery = 'READY_FOR_DELIVERY',
