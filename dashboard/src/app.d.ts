@@ -53,4 +53,10 @@ export type Restaurant = {
 	address: string;
 };
 
+export type Neighborhood = {
+	id: string;
+	deliveryFee: number;
+	name: string;
+};
+
 export {};

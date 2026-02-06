@@ -1,3 +1,16 @@
+<script lang="ts">
+	import type { PageProps } from './$types';
+	import NeighborhoodsTable from '$lib/components/neighborhoods/neighborhoods-table.svelte';
+
+	let { data }: PageProps = $props();
+</script>
+
 <section class="grid gap-10 max-w-3xl mx-auto my-10">
-	<h1>Bairros</h1>
+	<div class="flex justify-between items-center">
+		<h1>Bairros</h1>
+
+		<!-- <MaintainModal /> -->
+	</div>
+
+	<NeighborhoodsTable items={data.items} />
 </section>
