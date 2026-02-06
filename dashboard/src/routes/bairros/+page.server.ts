@@ -1,6 +1,7 @@
 import type { Actions } from './$types';
 
 const CREATE_NEIGHBORHOOD_API_URL = 'http://localhost:3000/neighborhoods';
+const DELETE_NEIGHBORHOOD_API_URL = 'http://localhost:3000/neighborhoods';
 
 export const actions = {
 	maintain: async ({ request }) => {
@@ -23,6 +24,16 @@ export const actions = {
 			headers: {
 				'Content-Type': 'application/json'
 			}
+		});
+
+		return { success: true };
+	},
+	delete: async ({ request }) => {
+		const data = await request.formData();
+		const id = data.get('id');
+
+		await fetch(`${DELETE_NEIGHBORHOOD_API_URL}/${id}`, {
+			method: 'DELETE'
 		});
 
 		return { success: true };

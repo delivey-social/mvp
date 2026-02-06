@@ -5,6 +5,7 @@
 	import type { Neighborhood } from '../../../app';
 
 	import MaintainModal from './maintain-modal.svelte';
+	import DeleteModal from './delete-modal.svelte';
 
 	const { items }: { items: Neighborhood[] } = $props();
 </script>
@@ -19,9 +20,12 @@
 	{#each items as item}
 		<Table.Row>
 			<Table.Cell>{item.name}</Table.Cell>
+
 			<Table.Cell>{item.deliveryFee}</Table.Cell>
-			<Table.Cell>
+
+			<Table.Cell class="text-end">
 				<MaintainModal data={item} />
+				<DeleteModal id={item.id} />
 			</Table.Cell>
 		</Table.Row>
 	{/each}
