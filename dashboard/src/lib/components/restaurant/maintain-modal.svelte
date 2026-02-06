@@ -17,7 +17,7 @@
 			<Dialog.Description>Crie um novo restaurante</Dialog.Description>
 		</Dialog.Header>
 
-		<form class="grid gap-6" method="POST">
+		<form class="grid gap-6" method="POST" action="?/create">
 			<div class="grid gap-3">
 				<Label>Nome</Label>
 				<Input type="text" placeholder="Nome do restaurante" name="name" />

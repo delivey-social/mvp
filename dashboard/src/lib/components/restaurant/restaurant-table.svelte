@@ -5,6 +5,7 @@
 	import DataTable from '../layout/data-table/data-table.svelte';
 
 	import { toast } from 'svelte-sonner';
+	import DeleteModal from './delete-modal.svelte';
 
 	const { items }: { items: Restaurant[] } = $props();
 </script>
@@ -36,7 +37,9 @@
 
 			<Table.Cell>{item.address}</Table.Cell>
 
-			<Table.Cell></Table.Cell>
+			<Table.Cell class="text-end">
+				<DeleteModal id={item.id} />
+			</Table.Cell>
 		</Table.Row>
 	{/each}
 </DataTable>
