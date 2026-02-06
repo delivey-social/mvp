@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
+
 	import NeighborhoodsTable from '$lib/components/neighborhoods/neighborhoods-table.svelte';
+	import MaintainModal from '$lib/components/neighborhoods/maintain-modal.svelte';
 
 	let { data }: PageProps = $props();
 </script>
@@ -9,7 +11,7 @@
 	<div class="flex justify-between items-center">
 		<h1>Bairros</h1>
 
-		<!-- <MaintainModal /> -->
+		<MaintainModal />
 	</div>
 
 	<NeighborhoodsTable items={data.items} />

@@ -4,6 +4,8 @@
 
 	import type { Neighborhood } from '../../../app';
 
+	import MaintainModal from './maintain-modal.svelte';
+
 	const { items }: { items: Neighborhood[] } = $props();
 </script>
 
@@ -18,7 +20,9 @@
 		<Table.Row>
 			<Table.Cell>{item.name}</Table.Cell>
 			<Table.Cell>{item.deliveryFee}</Table.Cell>
-			<Table.Cell></Table.Cell>
+			<Table.Cell>
+				<MaintainModal data={item} />
+			</Table.Cell>
 		</Table.Row>
 	{/each}
 </DataTable>
