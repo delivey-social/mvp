@@ -40,9 +40,9 @@
 			<Table.Cell>{item.totalAmount}</Table.Cell>
 
 			<Table.Cell class="text-end flex gap-2 justify-end">
-				<EditModal />
+				<!-- <EditModal /> -->
 
-				<DeleteModal />
+				<DeleteModal id={item.id} />
 			</Table.Cell>
 		</Table.Row>
 	{/each}</DataTable
