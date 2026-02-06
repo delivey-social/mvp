@@ -6,6 +6,7 @@
 
 	import { toast } from 'svelte-sonner';
 	import DeleteModal from './delete-modal.svelte';
+	import MaintainModal from './maintain-modal.svelte';
 
 	const { items }: { items: Restaurant[] } = $props();
 </script>
@@ -38,6 +39,7 @@
 			<Table.Cell>{item.address}</Table.Cell>
 
 			<Table.Cell class="text-end">
+				<MaintainModal data={item} />
 				<DeleteModal id={item.id} />
 			</Table.Cell>
 		</Table.Row>

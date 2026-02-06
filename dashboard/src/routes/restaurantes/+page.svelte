@@ -8,7 +8,7 @@
 </script>
 
 <section class="grid gap-10 max-w-3xl mx-auto my-10">
-	<div class="flex justify-between">
+	<div class="flex justify-between items-center">
 		<h1>Restaurantes</h1>
 
 		<MaintainModal />

@@ -4,18 +4,22 @@ const CREATE_RESTAURANT_API_URL = 'http://localhost:3000/restaurante';
 const DELETE_RESTAURANT_API_URL = 'http://localhost:3000/restaurante';
 
 export const actions = {
-	create: async ({ request }) => {
+	maintain: async ({ request }) => {
 		const data = await request.formData();
 		const name = data.get('name');
 		const address = data.get('address');
+		const id = data.get('id');
+
+		const method = id ? 'PATCH' : 'POST';
+		const URL = id ? `${CREATE_RESTAURANT_API_URL}/${id}` : CREATE_RESTAURANT_API_URL;
 
 		const reqData = {
 			name,
 			address
 		};
 
-		await fetch(CREATE_RESTAURANT_API_URL, {
-			method: 'POST',
+		await fetch(URL, {
+			method: method,
 			body: JSON.stringify(reqData),
 			headers: {
 				'Content-Type': 'application/json'
@@ -24,6 +28,7 @@ export const actions = {
 
 		return { success: true };
 	},
+
 	delete: async ({ request }) => {
 		const data = await request.formData();
 		const id = data.get('id');
