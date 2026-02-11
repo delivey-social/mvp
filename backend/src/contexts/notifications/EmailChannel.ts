@@ -31,11 +31,9 @@ export class EmailChannel implements Channel {
     const html = await email({
       totalValue: data.totalAmount,
       client: data.user,
-      id: data.id,
+      id: data.id.toString(),
       date: new Date(),
-      buttonUrl: `${process.env.BACKEND_URL!}/orders/confirm_payment?id=${
-        data.id
-      }`,
+      buttonUrl: `${process.env.BACKEND_URL!}/orders/confirm_payment?id=${data.id.toString()}`,
     });
 
     await this.transporter.sendMail({
