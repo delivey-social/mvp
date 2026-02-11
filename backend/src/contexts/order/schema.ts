@@ -1,32 +1,39 @@
-import { z } from "zod";
 import idSchema from "../../shared/idSchema";
 import { PaymentMethods } from "./PaymentMethods.d";
+import { object, number, string, array, mixed, ObjectSchema } from "yup";
+import { CreateOrderRequest, UpdateOrderRequest } from "./types";
 
-// TODO: Derive schema from models
-const orderSchema = {
-  create: z
-    .object({
-      items: z
-        .array(
-          z.object({
-            id: z.string(),
-            quantity: z.number().positive().int(),
-          }),
-        )
-        .min(1),
-      user: z.object({
-        email: z.string().email(),
-        phoneNumber: z.string(),
-        address: z.string(),
+const createOrderSchema: ObjectSchema<CreateOrderRequest> = object({
+  items: array()
+    .of(
+      object({
+        id: idSchema.required(),
+        quantity: number().min(1).required(),
       }),
-      neighborhoodId: z.string(),
-      observation: z.string().optional(),
-      paymentMethod: z.nativeEnum(PaymentMethods),
-    })
-    .strict(),
-  registerPayment: z.object({ id: idSchema }).strict(),
-  readyForDelivery: z.object({ id: idSchema }).strict(),
-  delivered: z.object({ id: idSchema }).strict(),
-};
+    )
+    .min(1)
+    .required(),
+  user: object({
+    email: string().email().required(),
+    phoneNumber: string().required(),
+    address: string().required(),
+  }).required(),
+  neighborhoodId: idSchema.required(),
+  observation: string().optional(),
+  paymentMethod: mixed<PaymentMethods>()
+    .oneOf(Object.values(PaymentMethods))
+    .required(),
+}).strict();
 
-export default orderSchema;
+const updateOrderSchema: ObjectSchema<UpdateOrderRequest> =
+  createOrderSchema.partial();
+
+const withId = object({ id: idSchema.required() }).strict();
+
+export default {
+  create: createOrderSchema,
+  update: updateOrderSchema,
+  registerPayment: withId,
+  readyForDelivery: withId,
+  delivered: withId,
+};

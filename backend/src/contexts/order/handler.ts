@@ -5,6 +5,7 @@ import { BadRequestError } from "../../errors/HTTPError";
 import orderSchema from "./schema";
 import { OrderService } from "./service";
 import { UpdateOrderRequest } from "./types";
+import catchError from "@/errors/catchError";
 
 export class OrderHandler {
   constructor(
@@ -26,11 +27,9 @@ export class OrderHandler {
 
   async createOrder(req: Request, res: Response) {
     // TODO: Remove orderSchema dependency from here
-    const { data, error } = orderSchema.create.safeParse(req.body);
+    const [err, data] = await catchError(orderSchema.create.validate(req.body));
 
-    if (error) {
-      throw new BadRequestError("Invalid order data");
-    }
+    if (err) throw new BadRequestError();
 
     const order = await this.service.create(data);
 
@@ -39,11 +38,11 @@ export class OrderHandler {
 
   async registerPayment(req: Request, res: Response) {
     // TODO: Remove orderSchema dependency from here
-    const { data, error: queryError } = orderSchema.registerPayment.safeParse(
-      req.query,
+    const [err, data] = await catchError(
+      orderSchema.registerPayment.validate(req.query),
     );
 
-    if (queryError) {
+    if (err) {
       res.status(400).json("A valid order id is required");
       return;
     }
@@ -61,11 +60,12 @@ export class OrderHandler {
 
   async readyForDelivery(req: Request, res: Response) {
     // TODO: Remove orderSchema dependency from here
-    const { data, error: queryError } = orderSchema.readyForDelivery.safeParse(
-      req.query,
+
+    const [err, data] = await catchError(
+      orderSchema.readyForDelivery.validate(req.query),
     );
 
-    if (queryError) {
+    if (err) {
       res.status(400).json("A valid order id is required");
       return;
     }
@@ -83,10 +83,12 @@ export class OrderHandler {
 
   async delivered(req: Request, res: Response) {
     // TODO: Remove orderSchema dependency from here
-    const { data, error: queryError } = orderSchema.delivered.safeParse(
-      req.query,
+
+    const [err, data] = await catchError(
+      orderSchema.delivered.validate(req.query),
     );
-    if (queryError) {
+
+    if (err) {
       res.status(400).json("A valid order id is required");
       return;
     }
@@ -117,8 +119,11 @@ export class OrderHandler {
 
   async update(req: Request, res: Response) {
     // TODO: Validate data
+    const [err, data] = await catchError(orderSchema.update.validate(req.body));
+
+    if (err) throw new BadRequestError();
+
     const id = req.params.id;
-    const data: UpdateOrderRequest = req.body;
 
     await this.service.update(id, data);
 

@@ -1,10 +1,21 @@
 import { PaymentMethods } from "./PaymentMethods";
 
-import { z } from "zod";
 import { OrderStatus } from "./OrderStatus";
-import orderSchema from "./schema";
 
-export type CreateOrderRequest = z.infer<typeof orderSchema.create>;
+export type CreateOrderRequest = {
+  items: {
+    id: string;
+    quantity: number;
+  }[];
+  user: {
+    email: string;
+    phoneNumber: string;
+    address: string;
+  };
+  neighborhoodId: string;
+  observation?: string;
+  paymentMethod: PaymentMethods;
+};
 export type UpdateOrderRequest = Partial<CreateOrderRequest>;
 
 export type EnrichedOrderDTO = CreateOrderRequest & {

@@ -1,6 +1,8 @@
-import { z } from "zod";
+import { string } from "yup";
 import { Types } from "mongoose";
 
-const idSchema = z.string().refine(Types.ObjectId.isValid);
+const idSchema = string().test("is-id", `is not id`, (v) =>
+  Boolean(v && Types.ObjectId.isValid(v)),
+);
 
 export default idSchema;
