@@ -5,6 +5,7 @@ import { OrderStatus } from "./OrderStatus";
 import orderSchema from "./schema";
 
 export type CreateOrderRequest = z.infer<typeof orderSchema.create>;
+export type UpdateOrderRequest = Partial<CreateOrderRequest>;
 
 export type EnrichedOrderDTO = CreateOrderRequest & {
   items: OrderItem[];

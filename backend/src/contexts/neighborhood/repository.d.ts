@@ -1,6 +1,4 @@
+import { CRUDRepository } from "@/utils/CRUD";
 import { Neighborhood } from "./types.d";
 
-export interface NeighborhoodRepository {
-  getAll: () => Promise<Array<Neighborhood>>;
-  findById: (id: string) => Promise<Neighborhood | null>;
-}
+export interface NeighborhoodRepository extends CRUDRepository<Neighborhood> {}

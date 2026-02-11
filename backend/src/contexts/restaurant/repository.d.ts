@@ -1,6 +1,4 @@
-import { CreateRestaurantRequest, Restaurant } from "./types.d";
+import { CRUDRepository } from "@/utils/CRUD";
+import { Restaurant } from "./types.d";
 
-export interface RestaurantRepository {
-  create(data: CreateRestaurantRequest): Promise<string>;
-  fetchAll(): Promise<Restaurant[]>;
-}
+export interface RestaurantRepository extends CRUDRepository<Restaurant> {}

@@ -1,7 +1,9 @@
-import { CreateMenuItemRequest, MenuItem } from "./types.d";
+import { CRUDService } from "@/utils/CRUD";
+import {
+  CreateMenuItemRequest,
+  UpdateMenuItemRequest,
+  MenuItem,
+} from "./types.d";
 
-export interface MenuItemsService {
-  create: (data: CreateMenuItemRequest) => Promise<string>;
-  findById: (id: string) => Promise<MenuItem | null>;
-  getAll: () => Promise<MenuItem[]>;
-}
+export interface MenuItemsService
+  extends CRUDService<MenuItem, CreateMenuItemRequest, UpdateMenuItemRequest> {}

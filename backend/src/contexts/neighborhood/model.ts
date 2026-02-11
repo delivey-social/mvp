@@ -6,6 +6,10 @@ const neighborhoodSchema = new mongoose.Schema<Neighborhood & Document>({
   deliveryFee: { type: Number, required: true },
 });
 
+neighborhoodSchema.set("toObject", {
+  virtuals: true,
+});
+
 const NeighborhoodModel = mongoose.model<Neighborhood & Document>(
   "neighborhoods",
   neighborhoodSchema,

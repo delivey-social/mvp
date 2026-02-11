@@ -1,7 +1,6 @@
-import { Neighborhood } from "./types";
+import { CRUDService } from "@/utils/CRUD";
+import { Neighborhood } from "./types.d";
 
-export interface NeighborhoodService {
-  getAll: () => Promise<Array<Neighborhood>>;
-  findById: (id: string) => Promise<Neighborhood | null>;
+export interface NeighborhoodService extends CRUDService<Neighborhood> {
   getDeliveryFee: (id: string) => Promise<number>;
 }

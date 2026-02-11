@@ -1,25 +1,50 @@
-import RestaurantModel from "./model";
+import {
+  CreateRestaurantRequest,
+  UpdateRestaurantRequest,
+  Restaurant,
+} from "./types.d";
+import { RestaurantRepository as IRestaurantRepository } from "./repository.d";
 
-import { CreateRestaurantRequest, Restaurant } from "./types.d";
-import { RestaurantRepository as IRestaurantRepository } from "./repository";
+import cleanMongooseObject from "@/utils/cleanMongooseObject";
+import RestaurantModel from "./model";
+import { ResourceNotFoundError } from "@/errors/HTTPError";
 
 export class RestaurantRepository implements IRestaurantRepository {
-  constructor() {}
+  constructor(private model: typeof RestaurantModel) {}
 
-  async create(data: CreateRestaurantRequest): Promise<string> {
+  async create(data: CreateRestaurantRequest): Promise<Restaurant> {
     const restaurant = await RestaurantModel.create(data);
 
-    return restaurant.id;
+    return cleanMongooseObject(restaurant);
   }
 
-  async fetchAll(): Promise<Restaurant[]> {
-    const restaurants = await RestaurantModel.find({}).lean().exec();
+  async update(id: string, data: UpdateRestaurantRequest): Promise<Restaurant> {
+    const item = await RestaurantModel.findByIdAndUpdate(id, data);
 
-    return restaurants.map((r) => ({
-      ...r,
-      id: r["_id"].toString(),
-      __v: undefined,
-      _id: undefined,
-    }));
+    if (!item) {
+      throw new ResourceNotFoundError("restaurant");
+    }
+
+    return item;
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.model.findByIdAndDelete(id);
+  }
+
+  async list(): Promise<Restaurant[]> {
+    const restaurants = await RestaurantModel.find({});
+
+    return restaurants.map((r) => cleanMongooseObject<Restaurant>(r));
+  }
+
+  async findById(id: string): Promise<Restaurant> {
+    const item = await this.model.findById(id);
+
+    if (!item) {
+      throw new ResourceNotFoundError("restaurant");
+    }
+
+    return cleanMongooseObject(item);
   }
 }

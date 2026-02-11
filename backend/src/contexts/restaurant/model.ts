@@ -7,10 +7,8 @@ const restaurantSchema = new Schema<Restaurant & Document>({
   address: { type: String, required: true },
 });
 
-restaurantSchema.virtual("id").get(function (this: {
-  _id: mongoose.Types.ObjectId;
-}) {
-  return this._id.toHexString();
+restaurantSchema.set("toObject", {
+  virtuals: true,
 });
 
 const RestaurantModel = mongoose.model<Restaurant & Document>(

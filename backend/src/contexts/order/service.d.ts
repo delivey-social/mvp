@@ -1,4 +1,5 @@
-import { CreateOrderRequest, Order } from "./types.d";
+import { CRUDService } from "@/utils/CRUD";
+import { CreateOrderRequest, Order, UpdateOrderRequest } from "./types.d";
 
 export type Result =
   | {
@@ -9,9 +10,8 @@ export type Result =
       success: true;
     };
 
-export interface OrderService {
-  getOrderById: (id: string) => Promise<Order | null>;
-  createOrder: (data: CreateOrderRequest) => Promise<string>;
+export interface OrderService
+  extends CRUDService<Order, CreateOrderRequest, UpdateOrderRequest> {
   registerPayment: (id: string) => Promise<Result>;
   readyForDelivery: (id: string) => Promise<Result>;
   delivered: (id: string) => Promise<Result>;
