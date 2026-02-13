@@ -1,11 +1,9 @@
 import express, { Request, Response, Express } from "express";
 
-import { BadRequestError } from "../../errors/HTTPError";
-
-import orderSchema from "./schema";
+import orderSchema, { withId } from "./schema";
 import { OrderService } from "./service";
-import { UpdateOrderRequest } from "./types";
-import catchError from "@/errors/catchError";
+
+import validateRequest from "@/middleware/validateRequest";
 
 export class OrderHandler {
   constructor(
@@ -14,40 +12,51 @@ export class OrderHandler {
   ) {
     const router = express.Router();
 
-    router.get("/confirm_payment", this.registerPayment.bind(this));
-    router.get("/ready_for_delivery", this.readyForDelivery.bind(this));
-    router.get("/delivered", this.delivered.bind(this));
-    router.post("/", this.createOrder.bind(this));
-    router.delete("/:id", this.delete.bind(this));
-    router.patch("/:id", this.update.bind(this));
+    router.get(
+      "/confirm_payment",
+      validateRequest(orderSchema.registerPayment, "query"),
+      this.registerPayment.bind(this),
+    );
+    router.get(
+      "/ready_for_delivery",
+      validateRequest(orderSchema.readyForDelivery, "query"),
+      this.readyForDelivery.bind(this),
+    );
+    router.get(
+      "/delivered",
+      validateRequest(orderSchema.delivered, "query"),
+      this.delivered.bind(this),
+    );
+    router.post(
+      "/",
+      validateRequest(orderSchema.create, "body"),
+      this.createOrder.bind(this),
+    );
+    router.delete(
+      "/:id",
+      validateRequest(withId, "params"),
+      this.delete.bind(this),
+    );
+    router.patch(
+      "/:id",
+      validateRequest(withId, "params"),
+      validateRequest(orderSchema.update, "body"),
+      this.update.bind(this),
+    );
     router.get("/", this.list.bind(this));
 
     app.use("/orders", router);
   }
 
   async createOrder(req: Request, res: Response) {
-    // TODO: Remove orderSchema dependency from here
-    const [err, data] = await catchError(orderSchema.create.validate(req.body));
-
-    if (err) throw new BadRequestError();
-
-    const order = await this.service.create(data);
+    const order = await this.service.create(req.body);
 
     res.status(201).json({ message: "Order created successfully", order });
   }
 
   async registerPayment(req: Request, res: Response) {
-    // TODO: Remove orderSchema dependency from here
-    const [err, data] = await catchError(
-      orderSchema.registerPayment.validate(req.query),
-    );
+    const { id } = req.params;
 
-    if (err) {
-      res.status(400).json("A valid order id is required");
-      return;
-    }
-
-    const { id } = data;
     const result = await this.service.registerPayment(id);
 
     if (!result.success) {
@@ -59,18 +68,8 @@ export class OrderHandler {
   }
 
   async readyForDelivery(req: Request, res: Response) {
-    // TODO: Remove orderSchema dependency from here
+    const { id } = req.params;
 
-    const [err, data] = await catchError(
-      orderSchema.readyForDelivery.validate(req.query),
-    );
-
-    if (err) {
-      res.status(400).json("A valid order id is required");
-      return;
-    }
-
-    const { id } = data;
     const result = await this.service.readyForDelivery(id);
 
     if (!result.success) {
@@ -82,18 +81,8 @@ export class OrderHandler {
   }
 
   async delivered(req: Request, res: Response) {
-    // TODO: Remove orderSchema dependency from here
+    const { id } = req.params;
 
-    const [err, data] = await catchError(
-      orderSchema.delivered.validate(req.query),
-    );
-
-    if (err) {
-      res.status(400).json("A valid order id is required");
-      return;
-    }
-
-    const { id } = data;
     const result = await this.service.delivered(id);
     if (!result.success) {
       res.status(400).json(result.message);
@@ -118,14 +107,9 @@ export class OrderHandler {
   }
 
   async update(req: Request, res: Response) {
-    // TODO: Validate data
-    const [err, data] = await catchError(orderSchema.update.validate(req.body));
+    const { id } = req.params;
 
-    if (err) throw new BadRequestError();
-
-    const id = req.params.id;
-
-    await this.service.update(id, data);
+    await this.service.update(id, req.body);
 
     res.status(200).json({
       message: "Order updated successfully",

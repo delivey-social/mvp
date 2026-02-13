@@ -28,7 +28,7 @@ const createOrderSchema: ObjectSchema<CreateOrderRequest> = object({
 const updateOrderSchema: ObjectSchema<UpdateOrderRequest> =
   createOrderSchema.partial();
 
-const withId = object({ id: idSchema.required() }).strict();
+export const withId = object({ id: idSchema.required() }).strict();
 
 export default {
   create: createOrderSchema,
