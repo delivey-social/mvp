@@ -2,6 +2,9 @@ import express, { Express, Request, Response } from "express";
 import { ResourceNotFoundError } from "../../errors/HTTPError";
 
 import { NeighborhoodService } from "./service.d";
+import validateRequest from "@/middleware/validateRequest";
+import neighborhoodSchemas from "./schemas";
+import { withId } from "@/shared/idSchema";
 
 export class NeighborhoodHandler {
   constructor(
@@ -10,16 +13,33 @@ export class NeighborhoodHandler {
   ) {
     const router = express.Router();
 
-    router.get("/", this.getAll.bind(this));
-    router.post("/", this.create.bind(this));
-    router.patch("/:id", this.update.bind(this));
-    router.delete("/:id", this.delete.bind(this));
-    router.get("/:id", this.findById.bind(this));
+    router.get("/", this.list.bind(this));
+    router.post(
+      "/",
+      validateRequest(neighborhoodSchemas.create, "body"),
+      this.create.bind(this),
+    );
+    router.patch(
+      "/:id",
+      validateRequest(withId, "params"),
+      validateRequest(neighborhoodSchemas.update, "body"),
+      this.update.bind(this),
+    );
+    router.delete(
+      "/:id",
+      validateRequest(withId, "params"),
+      this.delete.bind(this),
+    );
+    router.get(
+      "/:id",
+      validateRequest(withId, "params"),
+      this.findById.bind(this),
+    );
 
     app.use("/neighborhoods", router);
   }
 
-  async getAll(_: Request, res: Response) {
+  async list(_: Request, res: Response) {
     const neighborhoods = await this.service.list();
 
     if (!neighborhoods.length) {
@@ -30,7 +50,6 @@ export class NeighborhoodHandler {
   }
 
   async create(req: Request, res: Response) {
-    // TODO: Validate input
     const data = req.body;
 
     const item = await this.service.create(data);
@@ -39,7 +58,6 @@ export class NeighborhoodHandler {
   }
 
   async update(req: Request, res: Response) {
-    // TODO: Validate input
     const id = req.params.id;
     const data = req.body;
 
@@ -53,7 +71,6 @@ export class NeighborhoodHandler {
   }
 
   async delete(req: Request, res: Response) {
-    // TODO: Validate input
     const id = req.params.id;
 
     await this.service.delete(id);
@@ -62,7 +79,6 @@ export class NeighborhoodHandler {
   }
 
   async findById(req: Request, res: Response) {
-    // TODO: Validate input
     const id = req.params.id;
 
     const item = await this.service.findById(id);

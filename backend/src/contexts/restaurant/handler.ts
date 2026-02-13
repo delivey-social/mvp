@@ -3,6 +3,10 @@ import express, { Express, Request, Response } from "express";
 import { RestaurantService } from "./service.d";
 import { CreateRestaurantRequest, UpdateRestaurantRequest } from "./types.d";
 
+import validateRequest from "@/middleware/validateRequest";
+import restaurantSchemas from "./schemas";
+import { withId } from "@/shared/idSchema";
+
 export class RestaurantHandler {
   constructor(
     app: Express,
@@ -11,10 +15,27 @@ export class RestaurantHandler {
     const router = express.Router();
 
     router.get("/", this.list.bind(this));
-    router.post("/", this.create.bind(this));
-    router.patch("/:id", this.update.bind(this));
-    router.delete("/:id", this.delete.bind(this));
-    router.get("/:id", this.findById.bind(this));
+    router.post(
+      "/",
+      validateRequest(restaurantSchemas.create, "body"),
+      this.create.bind(this),
+    );
+    router.patch(
+      "/:id",
+      validateRequest(withId, "params"),
+      validateRequest(restaurantSchemas.update, "body"),
+      this.update.bind(this),
+    );
+    router.delete(
+      "/:id",
+      validateRequest(withId, "params"),
+      this.delete.bind(this),
+    );
+    router.get(
+      "/:id",
+      validateRequest(withId, "params"),
+      this.findById.bind(this),
+    );
 
     app.use("/restaurante", router);
   }
@@ -26,7 +47,6 @@ export class RestaurantHandler {
   }
 
   async create(req: Request, res: Response) {
-    // TODO: Validate data
     const data: CreateRestaurantRequest = req.body;
 
     const restaurantId = await this.service.create(data);
@@ -35,7 +55,6 @@ export class RestaurantHandler {
   }
 
   async update(req: Request, res: Response) {
-    // TODO: Validate data
     const id = req.params.id;
     const data: UpdateRestaurantRequest = req.body;
 
@@ -45,7 +64,6 @@ export class RestaurantHandler {
   }
 
   async delete(req: Request, res: Response) {
-    // TODO: Validate data
     const id = req.params.id;
 
     await this.service.delete(id);

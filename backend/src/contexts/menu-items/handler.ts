@@ -2,6 +2,9 @@ import express, { Express, Request, Response } from "express";
 
 import { MenuItemsService } from "./service.d";
 import { CreateMenuItemRequest, UpdateMenuItemRequest } from "./types.d";
+import validateRequest from "@/middleware/validateRequest";
+import menuItemsSchemas from "./schemas";
+import { withId } from "@/shared/idSchema";
 
 export class MenuItemsHandler {
   constructor(
@@ -11,10 +14,27 @@ export class MenuItemsHandler {
     const router = express.Router();
 
     router.get("/", this.list.bind(this));
-    router.post("/", this.create.bind(this));
-    router.patch("/:id", this.update.bind(this));
-    router.delete("/:id", this.delete.bind(this));
-    router.get("/:id", this.findById.bind(this));
+    router.post(
+      "/",
+      validateRequest(menuItemsSchemas.create, "body"),
+      this.create.bind(this),
+    );
+    router.patch(
+      "/:id",
+      validateRequest(withId, "params"),
+      validateRequest(menuItemsSchemas.update, "body"),
+      this.update.bind(this),
+    );
+    router.delete(
+      "/:id",
+      validateRequest(withId, "params"),
+      this.delete.bind(this),
+    );
+    router.get(
+      "/:id",
+      validateRequest(withId, "params"),
+      this.findById.bind(this),
+    );
 
     app.use("/menu-items", router);
   }

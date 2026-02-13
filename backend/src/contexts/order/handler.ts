@@ -1,10 +1,11 @@
 import express, { Request, Response, Express } from "express";
 
-import { BadRequestError } from "../../errors/HTTPError";
-
-import orderSchema from "./schema";
 import { OrderService } from "./service";
-import { UpdateOrderRequest } from "./types";
+
+import validateRequest from "@/middleware/validateRequest";
+
+import orderSchema from "./schemas";
+import { withId } from "@/shared/idSchema";
 
 export class OrderHandler {
   constructor(
@@ -13,43 +14,50 @@ export class OrderHandler {
   ) {
     const router = express.Router();
 
-    router.get("/confirm_payment", this.registerPayment.bind(this));
-    router.get("/ready_for_delivery", this.readyForDelivery.bind(this));
-    router.get("/delivered", this.delivered.bind(this));
-    router.post("/", this.createOrder.bind(this));
-    router.delete("/:id", this.delete.bind(this));
-    router.patch("/:id", this.update.bind(this));
+    router.get(
+      "/confirm_payment",
+      validateRequest(orderSchema.registerPayment, "query"),
+      this.registerPayment.bind(this),
+    );
+    router.get(
+      "/ready_for_delivery",
+      validateRequest(orderSchema.readyForDelivery, "query"),
+      this.readyForDelivery.bind(this),
+    );
+    router.get(
+      "/delivered",
+      validateRequest(orderSchema.delivered, "query"),
+      this.delivered.bind(this),
+    );
+    router.post(
+      "/",
+      validateRequest(orderSchema.create, "body"),
+      this.createOrder.bind(this),
+    );
+    router.delete(
+      "/:id",
+      validateRequest(withId, "params"),
+      this.delete.bind(this),
+    );
+    router.patch(
+      "/:id",
+      validateRequest(withId, "params"),
+      validateRequest(orderSchema.update, "body"),
+      this.update.bind(this),
+    );
     router.get("/", this.list.bind(this));
 
     app.use("/orders", router);
   }
 
   async createOrder(req: Request, res: Response) {
-    // TODO: Remove orderSchema dependency from here
-    const { data, error } = orderSchema.create.safeParse(req.body);
-
-    if (error) {
-      throw new BadRequestError("Invalid order data");
-    }
-
-    const order = await this.service.create(data);
+    const order = await this.service.create(req.body);
 
     res.status(201).json({ message: "Order created successfully", order });
   }
 
   async registerPayment(req: Request, res: Response) {
-    // TODO: Remove orderSchema dependency from here
-    const { data, error: queryError } = orderSchema.registerPayment.safeParse(
-      req.query,
-    );
-
-    if (queryError) {
-      res.status(400).json("A valid order id is required");
-      return;
-    }
-
-    const { id } = data;
-    const result = await this.service.registerPayment(id);
+    const result = await this.service.registerPayment(req.query.id as string);
 
     if (!result.success) {
       res.status(400).json(result.message);
@@ -60,18 +68,7 @@ export class OrderHandler {
   }
 
   async readyForDelivery(req: Request, res: Response) {
-    // TODO: Remove orderSchema dependency from here
-    const { data, error: queryError } = orderSchema.readyForDelivery.safeParse(
-      req.query,
-    );
-
-    if (queryError) {
-      res.status(400).json("A valid order id is required");
-      return;
-    }
-
-    const { id } = data;
-    const result = await this.service.readyForDelivery(id);
+    const result = await this.service.readyForDelivery(req.query.id as string);
 
     if (!result.success) {
       res.status(400).json(result.message);
@@ -82,17 +79,8 @@ export class OrderHandler {
   }
 
   async delivered(req: Request, res: Response) {
-    // TODO: Remove orderSchema dependency from here
-    const { data, error: queryError } = orderSchema.delivered.safeParse(
-      req.query,
-    );
-    if (queryError) {
-      res.status(400).json("A valid order id is required");
-      return;
-    }
+    const result = await this.service.delivered(req.query.id as string);
 
-    const { id } = data;
-    const result = await this.service.delivered(id);
     if (!result.success) {
       res.status(400).json(result.message);
       return;
@@ -116,11 +104,9 @@ export class OrderHandler {
   }
 
   async update(req: Request, res: Response) {
-    // TODO: Validate data
-    const id = req.params.id;
-    const data: UpdateOrderRequest = req.body;
+    const { id } = req.params;
 
-    await this.service.update(id, data);
+    await this.service.update(id, req.body);
 
     res.status(200).json({
       message: "Order updated successfully",
