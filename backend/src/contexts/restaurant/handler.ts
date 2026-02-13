@@ -4,7 +4,7 @@ import { RestaurantService } from "./service.d";
 import { CreateRestaurantRequest, UpdateRestaurantRequest } from "./types.d";
 
 import validateRequest from "@/middleware/validateRequest";
-import restauranteSchemas from "./schemas";
+import restaurantSchemas from "./schemas";
 import { withId } from "@/shared/idSchema";
 
 export class RestaurantHandler {
@@ -17,13 +17,13 @@ export class RestaurantHandler {
     router.get("/", this.list.bind(this));
     router.post(
       "/",
-      validateRequest(restauranteSchemas.create, "body"),
+      validateRequest(restaurantSchemas.create, "body"),
       this.create.bind(this),
     );
     router.patch(
       "/:id",
       validateRequest(withId, "params"),
-      validateRequest(restauranteSchemas.update, "body"),
+      validateRequest(restaurantSchemas.update, "body"),
       this.update.bind(this),
     );
     router.delete(

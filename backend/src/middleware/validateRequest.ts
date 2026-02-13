@@ -8,7 +8,7 @@ export default function validateRequest(
   schema: Schema,
   target: "query" | "params" | "body",
 ): RequestHandler {
-  return async (req, res, next) => {
+  return async (req, _, next) => {
     const [err] = await catchError(schema.validate(req[target]));
 
     if (err) {

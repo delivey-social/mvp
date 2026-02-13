@@ -8,5 +8,5 @@ const create: ObjectSchema<CreateRestaurantRequest> = object({
 
 const update: ObjectSchema<UpdateRestaurantRequest> = create.partial();
 
-const restauranteSchemas = { create, update };
-export default restauranteSchemas;
+const restaurantSchemas = { create, update };
+export default restaurantSchemas;

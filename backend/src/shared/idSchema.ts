@@ -1,7 +1,7 @@
 import { object, string } from "yup";
 import { Types } from "mongoose";
 
-const idSchema = string().test("is-id", `is not id`, (v) =>
+const idSchema = string().test("is-id", `must be a valid ObjectId`, (v) =>
   Boolean(v && Types.ObjectId.isValid(v)),
 );
 
