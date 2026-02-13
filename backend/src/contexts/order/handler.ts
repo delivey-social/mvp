@@ -4,7 +4,7 @@ import { OrderService } from "./service";
 
 import validateRequest from "@/middleware/validateRequest";
 
-import orderSchema from "./schema";
+import orderSchema from "./schemas";
 import { withId } from "@/shared/idSchema";
 
 export class OrderHandler {
