@@ -57,9 +57,7 @@ export class OrderHandler {
   }
 
   async registerPayment(req: Request, res: Response) {
-    const { id } = req.params;
-
-    const result = await this.service.registerPayment(id);
+    const result = await this.service.registerPayment(req.query.id as string);
 
     if (!result.success) {
       res.status(400).json(result.message);
@@ -70,9 +68,7 @@ export class OrderHandler {
   }
 
   async readyForDelivery(req: Request, res: Response) {
-    const { id } = req.params;
-
-    const result = await this.service.readyForDelivery(id);
+    const result = await this.service.readyForDelivery(req.query.id as string);
 
     if (!result.success) {
       res.status(400).json(result.message);
@@ -83,9 +79,8 @@ export class OrderHandler {
   }
 
   async delivered(req: Request, res: Response) {
-    const { id } = req.params;
+    const result = await this.service.delivered(req.query.id as string);
 
-    const result = await this.service.delivered(id);
     if (!result.success) {
       res.status(400).json(result.message);
       return;
