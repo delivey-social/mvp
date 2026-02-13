@@ -1,9 +1,11 @@
 import express, { Request, Response, Express } from "express";
 
-import orderSchema, { withId } from "./schema";
 import { OrderService } from "./service";
 
 import validateRequest from "@/middleware/validateRequest";
+
+import orderSchema from "./schema";
+import { withId } from "@/shared/idSchema";
 
 export class OrderHandler {
   constructor(

@@ -1,4 +1,4 @@
-import idSchema from "../../shared/idSchema";
+import idSchema, { withId } from "../../shared/idSchema";
 import { PaymentMethods } from "./PaymentMethods.d";
 import { object, number, string, array, mixed, ObjectSchema } from "yup";
 import { CreateOrderRequest, UpdateOrderRequest } from "./types";
@@ -27,8 +27,6 @@ const createOrderSchema: ObjectSchema<CreateOrderRequest> = object({
 
 const updateOrderSchema: ObjectSchema<UpdateOrderRequest> =
   createOrderSchema.partial();
-
-export const withId = object({ id: idSchema.required() }).strict();
 
 export default {
   create: createOrderSchema,
