@@ -43,6 +43,8 @@ export class NeighborhoodService implements INeighborhoodService {
   }
 
   async delete(id: string): Promise<void> {
-    await this.repo.delete(id);
+    const exists = await this.repo.delete(id);
+
+    if (!exists) throw new ResourceNotFoundError("neighborhood");
   }
 }

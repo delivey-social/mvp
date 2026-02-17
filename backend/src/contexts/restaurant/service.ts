@@ -6,6 +6,7 @@ import {
   UpdateRestaurantRequest,
   Restaurant,
 } from "./types.d";
+import { ResourceNotFoundError } from "@/errors/HTTPError";
 
 export class RestaurantService implements IRestaurantService {
   constructor(private repo: RestaurantRepository) {}
@@ -19,7 +20,9 @@ export class RestaurantService implements IRestaurantService {
   }
 
   async delete(id: string): Promise<void> {
-    await this.repo.delete(id);
+    const success = await this.repo.delete(id);
+
+    if (!success) throw new ResourceNotFoundError("restaurant");
   }
 
   async list(): Promise<Restaurant[]> {

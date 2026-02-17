@@ -49,8 +49,10 @@ export class NeighborhoodRepository implements INeighborhoodRepository {
     return cleanMongooseObject(neighborhood);
   }
 
-  async delete(id: string): Promise<void> {
-    await this.model.findByIdAndDelete(id);
+  async delete(id: string): Promise<boolean> {
+    const resource = await this.model.findByIdAndDelete(id);
+
+    return Boolean(resource);
   }
 
   async list(): Promise<Neighborhood[]> {

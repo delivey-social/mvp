@@ -132,7 +132,9 @@ export class OrderService implements IOrderService {
   }
 
   async delete(id: string): Promise<void> {
-    await this.repository.delete(id);
+    const exists = await this.repository.delete(id);
+
+    if (!exists) throw new ResourceNotFoundError("order");
   }
 
   async update(id: string, data: UpdateOrderRequest) {

@@ -5,6 +5,7 @@ import {
 } from "./types.d";
 import { MenuItemsService as IMenuItemsService } from "./service.d";
 import { MenuItemsRepository } from "./repository.d";
+import { ResourceNotFoundError } from "@/errors/HTTPError";
 
 export class MenuItemsService implements IMenuItemsService {
   constructor(private repo: MenuItemsRepository) {}
@@ -26,6 +27,8 @@ export class MenuItemsService implements IMenuItemsService {
   }
 
   async delete(id: string): Promise<void> {
-    await this.repo.delete(id);
+    const exists = await this.repo.delete(id);
+
+    if (!exists) throw new ResourceNotFoundError("item");
   }
 }

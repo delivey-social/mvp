@@ -8,7 +8,7 @@ export interface CRUDRepository<
 > {
   create(data: TCreate): Promise<T>;
   update(id: string, data: TUpdate): Promise<T>;
-  delete(id: string): Promise<void>;
+  delete(id: string): Promise<boolean>;
   list(): Promise<T[]>;
   findById(id: string): Promise<T>;
 }
