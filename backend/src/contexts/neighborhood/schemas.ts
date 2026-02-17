@@ -1,5 +1,8 @@
 import { number, object, ObjectSchema, string } from "yup";
-import { CreateNeighborhoodRequest, UpdateNeighborhoodRequest } from "./types";
+import {
+  CreateNeighborhoodRequest,
+  UpdateNeighborhoodRequest,
+} from "@shared/types/neighborhoods";
 
 const create: ObjectSchema<CreateNeighborhoodRequest> = object({
   name: string().required(),

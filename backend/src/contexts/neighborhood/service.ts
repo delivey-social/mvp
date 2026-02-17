@@ -1,10 +1,10 @@
 import { ResourceNotFoundError } from "../../errors/HTTPError";
 
 import {
-  CreateNeighborhoodRequest,
   Neighborhood,
+  CreateNeighborhoodRequest,
   UpdateNeighborhoodRequest,
-} from "./types.d";
+} from "@shared/types/neighborhoods";
 import { NeighborhoodRepository } from "./repository.d";
 import { NeighborhoodService as INeighborhoodService } from "./service.d";
 
