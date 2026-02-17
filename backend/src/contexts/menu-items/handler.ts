@@ -42,7 +42,7 @@ export class MenuItemsHandler {
   private async list(req: Request, res: Response) {
     const items = await this.service.list();
 
-    res.status(200).json({ itens: items });
+    res.status(200).json(items);
   }
 
   private async create(req: Request, res: Response) {
@@ -51,7 +51,7 @@ export class MenuItemsHandler {
 
     const item = await this.service.create(data);
 
-    res.status(201).json({ message: "Item criado com sucesso", item });
+    res.status(201).json(item);
   }
 
   private async update(req: Request, res: Response) {
@@ -61,7 +61,7 @@ export class MenuItemsHandler {
 
     const item = await this.service.update(id, data);
 
-    res.status(200).json({ message: "Item atualizado com sucesso", item });
+    res.status(200).json(item);
   }
 
   private async delete(req: Request, res: Response) {

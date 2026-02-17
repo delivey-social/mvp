@@ -12,7 +12,7 @@ export default function validateRequest(
     const [err] = await catchError(schema.validate(req[target]));
 
     if (err) {
-      throw new BadRequestError(`Invalid ${target}`);
+      throw new BadRequestError(`Invalid ${target}, ${err.message}`);
     }
 
     next();

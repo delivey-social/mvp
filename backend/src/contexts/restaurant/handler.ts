@@ -43,15 +43,15 @@ export class RestaurantHandler {
   async list(req: Request, res: Response) {
     const restaurants = await this.service.list();
 
-    res.status(200).json({ restaurantes: restaurants });
+    res.status(200).json(restaurants);
   }
 
   async create(req: Request, res: Response) {
     const data: CreateRestaurantRequest = req.body;
 
-    const restaurantId = await this.service.create(data);
+    const restaurant = await this.service.create(data);
 
-    res.status(201).json({ id: restaurantId });
+    res.status(201).json({ ...restaurant });
   }
 
   async update(req: Request, res: Response) {

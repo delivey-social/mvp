@@ -53,7 +53,7 @@ export class OrderHandler {
   async createOrder(req: Request, res: Response) {
     const order = await this.service.create(req.body);
 
-    res.status(201).json({ message: "Order created successfully", order });
+    res.status(201).json(order);
   }
 
   async registerPayment(req: Request, res: Response) {
