@@ -1,5 +1,6 @@
 import { CRUDService } from "@/utils/CRUD";
-import { CreateOrderRequest, Order, UpdateOrderRequest } from "./types.d";
+import { Order } from "./types.d";
+import { CreateOrderRequest, UpdateOrderRequest } from "@shared/types/order";
 
 export type Result =
   | {

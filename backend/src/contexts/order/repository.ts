@@ -1,4 +1,4 @@
-import { CreateOrderRequest, EnrichedOrderDTO, Order } from "./types.d";
+import { EnrichedOrderDTO, Order } from "./types.d";
 import { OrderRepository as IOrderRepository } from "./repository.d";
 import { OrderStatus } from "./OrderStatus.d";
 
@@ -6,6 +6,7 @@ import OrderModel from "./model";
 
 import cleanMongooseObject from "../../utils/cleanMongooseObject";
 import { ResourceNotFoundError } from "@/errors/HTTPError";
+import { CreateOrderRequest } from "@shared/types/order";
 
 export class OrderMongoRepository implements IOrderRepository {
   constructor(private model: typeof OrderModel) {}
