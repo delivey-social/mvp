@@ -1,5 +1,8 @@
 import { object, ObjectSchema, string } from "yup";
-import { CreateRestaurantRequest, UpdateRestaurantRequest } from "./types";
+import {
+  CreateRestaurantRequest,
+  UpdateRestaurantRequest,
+} from "@shared/types/restaurant";
 
 const create: ObjectSchema<CreateRestaurantRequest> = object({
   name: string().required(),

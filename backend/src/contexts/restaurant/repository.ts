@@ -1,8 +1,8 @@
+import { Restaurant } from "./types.d";
 import {
   CreateRestaurantRequest,
   UpdateRestaurantRequest,
-  Restaurant,
-} from "./types.d";
+} from "@shared/types/restaurant";
 import { RestaurantRepository as IRestaurantRepository } from "./repository.d";
 
 import cleanMongooseObject from "@/utils/cleanMongooseObject";
