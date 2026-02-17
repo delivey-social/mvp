@@ -2,13 +2,13 @@ import { ResourceNotFoundError } from "@/errors/HTTPError";
 import MenuItemModel from "./model";
 
 import { MenuItemsRepository as IMenuItemsRepository } from "./repository.d";
+import { MenuItem } from "./types.d";
+
+import cleanMongooseObject from "@/utils/cleanMongooseObject";
 import {
   CreateMenuItemRequest,
   UpdateMenuItemRequest,
-  MenuItem,
-} from "./types.d";
-
-import cleanMongooseObject from "@/utils/cleanMongooseObject";
+} from "@shared/types/menu_items";
 
 export class MenuItemsRepository implements IMenuItemsRepository {
   constructor(private model: typeof MenuItemModel) {}

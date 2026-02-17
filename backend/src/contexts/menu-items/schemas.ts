@@ -1,5 +1,8 @@
 import { number, object, ObjectSchema, string } from "yup";
-import { CreateMenuItemRequest, UpdateMenuItemRequest } from "./types";
+import {
+  CreateMenuItemRequest,
+  UpdateMenuItemRequest,
+} from "@shared/types/menu_items";
 import idSchema from "@/shared/idSchema";
 
 const create: ObjectSchema<CreateMenuItemRequest> = object({
