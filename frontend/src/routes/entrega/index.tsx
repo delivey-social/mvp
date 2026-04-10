@@ -13,11 +13,7 @@ import Select from "../../shared-components/select";
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 import { PaymentMethods } from "../../types/Order";
 
-interface GetNeighborhoodsResponseItem {
-  _id: string;
-  name: string;
-  deliveryFee: number;
-}
+import type { Neighborhood } from "../../../../shared/types/neighborhoods";
 
 export default function Entrega() {
   const navigate = useNavigate();
@@ -53,7 +49,7 @@ export default function Entrega() {
           email,
           address,
           phoneNumber: phoneNumber,
-          neighborhoodId: selectedNeighborhood._id,
+          neighborhoodId: selectedNeighborhood.id,
         },
         payment_method,
         observation,
@@ -72,9 +68,14 @@ export default function Entrega() {
   }
 
   const [selectedNeighborhood, setSelectedNeighborhood] =
-    useState<GetNeighborhoodsResponseItem | null>(null);
+    useState<Neighborhood | null>(null);
   const appFee = itemsTotal * 0.1;
   const total = itemsTotal + appFee + (selectedNeighborhood?.deliveryFee ?? 0);
+
+  useEffect(() => {
+    if (!selectedNeighborhood) return;
+    console.log("CHANGED SELECTED NEIGHBORHOOD", selectedNeighborhood.name);
+  }, [selectedNeighborhood]);
 
   return (
     <div className="flex flex-col gap-4 h-full w-full min-w-dvw">
@@ -166,17 +167,13 @@ function SelectNeighborhood({
   setSelectedNeighborhood,
 }: {
   selectedNeighborhoodId: string;
-  setSelectedNeighborhood: (neighborhood: GetNeighborhoodsResponseItem) => void;
+  setSelectedNeighborhood: (neighborhood: Neighborhood) => void;
 }) {
   const { setUserProperty } = useContext(OrderContext);
-  const [neighborhoods, setNeighborhoods] = useState<
-    GetNeighborhoodsResponseItem[]
-  >([]);
+  const [neighborhoods, setNeighborhoods] = useState<Neighborhood[]>([]);
   useEffect(() => {
     axios
-      .get<
-        GetNeighborhoodsResponseItem[]
-      >(`${import.meta.env.VITE_BACKEND_URL}/neighborhoods`)
+      .get<Neighborhood[]>(`${import.meta.env.VITE_BACKEND_URL}/neighborhoods`)
       .then((data) => {
         setNeighborhoods(data.data);
       });
@@ -190,7 +187,7 @@ function SelectNeighborhood({
         setSelectedNeighborhood(
           neighborhoods.find(
             (neighborhood) =>
-              neighborhood._id === (ev.target as HTMLSelectElement).value,
+              neighborhood.id === (ev.target as HTMLSelectElement).value,
           )!,
         );
         setUserProperty(
@@ -203,7 +200,7 @@ function SelectNeighborhood({
         Bairro
       </option>
       {neighborhoods.map((neighborhood) => (
-        <option key={neighborhood._id} value={neighborhood._id}>
+        <option key={neighborhood.id} value={neighborhood.id}>
           {neighborhood.name}
         </option>
       ))}
