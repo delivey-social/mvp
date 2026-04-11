@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 
-import { OrderContext } from "../../contexts/OrderContext";
+import { OrderContext } from "../../contexts/order/OrderContext";
 
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 

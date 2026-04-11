@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import numberToCurrency from "@shared/utils/numberToCurrency";
 
 import { useContext } from "react";
-import { OrderContext } from "../../../contexts/OrderContext";
+import { OrderContext } from "../../../contexts/order/OrderContext";
 
 export default function Footer() {
   const { items } = useContext(OrderContext);

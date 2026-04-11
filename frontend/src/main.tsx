@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 
 import { RouterProvider } from "react-router";
-import { OrderProvider } from "./contexts/OrderContext";
+import { OrderProvider } from "./contexts/order/OrderProvider";
 
 import router from "./routes";
 import Navbar from "./components/navbar";

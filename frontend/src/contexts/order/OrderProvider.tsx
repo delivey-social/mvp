@@ -1,38 +1,8 @@
 import axios from "axios";
-import React, { createContext, useEffect, useState } from "react";
-import { PaymentMethods } from "../types/Order";
-import { CreateOrderRequest } from "@shared/types/order";
-
-// TODO: Remove this interface *use shared
-interface Order {
-  items: {
-    id: string;
-    quantity: number;
-  }[];
-  user: {
-    email: string;
-    phoneNumber: string;
-    address: string;
-    neighborhoodId: string;
-  };
-  observations?: string;
-}
-
-interface IOrderContext {
-  total: number;
-  setTotal: React.Dispatch<React.SetStateAction<number>>;
-  items: Order["items"];
-  user: Order["user"];
-  setItems: React.Dispatch<React.SetStateAction<Order["items"]>>;
-  setUserProperty(key: keyof Order["user"], value: string): void;
-  sendOrder: (
-    user: Order["user"],
-    payment_method: PaymentMethods,
-    observation?: string,
-  ) => Promise<void>;
-}
-
-export const OrderContext = createContext({} as IOrderContext);
+import { useEffect, useState } from "react";
+import { Order, OrderContext } from "./OrderContext";
+import { PaymentMethods } from "../../types/Order";
+import { CreateOrderRequest } from "../../../../shared/types/order";
 
 export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
   const initialItems = sessionStorage.getItem("items")

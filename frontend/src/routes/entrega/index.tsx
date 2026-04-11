@@ -5,7 +5,7 @@ import axios from "axios";
 
 import menu from "../../menu_items.json";
 
-import { OrderContext } from "../../contexts/OrderContext";
+import { OrderContext } from "../../contexts/order/OrderContext";
 
 import Input from "../../components/input";
 import Select from "../../components/select";
