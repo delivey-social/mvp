@@ -38,7 +38,7 @@ export default function CategoriesArea() {
     <div key={category}>
       <h3 className="font-bold my-4">{capitalize(category)}</h3>
 
-      <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
         {items.map((item) => (
           <MenuItem
             key={item.id}
