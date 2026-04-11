@@ -3,6 +3,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { PaymentMethods } from "../types/Order";
 import { CreateOrderRequest } from "@shared/types/order";
 
+// TODO: Remove this interface *use shared
 interface Order {
   items: {
     id: string;
