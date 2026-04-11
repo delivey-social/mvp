@@ -23,14 +23,20 @@ export default function Footer() {
     return (acc += itemPrice * product.quantity);
   }, 0);
 
+  const TOTAL_ITEMS_LABEL =
+    totalProducts === 1 ? "1 item" : `${totalProducts} itens`;
+  const ORDER_TOTAL_LABEL = `Total - ${numberToCurrency(totalAmount)}`;
+
+  if (totalProducts === 0) return null;
+
   return (
-    <footer className="px-4 flex max-w-sm:text-sm gap-8 bg-white border-1 border-t-gray-600 w-full fixed bottom-0 left-0 py-4 justify-between items-center">
+    <footer className="p-6 flex max-w-sm:text-sm gap-8 bg-white border-1 border-t-gray-600 w-full fixed bottom-0 left-0 py-4 justify-between items-center">
       <div className="flex flex-col">
         <div className="font-bold text-xs text-gray-600">
-          {totalProducts} {totalProducts === 1 ? "item" : "itens"}
+          {TOTAL_ITEMS_LABEL}
         </div>
 
-        <div className="font-bold">Total - {numberToCurrency(totalAmount)}</div>
+        <div className="font-bold">{ORDER_TOTAL_LABEL}</div>
       </div>
 
       <button

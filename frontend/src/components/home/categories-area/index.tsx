@@ -34,20 +34,24 @@ export default function CategoriesArea() {
     };
   }
 
-  return Object.entries(menu).map(([category, items]) => (
-    <div key={category}>
-      <h3 className="font-bold my-4">{capitalize(category)}</h3>
+  return (
+    <section className="grid gap-4 my-4 mb-24">
+      {Object.entries(menu).map(([category, items]) => (
+        <div key={category}>
+          <h3 className="font-bold my-4">{capitalize(category)}</h3>
 
-      <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {items.map((item) => (
-          <MenuItem
-            key={item.id}
-            {...item}
-            quantity={getProduct(item.id)?.quantity ?? 0}
-            setProductQuantity={setProductQuantity(item.id)}
-          />
-        ))}
-      </div>
-    </div>
-  ));
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {items.map((item) => (
+              <MenuItem
+                key={item.id}
+                quantity={getProduct(item.id)?.quantity ?? 0}
+                setProductQuantity={setProductQuantity(item.id)}
+                {...item}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+  );
 }
