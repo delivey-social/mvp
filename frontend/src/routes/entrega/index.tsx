@@ -7,8 +7,8 @@ import menu from "../../menu_items.json";
 
 import { OrderContext } from "../../contexts/OrderContext";
 
-import Input from "../../shared-components/input";
-import Select from "../../shared-components/select";
+import Input from "../../components/input";
+import Select from "../../components/select";
 
 import numberToCurrency from "../../../../shared/utils/numberToCurrency";
 import { PaymentMethods } from "../../types/Order";

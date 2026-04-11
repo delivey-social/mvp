@@ -4,7 +4,7 @@ import { RouterProvider } from "react-router";
 import { OrderProvider } from "./contexts/OrderContext";
 
 import router from "./routes";
-import Navbar from "./shared-components/navbar";
+import Navbar from "./components/navbar";
 
 import "./index.css";
 
