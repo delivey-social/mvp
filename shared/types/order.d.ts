@@ -14,4 +14,5 @@ export type CreateOrderRequest = {
   observation?: string;
   paymentMethod: PaymentMethods;
 };
+
 export type UpdateOrderRequest = Partial<CreateOrderRequest>;

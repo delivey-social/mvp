@@ -1,5 +1,6 @@
-import { IMenuItem } from "../../MenuItems";
-import numberToCurrency from "../../../../shared/utils/numberToCurrency";
+import { IMenuItem } from "../../../../MenuItems";
+
+import numberToCurrency from "../../../../../../shared/utils/numberToCurrency";
 
 interface MenuItemProps extends IMenuItem {
   quantity: number;

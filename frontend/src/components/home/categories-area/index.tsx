@@ -1,10 +1,11 @@
+import menu from "../../../menu_items.json";
+
 import { useContext } from "react";
 import { OrderContext } from "../../../contexts/order/OrderContext";
 
-import menu from "../../../menu_items.json";
+import MenuItem from "./menu-item";
 
 import capitalize from "../../../utils/capitalize";
-import MenuItem from "../../../routes/home/menu-item";
 
 export default function CategoriesArea() {
   const { items, setItems } = useContext(OrderContext);
