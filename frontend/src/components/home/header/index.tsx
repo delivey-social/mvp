@@ -1,3 +1,9 @@
+import Text from "../../ui/text";
+
 export default function Header() {
-  return <h2 className="font-bold text-3xl mt-6">Santo Crepe</h2>;
+  return (
+    <Text variant="h2" className="mt-6">
+      Santo Crepe
+    </Text>
+  );
 }

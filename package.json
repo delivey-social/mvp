@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@react-email/render": "^1.0.5",
+    "clsx": "^2.1.1",
     "react-email": "^4.0.2"
   }
 }
