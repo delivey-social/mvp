@@ -1,30 +1,17 @@
-import menu from "../../../menu_items.json";
+import ROUTES from "@/routes/routes";
 
 import { useNavigate } from "react-router";
-import { useContext } from "react";
-
-import { OrderContext } from "../../../contexts/order/OrderContext";
-
-import ROUTES from "@/routes/routes";
 
 import OrderSummary from "./order-summary";
 import Button from "@/components/ui/button";
 
-export default function Footer() {
-  const { items } = useContext(OrderContext);
+interface FooterProps {
+  totalProducts: number;
+  totalAmount: number;
+}
+
+export default function Footer({ totalProducts, totalAmount }: FooterProps) {
   const navigate = useNavigate();
-
-  const totalProducts = items.reduce((acc, product) => {
-    return (acc += product.quantity);
-  }, 0);
-
-  const totalAmount = items.reduce((acc, product) => {
-    const menuItems = Object.values(menu).flat();
-    const itemPrice =
-      menuItems.find((item) => item.id === product.id)?.price ?? 0;
-
-    return (acc += itemPrice * product.quantity);
-  }, 0);
 
   if (totalProducts === 0) return null;
 
