@@ -2,10 +2,10 @@ import menu from "../../../menu_items.json";
 
 import { useNavigate } from "react-router";
 
-import numberToCurrency from "@shared/utils/numberToCurrency";
-
 import { useContext } from "react";
 import { OrderContext } from "../../../contexts/order/OrderContext";
+import OrderSummary from "./order-summary";
+import Button from "@/components/ui/button";
 
 export default function Footer() {
   const { items } = useContext(OrderContext);
@@ -23,28 +23,13 @@ export default function Footer() {
     return (acc += itemPrice * product.quantity);
   }, 0);
 
-  const TOTAL_ITEMS_LABEL =
-    totalProducts === 1 ? "1 item" : `${totalProducts} itens`;
-  const ORDER_TOTAL_LABEL = `Total - ${numberToCurrency(totalAmount)}`;
-
   if (totalProducts === 0) return null;
 
   return (
     <footer className="p-6 flex max-w-sm:text-sm gap-8 bg-white border-1 border-t-gray-600 w-full fixed bottom-0 left-0 py-4 justify-between items-center">
-      <div className="flex flex-col">
-        <div className="font-bold text-xs text-gray-600">
-          {TOTAL_ITEMS_LABEL}
-        </div>
+      <OrderSummary totalAmount={totalAmount} totalProducts={totalProducts} />
 
-        <div className="font-bold">{ORDER_TOTAL_LABEL}</div>
-      </div>
-
-      <button
-        onClick={() => navigate("/entrega")}
-        className="bg-emerald-400 w-fit text-emerald-950 drop-shadow-md px-4 py-4 text-sm font-bold rounded-md active:drop-shadow none transition-all cursor-pointer"
-      >
-        Finalizar pedido
-      </button>
+      <Button onClick={() => navigate("/entrega")}>Finalizar pedido</Button>
     </footer>
   );
 }
