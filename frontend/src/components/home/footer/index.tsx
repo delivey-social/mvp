@@ -1,9 +1,12 @@
 import menu from "../../../menu_items.json";
 
 import { useNavigate } from "react-router";
-
 import { useContext } from "react";
+
 import { OrderContext } from "../../../contexts/order/OrderContext";
+
+import ROUTES from "@/routes/routes";
+
 import OrderSummary from "./order-summary";
 import Button from "@/components/ui/button";
 
@@ -29,7 +32,9 @@ export default function Footer() {
     <footer className="p-6 flex max-w-sm:text-sm gap-8 bg-white border-1 border-t-gray-600 w-full fixed bottom-0 left-0 py-4 justify-between items-center">
       <OrderSummary totalAmount={totalAmount} totalProducts={totalProducts} />
 
-      <Button onClick={() => navigate("/entrega")}>Finalizar pedido</Button>
+      <Button onClick={() => navigate(ROUTES.detalhesEntrega)}>
+        Finalizar pedido
+      </Button>
     </footer>
   );
 }

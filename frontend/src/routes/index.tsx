@@ -5,21 +5,23 @@ import EntregaRoute from "./entrega";
 import PagamentoRoute from "./pagamento";
 import SucessoRoute from "./sucesso";
 
+import ROUTES from "./routes";
+
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: ROUTES.home,
     element: <HomeRoute />,
   },
   {
-    path: "/entrega",
+    path: ROUTES.detalhesEntrega,
     element: <EntregaRoute />,
   },
   {
-    path: "/pagamento",
+    path: ROUTES.pagamento,
     element: <PagamentoRoute />,
   },
   {
-    path: "/sucesso",
+    path: ROUTES.sucesso,
     element: <SucessoRoute />,
   },
 ]);
