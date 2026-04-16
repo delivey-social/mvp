@@ -1,8 +1,6 @@
 import { FormEvent, useContext, useState } from "react";
 import { useNavigate } from "react-router";
 
-import menu from "@/menu_items.json";
-
 import { OrderContext } from "@/contexts/order/OrderContext";
 
 import type { Neighborhood } from "@shared/types/neighborhoods";
@@ -14,8 +12,10 @@ import Button from "@/components/ui/button";
 
 import InputsArea from "./inputs";
 import PricesArea from "./prices";
+import useMenu from "@/features/restaurante/useMenu";
 
 export default function OrderDetailsForm() {
+  const menu = useMenu();
   const navigate = useNavigate();
   const { items, sendOrder, setTotal } = useContext(OrderContext);
 

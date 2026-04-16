@@ -1,5 +1,3 @@
-import menu from "@/menu_items.json";
-
 import { useContext } from "react";
 import { OrderContext } from "@/contexts/order/OrderContext";
 
@@ -7,9 +5,11 @@ import Header from "../../components/home/header";
 import Footer from "../../components/home/footer";
 
 import CategoriesArea from "../../components/home/categories-area";
+import useMenu from "@/features/restaurante/useMenu";
 
 export default function Home() {
   const { items } = useContext(OrderContext);
+  const menu = useMenu();
 
   const totalProducts = items.reduce((acc, product) => {
     return (acc += product.quantity);

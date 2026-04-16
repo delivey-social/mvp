@@ -1,13 +1,14 @@
-import menu from "../../../menu_items.json";
-
 import { useContext } from "react";
-import { OrderContext } from "../../../contexts/order/OrderContext";
+import { OrderContext } from "@/contexts/order/OrderContext";
 
 import MenuItem from "./menu-item";
 
-import capitalize from "../../../utils/capitalize";
+import capitalize from "@/utils/capitalize";
+
+import useMenu from "@/features/restaurante/useMenu";
 
 export default function CategoriesArea() {
+  const menu = useMenu();
   const { items, setItems } = useContext(OrderContext);
 
   function getProduct(id: string) {
