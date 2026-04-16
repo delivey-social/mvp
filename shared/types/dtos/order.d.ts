@@ -1,6 +1,6 @@
-import { PaymentMethods } from "./PaymentMethods";
+import { PaymentMethods } from "../PaymentMethods";
 
-export type CreateOrderRequest = {
+export type CreateOrderDTO = {
   items: {
     id: string;
     quantity: number;
@@ -15,4 +15,4 @@ export type CreateOrderRequest = {
   paymentMethod: PaymentMethods;
 };
 
-export type UpdateOrderRequest = Partial<CreateOrderRequest>;
+export type UpdateOrderDTO = Partial<CreateOrderDTO>;

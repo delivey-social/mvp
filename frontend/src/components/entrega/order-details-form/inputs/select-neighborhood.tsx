@@ -5,21 +5,23 @@ import { useContext, useEffect, useState } from "react";
 import Select from "@/components/ui/select";
 
 import { OrderContext } from "@/contexts/order/OrderContext";
-import { Neighborhood } from "@shared/types/neighborhoods";
+import { NeighborhoodDTO } from "@shared/types/dtos/neighborhoods";
 
 export default function SelectNeighborhood({
   selectedNeighborhoodId,
   setSelectedNeighborhood,
 }: {
   selectedNeighborhoodId: string;
-  setSelectedNeighborhood: (neighborhood: Neighborhood) => void;
+  setSelectedNeighborhood: (neighborhood: NeighborhoodDTO) => void;
 }) {
   const { setUserProperty } = useContext(OrderContext);
-  const [neighborhoods, setNeighborhoods] = useState<Neighborhood[]>([]);
+  const [neighborhoods, setNeighborhoods] = useState<NeighborhoodDTO[]>([]);
 
   useEffect(() => {
     axios
-      .get<Neighborhood[]>(`${import.meta.env.VITE_BACKEND_URL}/neighborhoods`)
+      .get<
+        NeighborhoodDTO[]
+      >(`${import.meta.env.VITE_BACKEND_URL}/neighborhoods`)
       .then((data) => {
         setNeighborhoods(data.data);
       });

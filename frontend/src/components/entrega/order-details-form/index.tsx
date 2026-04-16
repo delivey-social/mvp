@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 
 import { OrderContext } from "@/contexts/order/OrderContext";
 
-import type { Neighborhood } from "@shared/types/neighborhoods";
+import type { NeighborhoodDTO } from "@shared/types/dtos/neighborhoods";
 
 import ROUTES from "@/routes/routes";
 import { PaymentMethods } from "@/types/Order";
@@ -63,7 +63,7 @@ export default function OrderDetailsForm() {
   }
 
   const [selectedNeighborhood, setSelectedNeighborhood] =
-    useState<Neighborhood | null>(null);
+    useState<NeighborhoodDTO | null>(null);
   const appFee = itemsTotal * 0.1;
   const total = itemsTotal + appFee + (selectedNeighborhood?.deliveryFee ?? 0);
 

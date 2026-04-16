@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import { OrderContext } from "@/contexts/order/OrderContext";
 
-import { Neighborhood } from "@shared/types/neighborhoods";
+import { NeighborhoodDTO } from "@shared/types/dtos/neighborhoods";
 
 import Input from "@/components/ui/input";
 import SelectNeighborhood from "./select-neighborhood";
 
 interface InputsAreaProps {
-  setSelectedNeighborhood: (neighborhood: Neighborhood) => void;
+  setSelectedNeighborhood: (neighborhood: NeighborhoodDTO) => void;
 }
 
 export default function InputsArea({

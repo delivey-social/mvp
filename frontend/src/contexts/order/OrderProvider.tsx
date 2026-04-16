@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Order, OrderContext } from "./OrderContext";
 import { PaymentMethods } from "../../types/Order";
-import { CreateOrderRequest } from "../../../../shared/types/order";
+import { CreateOrderDTO } from "@shared/types/dtos/order";
 
 export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
   const initialItems = sessionStorage.getItem("items")
@@ -29,7 +29,7 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
     paymentMethod: PaymentMethods,
     observation?: string,
   ) {
-    const data: CreateOrderRequest = {
+    const data: CreateOrderDTO = {
       items: items.map((item) => ({
         id: item.id,
         quantity: item.quantity,
@@ -40,7 +40,7 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
       paymentMethod,
     };
 
-    await axios.post<void, CreateOrderRequest>(
+    await axios.post<void, CreateOrderDTO>(
       `${import.meta.env.VITE_BACKEND_URL}/orders`,
       data,
     );

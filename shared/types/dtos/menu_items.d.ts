@@ -1,4 +1,4 @@
-export interface CreateMenuItemRequest {
+export interface CreateMenuItemDTO {
   name: string;
   description?: string;
   price: number;
@@ -7,4 +7,4 @@ export interface CreateMenuItemRequest {
   restaurantId: string;
 }
 
-export type UpdateMenuItemRequest = Partial<CreateMenuItemRequest>;
+export type UpdateMenuItemDTO = Partial<CreateMenuItemDTO>;
