@@ -3,7 +3,7 @@ import clsx from "clsx";
 type TextVariants = "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 interface TextProps {
-  children: string;
+  children: React.ReactNode;
   variant?: TextVariants;
   component?: TextVariants;
   className?: React.HTMLProps<HTMLElement>["className"];
@@ -27,7 +27,7 @@ export default function Text({
   };
 
   return (
-    <Component className={clsx(className, styles[Component] || styles.p)}>
+    <Component className={clsx(styles[Component] || styles.p, className)}>
       {children}
     </Component>
   );
