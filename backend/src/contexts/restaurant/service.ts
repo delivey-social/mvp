@@ -1,12 +1,12 @@
 import { RestaurantService as IRestaurantService } from "./service.d";
 
 import { RestaurantRepository } from "./repository.d";
+import { Restaurant } from "./types.d";
+import { ResourceNotFoundError } from "@/errors/HTTPError";
 import {
   CreateRestaurantRequest,
   UpdateRestaurantRequest,
-  Restaurant,
-} from "./types.d";
-import { ResourceNotFoundError } from "@/errors/HTTPError";
+} from "@shared/types/restaurant";
 
 export class RestaurantService implements IRestaurantService {
   constructor(private repo: RestaurantRepository) {}

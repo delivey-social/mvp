@@ -1,22 +1,7 @@
-import { PaymentMethods } from "./PaymentMethods";
-
 import { OrderStatus } from "./OrderStatus";
 
-export type CreateOrderRequest = {
-  items: {
-    id: string;
-    quantity: number;
-  }[];
-  user: {
-    email: string;
-    phoneNumber: string;
-    address: string;
-  };
-  neighborhoodId: string;
-  observation?: string;
-  paymentMethod: PaymentMethods;
-};
-export type UpdateOrderRequest = Partial<CreateOrderRequest>;
+import { CreateOrderRequest } from "@shared/types/order";
+import { PaymentMethods } from "@shared/types/PaymentMethods";
 
 export type EnrichedOrderDTO = CreateOrderRequest & {
   items: OrderItem[];

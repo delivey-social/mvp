@@ -1,7 +1,8 @@
 import idSchema, { withId } from "../../shared/idSchema";
-import { PaymentMethods } from "./PaymentMethods.d";
 import { object, number, string, array, mixed, ObjectSchema } from "yup";
-import { CreateOrderRequest, UpdateOrderRequest } from "./types";
+
+import { CreateOrderRequest, UpdateOrderRequest } from "@shared/types/order";
+import { PaymentMethods } from "@shared/types/PaymentMethods.d";
 
 const createOrderSchema: ObjectSchema<CreateOrderRequest> = object({
   items: array()

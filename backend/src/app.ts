@@ -47,7 +47,14 @@ function main() {
 
   const emailChannel = new EmailChannel(menuItemsService);
 
-  new NotificationsService([loggerChannel, emailChannel], eventBus);
+  const notificationsChannels = [loggerChannel];
+
+  if (process.env.NOTIFICATIONS_EMAIL === "true") {
+    console.log("Email notifications enabled");
+    notificationsChannels.push(emailChannel);
+  }
+
+  new NotificationsService(notificationsChannels, eventBus);
 
   const neighborhoodsRepo = new NeighborhoodRepository(NeighborhoodModel);
   const neighborhoodsService = new NeighborhoodService(neighborhoodsRepo);

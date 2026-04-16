@@ -1,5 +1,6 @@
-import { IMenuItem } from "../../MenuItems";
-import numberToCurrency from "../../../../shared/utils/numberToCurrency";
+import { IMenuItem } from "../../../../MenuItems";
+
+import numberToCurrency from "../../../../../../shared/utils/numberToCurrency";
 
 interface MenuItemProps extends IMenuItem {
   quantity: number;
@@ -15,7 +16,7 @@ export default function MenuItem({
   setProductQuantity,
 }: MenuItemProps) {
   return (
-    <div className="flex justify-between items-center border-[1px] p-4 border-gray-300 gap-4 max-[400px]:flex-col-reverse rounded-md">
+    <div className="flex justify-between items-center border-[1px] p-4 border-gray-300 gap-4 max-[400px]:flex-col-reverse rounded-md ">
       <div className="flex flex-col gap-3 shrink w-full">
         <h4 className="font-semibold">{name}</h4>
         <div className="text-xs text-gray-500">{description}</div>

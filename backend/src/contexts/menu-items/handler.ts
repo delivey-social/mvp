@@ -1,7 +1,10 @@
 import express, { Express, Request, Response } from "express";
 
 import { MenuItemsService } from "./service.d";
-import { CreateMenuItemRequest, UpdateMenuItemRequest } from "./types.d";
+import {
+  CreateMenuItemRequest,
+  UpdateMenuItemRequest,
+} from "@shared/types/menu_items";
 import validateRequest from "@/middleware/validateRequest";
 import menuItemsSchemas from "./schemas";
 import { withId } from "@/shared/idSchema";

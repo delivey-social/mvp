@@ -1,7 +1,10 @@
 import express, { Express, Request, Response } from "express";
 
 import { RestaurantService } from "./service.d";
-import { CreateRestaurantRequest, UpdateRestaurantRequest } from "./types.d";
+import {
+  CreateRestaurantRequest,
+  UpdateRestaurantRequest,
+} from "@shared/types/restaurant";
 
 import validateRequest from "@/middleware/validateRequest";
 import restaurantSchemas from "./schemas";

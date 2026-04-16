@@ -1,11 +1,11 @@
-import {
-  CreateMenuItemRequest,
-  MenuItem,
-  UpdateMenuItemRequest,
-} from "./types.d";
+import { MenuItem } from "./types.d";
 import { MenuItemsService as IMenuItemsService } from "./service.d";
 import { MenuItemsRepository } from "./repository.d";
 import { ResourceNotFoundError } from "@/errors/HTTPError";
+import {
+  CreateMenuItemRequest,
+  UpdateMenuItemRequest,
+} from "@shared/types/menu_items";
 
 export class MenuItemsService implements IMenuItemsService {
   constructor(private repo: MenuItemsRepository) {}

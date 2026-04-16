@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 
 import { Order } from "./types";
 import { OrderStatus } from "./OrderStatus.d";
-import { PaymentMethods } from "./PaymentMethods.d";
+import { PaymentMethods } from "@shared/types/PaymentMethods.d";
 
 export type OrderDocument = Order & Document;
 

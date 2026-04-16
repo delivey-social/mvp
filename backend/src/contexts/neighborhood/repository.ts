@@ -2,13 +2,13 @@ import { ResourceNotFoundError } from "@/errors/HTTPError";
 import NeighborhoodModel from "./model";
 
 import { NeighborhoodRepository as INeighborhoodRepository } from "./repository.d";
+
+import cleanMongooseObject from "@/utils/cleanMongooseObject";
 import {
   CreateNeighborhoodRequest,
   Neighborhood,
   UpdateNeighborhoodRequest,
-} from "./types.d";
-
-import cleanMongooseObject from "@/utils/cleanMongooseObject";
+} from "@shared/types/neighborhoods";
 
 export class NeighborhoodRepository implements INeighborhoodRepository {
   constructor(private model: typeof NeighborhoodModel) {}

@@ -1,37 +1,8 @@
 import axios from "axios";
-import React, { createContext, useEffect, useState } from "react";
-import { PaymentMethods } from "../types/Order";
-import { CreateOrderRequest } from "../../../backend/src/contexts/order/types.d";
-
-interface Order {
-  items: {
-    id: string;
-    quantity: number;
-  }[];
-  user: {
-    email: string;
-    phoneNumber: string;
-    address: string;
-    neighborhoodId: string;
-  };
-  observations?: string;
-}
-
-interface IOrderContext {
-  total: number;
-  setTotal: React.Dispatch<React.SetStateAction<number>>;
-  items: Order["items"];
-  user: Order["user"];
-  setItems: React.Dispatch<React.SetStateAction<Order["items"]>>;
-  setUserProperty(key: keyof Order["user"], value: string): void;
-  sendOrder: (
-    user: Order["user"],
-    payment_method: PaymentMethods,
-    observation?: string,
-  ) => Promise<void>;
-}
-
-export const OrderContext = createContext({} as IOrderContext);
+import { useEffect, useState } from "react";
+import { Order, OrderContext } from "./OrderContext";
+import { PaymentMethods } from "../../types/Order";
+import { CreateOrderDTO } from "@shared/types/dtos/order";
 
 export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
   const initialItems = sessionStorage.getItem("items")
@@ -58,7 +29,7 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
     paymentMethod: PaymentMethods,
     observation?: string,
   ) {
-    const data: CreateOrderRequest = {
+    const data: CreateOrderDTO = {
       items: items.map((item) => ({
         id: item.id,
         quantity: item.quantity,
@@ -69,7 +40,7 @@ export const OrderProvider = ({ children }: { children: React.ReactNode }) => {
       paymentMethod,
     };
 
-    await axios.post<void, CreateOrderRequest>(
+    await axios.post<void, CreateOrderDTO>(
       `${import.meta.env.VITE_BACKEND_URL}/orders`,
       data,
     );

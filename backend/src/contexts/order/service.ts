@@ -1,16 +1,12 @@
 import { OrderStatus } from "./OrderStatus.d";
-import {
-  CreateOrderRequest,
-  EnrichedOrderDTO,
-  Order,
-  UpdateOrderRequest,
-} from "./types.d";
+import { EnrichedOrderDTO, Order } from "./types.d";
 import { OrderRepository } from "./repository.d";
 import { OrderService as IOrderService, Result } from "./service.d";
 import { Event, EventPublisher } from "../notifications/Events.d";
 import { MenuItemsService } from "../menu-items/service.d";
 import { NeighborhoodService } from "../neighborhood/service.d";
 import { ResourceNotFoundError } from "@/errors/HTTPError";
+import { CreateOrderRequest, UpdateOrderRequest } from "@shared/types/order";
 
 export class OrderService implements IOrderService {
   constructor(
