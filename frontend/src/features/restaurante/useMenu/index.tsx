@@ -1,23 +1,15 @@
-import { IMenuItem } from "@/MenuItems";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
-interface MenuItemDTO {
-  id: string;
-  name: string;
-  price: number;
-  description: string;
-  imageUrl: string;
-  category: string;
-  restaurantId: string;
-}
+import { IMenuItem } from "@/MenuItems";
+import { ListMenuItemDTO } from "@shared/types/dtos/menu_items";
 
 export default function useMenu(): Record<string, IMenuItem[]> {
   const [data, setData] = useState<Record<string, IMenuItem[]>>({});
 
   useEffect(() => {
     axios
-      .get<MenuItemDTO[]>(`${import.meta.env.VITE_BACKEND_URL}/menu-items`)
+      .get<ListMenuItemDTO>(`${import.meta.env.VITE_BACKEND_URL}/menu-items`)
       .then((data) => {
         const transformedData: Record<string, IMenuItem[]> = {};
         data.data.forEach((item) => {
