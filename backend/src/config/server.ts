@@ -6,13 +6,14 @@ function configureApp() {
   const app = express();
 
   const FRONTEND_URL = process.env.FRONTEND_URL;
+  const DASHBOARD_URL = process.env.DASHBOARD_URL;
 
-  if (!FRONTEND_URL) {
-    throw new Error("FRONTEND_URL is not defined in .env");
+  if (!FRONTEND_URL || !DASHBOARD_URL) {
+    throw new Error("FRONTEND_URL or DASHBOARD_URL is not defined in .env");
   }
 
   const corsOptions: CorsOptions = {
-    origin: FRONTEND_URL,
+    origin: [FRONTEND_URL, DASHBOARD_URL],
   };
 
   app.use(cors(corsOptions));
