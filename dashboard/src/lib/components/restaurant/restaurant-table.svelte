@@ -12,7 +12,7 @@
 </script>
 
 <DataTable
-	caption="Pedidos recentes realizados no comida.app."
+	caption="Restaurantes cadastrados no comida.app."
 	columns={[
 		{ name: 'id' },
 		{ name: 'Nome' },
@@ -21,7 +21,7 @@
 		{ name: 'Ações', className: 'text-end' }
 	]}
 >
-	{#each items as item}
+	{#each items as item (item.id)}
 		<Table.Row>
 			<Table.Cell
 				class="max-w-10 truncate cursor-pointer"

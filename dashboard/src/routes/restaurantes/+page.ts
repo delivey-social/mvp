@@ -5,9 +5,9 @@ const RESTAURANT_API_URL = 'http://localhost:3000/restaurante';
 
 async function loadRestaurants() {
 	const res = await fetch(RESTAURANT_API_URL);
-	const data: { restaurantes: Restaurant[] } = await res.json();
+	const data: Restaurant[] = await res.json();
 
-	return data.restaurantes;
+	return data;
 }
 
 export const load: PageLoad = async () => {
