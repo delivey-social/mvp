@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
+  "workspaces": [
+    "frontend",
+    "backend",
+    "dashboard",
+    "shared-emails"
+  ],
   "scripts": {
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\" \"npm run copy:all\"",
-    "copy:client": "cp ./shared/menu/*.* ./frontend/src && cp -r ./shared/menu/menu_images ./frontend/public",
-    "copy:server": "cp ./shared/menu/*.* ./backend/public",
-    "dev:server": "cd backend && npm run dev",
-    "copy:all": "npm run copy:client && npm run copy:server",
-    "dev:client": "cd frontend && npm run dev",
-    "build": "cd client && npm run build",
-    "install": "concurrently \"cd frontend && npm install\" \"cd backend && npm install\" \"cd shared/emails && npm install\"",
+    "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\" \"npm run dev --workspace=dashboard\"",
+    "build": "concurrently \"npm run build --workspace=frontend\" \"npm run build --workspace=backend\" \"npm run build --workspace=dashboard\"",
     "prepare": "husky"
   },
   "author": "",

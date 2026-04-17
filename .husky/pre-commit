@@ -1,17 +1,3 @@
-echo "Compiling backend"
+echo "Compiling applications"
 
-cd backend && npm run build
-
-echo "Backend compiled successfully"
-
-cd ../
-
-echo
-
-echo "Compiling frontend"
-
-cd frontend && npm run build
-
-echo "Frontend compiled successfully"
-
-exit 0
+npm run build
