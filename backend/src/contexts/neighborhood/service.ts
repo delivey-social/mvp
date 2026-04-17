@@ -1,10 +1,10 @@
+import {
+  CreateNeighborhoodDTO,
+  NeighborhoodDTO,
+  UpdateNeighborhoodDTO,
+} from "shared/types/dtos/neighborhoods";
 import { ResourceNotFoundError } from "../../errors/HTTPError";
 
-import {
-  Neighborhood,
-  CreateNeighborhoodRequest,
-  UpdateNeighborhoodRequest,
-} from "@shared/types/neighborhoods";
 import { NeighborhoodRepository } from "./repository.d";
 import { NeighborhoodService as INeighborhoodService } from "./service.d";
 
@@ -13,11 +13,11 @@ import cleanMongooseObject from "@/utils/cleanMongooseObject";
 export class NeighborhoodService implements INeighborhoodService {
   constructor(private repo: NeighborhoodRepository) {}
 
-  async list(): Promise<Array<Neighborhood>> {
+  async list(): Promise<Array<NeighborhoodDTO>> {
     return await this.repo.list();
   }
 
-  async findById(id: string): Promise<Neighborhood> {
+  async findById(id: string): Promise<NeighborhoodDTO> {
     return await this.repo.findById(id);
   }
 
@@ -31,14 +31,14 @@ export class NeighborhoodService implements INeighborhoodService {
     return neighborhood.deliveryFee;
   }
 
-  async create(data: CreateNeighborhoodRequest): Promise<Neighborhood> {
+  async create(data: CreateNeighborhoodDTO): Promise<NeighborhoodDTO> {
     return await this.repo.create(data);
   }
 
   async update(
     id: string,
-    data: UpdateNeighborhoodRequest,
-  ): Promise<Neighborhood> {
+    data: UpdateNeighborhoodDTO,
+  ): Promise<NeighborhoodDTO> {
     return await this.repo.update(id, data);
   }
 

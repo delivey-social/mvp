@@ -6,7 +6,7 @@ import OrderModel from "./model";
 
 import cleanMongooseObject from "../../utils/cleanMongooseObject";
 import { ResourceNotFoundError } from "@/errors/HTTPError";
-import { CreateOrderRequest } from "@shared/types/order";
+import { CreateOrderDTO } from "shared/types/dtos/order";
 
 export class OrderMongoRepository implements IOrderRepository {
   constructor(private model: typeof OrderModel) {}
@@ -21,7 +21,7 @@ export class OrderMongoRepository implements IOrderRepository {
     return cleanMongooseObject(order);
   }
 
-  async create(data: CreateOrderRequest): Promise<Order> {
+  async create(data: CreateOrderDTO): Promise<Order> {
     const order = await this.model.create(data);
     await order.save();
 

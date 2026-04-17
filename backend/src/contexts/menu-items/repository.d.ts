@@ -1,13 +1,9 @@
 import { CRUDRepository } from "@/utils/CRUD";
 import {
-  CreateMenuItemRequest,
-  UpdateMenuItemRequest,
-} from "@shared/types/menu_items";
+  CreateMenuItemDTO,
+  UpdateMenuItemDTO,
+} from "shared/types/dtos/menu_items";
 import { MenuItem } from "./types.d";
 
 export interface MenuItemsRepository
-  extends CRUDRepository<
-    MenuItem,
-    CreateMenuItemRequest,
-    UpdateMenuItemRequest
-  > {}
+  extends CRUDRepository<MenuItem, CreateMenuItemDTO, UpdateMenuItemDTO> {}

@@ -2,12 +2,13 @@ import express, { Express, Request, Response } from "express";
 
 import { MenuItemsService } from "./service.d";
 import {
-  CreateMenuItemRequest,
-  UpdateMenuItemRequest,
-} from "@shared/types/menu_items";
+  CreateMenuItemDTO,
+  UpdateMenuItemDTO,
+} from "shared/types/dtos/menu_items";
 import validateRequest from "@/middleware/validateRequest";
 import menuItemsSchemas from "./schemas";
 import { withId } from "@/shared/idSchema";
+import validateStringParam from "@/utils/validateStringParam";
 
 export class MenuItemsHandler {
   constructor(
@@ -50,7 +51,7 @@ export class MenuItemsHandler {
 
   private async create(req: Request, res: Response) {
     //TODO: Validate data
-    const data: CreateMenuItemRequest = req.body;
+    const data: CreateMenuItemDTO = req.body;
 
     const item = await this.service.create(data);
 
@@ -59,8 +60,8 @@ export class MenuItemsHandler {
 
   private async update(req: Request, res: Response) {
     //TODO: Validate data
-    const id = req.params.id;
-    const data: UpdateMenuItemRequest = req.body;
+    const id = validateStringParam(req.params.id);
+    const data: UpdateMenuItemDTO = req.body;
 
     const item = await this.service.update(id, data);
 
@@ -68,8 +69,7 @@ export class MenuItemsHandler {
   }
 
   private async delete(req: Request, res: Response) {
-    //TODO: Validate data
-    const id = req.params.id;
+    const id = validateStringParam(req.params.id);
 
     await this.service.delete(id);
 
@@ -77,8 +77,7 @@ export class MenuItemsHandler {
   }
 
   private async findById(req: Request, res: Response) {
-    //TODO: Validate data
-    const id = req.params.id;
+    const id = validateStringParam(req.params.id);
 
     const item = await this.service.findById(id);
 

@@ -1,4 +1,5 @@
 import { CRUDRepository } from "@/utils/CRUD";
-import { Neighborhood } from "@shared/types/neighborhoods";
+import { NeighborhoodDTO } from "shared/types/dtos/neighborhoods";
 
-export interface NeighborhoodRepository extends CRUDRepository<Neighborhood> {}
+export interface NeighborhoodRepository
+  extends CRUDRepository<NeighborhoodDTO> {}

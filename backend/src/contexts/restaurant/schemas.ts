@@ -1,15 +1,15 @@
 import { object, ObjectSchema, string } from "yup";
 import {
-  CreateRestaurantRequest,
-  UpdateRestaurantRequest,
-} from "@shared/types/restaurant";
+  CreateRestaurantDTO,
+  UpdateRestaurantDTO,
+} from "shared/types/dtos/restaurant";
 
-const create: ObjectSchema<CreateRestaurantRequest> = object({
+const create: ObjectSchema<CreateRestaurantDTO> = object({
   name: string().required(),
   address: string().required(),
 });
 
-const update: ObjectSchema<UpdateRestaurantRequest> = create.partial();
+const update: ObjectSchema<UpdateRestaurantDTO> = create.partial();
 
 const restaurantSchemas = { create, update };
 export default restaurantSchemas;

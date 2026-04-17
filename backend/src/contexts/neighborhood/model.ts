@@ -1,7 +1,7 @@
 import mongoose, { Document } from "mongoose";
-import { Neighborhood } from "@shared/types/neighborhoods";
+import { NeighborhoodDTO } from "shared/types/dtos/neighborhoods";
 
-const neighborhoodSchema = new mongoose.Schema<Neighborhood & Document>({
+const neighborhoodSchema = new mongoose.Schema<NeighborhoodDTO & Document>({
   name: { type: String, required: true },
   deliveryFee: { type: Number, required: true },
 });
@@ -10,7 +10,7 @@ neighborhoodSchema.set("toObject", {
   virtuals: true,
 });
 
-const NeighborhoodModel = mongoose.model<Neighborhood & Document>(
+const NeighborhoodModel = mongoose.model<NeighborhoodDTO & Document>(
   "neighborhoods",
   neighborhoodSchema,
 );

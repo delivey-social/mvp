@@ -6,6 +6,7 @@ import validateRequest from "@/middleware/validateRequest";
 
 import orderSchema from "./schemas";
 import { withId } from "@/shared/idSchema";
+import validateStringParam from "@/utils/validateStringParam";
 
 export class OrderHandler {
   constructor(
@@ -96,7 +97,7 @@ export class OrderHandler {
   }
 
   async delete(req: Request, res: Response) {
-    const { id } = req.params;
+    const id = validateStringParam(req.params.id);
 
     await this.service.delete(id);
 
@@ -104,7 +105,7 @@ export class OrderHandler {
   }
 
   async update(req: Request, res: Response) {
-    const { id } = req.params;
+    const id = validateStringParam(req.params.id);
 
     await this.service.update(id, req.body);
 

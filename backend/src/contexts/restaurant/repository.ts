@@ -1,8 +1,8 @@
 import { Restaurant } from "./types.d";
 import {
-  CreateRestaurantRequest,
-  UpdateRestaurantRequest,
-} from "@shared/types/restaurant";
+  CreateRestaurantDTO,
+  UpdateRestaurantDTO,
+} from "shared/types/dtos/restaurant";
 import { RestaurantRepository as IRestaurantRepository } from "./repository.d";
 
 import cleanMongooseObject from "@/utils/cleanMongooseObject";
@@ -12,13 +12,13 @@ import { ResourceNotFoundError } from "@/errors/HTTPError";
 export class RestaurantRepository implements IRestaurantRepository {
   constructor(private model: typeof RestaurantModel) {}
 
-  async create(data: CreateRestaurantRequest): Promise<Restaurant> {
+  async create(data: CreateRestaurantDTO): Promise<Restaurant> {
     const restaurant = await RestaurantModel.create(data);
 
     return cleanMongooseObject(restaurant);
   }
 
-  async update(id: string, data: UpdateRestaurantRequest): Promise<Restaurant> {
+  async update(id: string, data: UpdateRestaurantDTO): Promise<Restaurant> {
     const item = await RestaurantModel.findByIdAndUpdate(id, data);
 
     if (!item) {

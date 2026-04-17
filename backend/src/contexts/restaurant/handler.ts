@@ -2,13 +2,14 @@ import express, { Express, Request, Response } from "express";
 
 import { RestaurantService } from "./service.d";
 import {
-  CreateRestaurantRequest,
-  UpdateRestaurantRequest,
-} from "@shared/types/restaurant";
+  CreateRestaurantDTO,
+  UpdateRestaurantDTO,
+} from "shared/types/dtos/restaurant";
 
 import validateRequest from "@/middleware/validateRequest";
 import restaurantSchemas from "./schemas";
 import { withId } from "@/shared/idSchema";
+import validateStringParam from "@/utils/validateStringParam";
 
 export class RestaurantHandler {
   constructor(
@@ -50,7 +51,7 @@ export class RestaurantHandler {
   }
 
   async create(req: Request, res: Response) {
-    const data: CreateRestaurantRequest = req.body;
+    const data: CreateRestaurantDTO = req.body;
 
     const restaurant = await this.service.create(data);
 
@@ -58,8 +59,8 @@ export class RestaurantHandler {
   }
 
   async update(req: Request, res: Response) {
-    const id = req.params.id;
-    const data: UpdateRestaurantRequest = req.body;
+    const id = validateStringParam(req.params.id);
+    const data: UpdateRestaurantDTO = req.body;
 
     await this.service.update(id, data);
 
@@ -67,7 +68,7 @@ export class RestaurantHandler {
   }
 
   async delete(req: Request, res: Response) {
-    const id = req.params.id;
+    const id = validateStringParam(req.params.id);
 
     await this.service.delete(id);
 
@@ -75,7 +76,7 @@ export class RestaurantHandler {
   }
 
   async findById(req: Request, res: Response) {
-    const id = req.params.id;
+    const id = validateStringParam(req.params.id);
 
     const item = await this.service.findById(id);
 

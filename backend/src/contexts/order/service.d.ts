@@ -1,6 +1,6 @@
 import { CRUDService } from "@/utils/CRUD";
 import { Order } from "./types.d";
-import { CreateOrderRequest, UpdateOrderRequest } from "@shared/types/order";
+import { CreateOrderDTO, UpdateOrderDTO } from "shared/types/dtos/order";
 
 export type Result =
   | {
@@ -12,7 +12,7 @@ export type Result =
     };
 
 export interface OrderService
-  extends CRUDService<Order, CreateOrderRequest, UpdateOrderRequest> {
+  extends CRUDService<Order, CreateOrderDTO, UpdateOrderDTO> {
   registerPayment: (id: string) => Promise<Result>;
   readyForDelivery: (id: string) => Promise<Result>;
   delivered: (id: string) => Promise<Result>;

@@ -4,18 +4,18 @@ import { RestaurantRepository } from "./repository.d";
 import { Restaurant } from "./types.d";
 import { ResourceNotFoundError } from "@/errors/HTTPError";
 import {
-  CreateRestaurantRequest,
-  UpdateRestaurantRequest,
-} from "@shared/types/restaurant";
+  CreateRestaurantDTO,
+  UpdateRestaurantDTO,
+} from "shared/types/dtos/restaurant";
 
 export class RestaurantService implements IRestaurantService {
   constructor(private repo: RestaurantRepository) {}
 
-  async create(data: CreateRestaurantRequest): Promise<Restaurant> {
+  async create(data: CreateRestaurantDTO): Promise<Restaurant> {
     return this.repo.create(data);
   }
 
-  async update(id: string, data: UpdateRestaurantRequest): Promise<Restaurant> {
+  async update(id: string, data: UpdateRestaurantDTO): Promise<Restaurant> {
     return await this.repo.update(id, data);
   }
 

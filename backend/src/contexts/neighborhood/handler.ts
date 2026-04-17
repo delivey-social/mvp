@@ -5,6 +5,7 @@ import { NeighborhoodService } from "./service.d";
 import validateRequest from "@/middleware/validateRequest";
 import neighborhoodSchemas from "./schemas";
 import { withId } from "@/shared/idSchema";
+import validateStringParam from "@/utils/validateStringParam";
 
 export class NeighborhoodHandler {
   constructor(
@@ -58,7 +59,7 @@ export class NeighborhoodHandler {
   }
 
   async update(req: Request, res: Response) {
-    const id = req.params.id;
+    const id = validateStringParam(req.params.id);
     const data = req.body;
 
     const success = await this.service.update(id, data);
@@ -71,7 +72,7 @@ export class NeighborhoodHandler {
   }
 
   async delete(req: Request, res: Response) {
-    const id = req.params.id;
+    const id = validateStringParam(req.params.id);
 
     await this.service.delete(id);
 
@@ -79,7 +80,7 @@ export class NeighborhoodHandler {
   }
 
   async findById(req: Request, res: Response) {
-    const id = req.params.id;
+    const id = validateStringParam(req.params.id);
 
     const item = await this.service.findById(id);
 

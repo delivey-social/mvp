@@ -3,9 +3,9 @@ import configureEmails from "../../config/emails";
 import renderEmailFactory from "../../utils/renderEmailFactory";
 import humanReadablePaymentMethod from "../../constants/humanReadablePaymentMethod";
 
-import NovoPedidoEmail from "@shared/emails/emails/novo-pedido";
-import PedidoEmail from "@shared/emails/emails/pedido";
-import EntregaEmail from "@shared/emails/emails/entrega";
+import NovoPedidoEmail from "shared/emails/emails/novo-pedido";
+import PedidoEmail from "shared/emails/emails/pedido";
+import EntregaEmail from "shared/emails/emails/entrega";
 
 import { MenuItemsService } from "../menu-items/service.d";
 
@@ -67,7 +67,10 @@ export class EmailChannel implements Channel {
     const html = await email({
       items,
       deliveryAddress: data.user.address,
-      paymentMethod: humanReadablePaymentMethod[data.paymentMethod],
+      paymentMethod:
+        humanReadablePaymentMethod[
+          data.paymentMethod as keyof typeof humanReadablePaymentMethod
+        ],
       appFee: data.appFee,
       deliveryFee: data.deliveryFee,
       buttonURL: `${process.env.BACKEND_URL!}/orders/ready_for_delivery?id=${data.id}`,

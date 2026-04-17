@@ -1,6 +1,6 @@
 import { CRUDService } from "@/utils/CRUD";
-import { Neighborhood } from "@shared/types/neighborhoods";
+import { NeighborhoodDTO } from "shared/types/dtos/neighborhoods";
 
-export interface NeighborhoodService extends CRUDService<Neighborhood> {
+export interface NeighborhoodService extends CRUDService<NeighborhoodDTO> {
   getDeliveryFee: (id: string) => Promise<number>;
 }

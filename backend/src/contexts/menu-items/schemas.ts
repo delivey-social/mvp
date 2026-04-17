@@ -1,11 +1,11 @@
 import { number, object, ObjectSchema, string } from "yup";
 import {
-  CreateMenuItemRequest,
-  UpdateMenuItemRequest,
-} from "@shared/types/menu_items";
+  CreateMenuItemDTO,
+  UpdateMenuItemDTO,
+} from "shared/types/dtos/menu_items";
 import idSchema from "@/shared/idSchema";
 
-const create: ObjectSchema<CreateMenuItemRequest> = object({
+const create: ObjectSchema<CreateMenuItemDTO> = object({
   name: string().required(),
   description: string().optional(),
   price: number().positive().required(),
@@ -14,7 +14,7 @@ const create: ObjectSchema<CreateMenuItemRequest> = object({
   restaurantId: idSchema.required(),
 });
 
-const update: ObjectSchema<UpdateMenuItemRequest> = create.partial();
+const update: ObjectSchema<UpdateMenuItemDTO> = create.partial();
 
 const menuItemsSchemas = {
   create,

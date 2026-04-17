@@ -6,9 +6,9 @@ import { MenuItem } from "./types.d";
 
 import cleanMongooseObject from "@/utils/cleanMongooseObject";
 import {
-  CreateMenuItemRequest,
-  UpdateMenuItemRequest,
-} from "@shared/types/menu_items";
+  CreateMenuItemDTO,
+  UpdateMenuItemDTO,
+} from "shared/types/dtos/menu_items";
 
 export class MenuItemsRepository implements IMenuItemsRepository {
   constructor(private model: typeof MenuItemModel) {}
@@ -29,11 +29,11 @@ export class MenuItemsRepository implements IMenuItemsRepository {
     return cleanMongooseObject(item);
   }
 
-  async create(data: CreateMenuItemRequest) {
+  async create(data: CreateMenuItemDTO) {
     return cleanMongooseObject(await this.model.create(data));
   }
 
-  async update(id: string, data: UpdateMenuItemRequest): Promise<MenuItem> {
+  async update(id: string, data: UpdateMenuItemDTO): Promise<MenuItem> {
     const item = await this.model.findByIdAndUpdate(id, data, {
       new: true,
       runValidators: true,

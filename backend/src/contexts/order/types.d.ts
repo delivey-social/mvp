@@ -1,9 +1,9 @@
 import { OrderStatus } from "./OrderStatus";
 
-import { CreateOrderRequest } from "@shared/types/order";
-import { PaymentMethods } from "@shared/types/PaymentMethods";
+import { CreateOrderDTO } from "shared/types/dtos/order";
+import { PaymentMethods } from "shared/types/PaymentMethods";
 
-export type EnrichedOrderDTO = CreateOrderRequest & {
+export type EnrichedOrderDTO = CreateOrderDTO & {
   items: OrderItem[];
   deliveryFee: number;
 };

@@ -1,9 +1,9 @@
 import { CRUDService } from "@/utils/CRUD";
 import { MenuItem } from "./types.d";
 import {
-  CreateMenuItemRequest,
-  UpdateMenuItemRequest,
-} from "@shared/types/menu_items";
+  CreateMenuItemDTO,
+  UpdateMenuItemDTO,
+} from "shared/types/dtos/menu_items";
 
 export interface MenuItemsService
-  extends CRUDService<MenuItem, CreateMenuItemRequest, UpdateMenuItemRequest> {}
+  extends CRUDService<MenuItem, CreateMenuItemDTO, UpdateMenuItemDTO> {}

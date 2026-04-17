@@ -1,10 +1,10 @@
 import idSchema, { withId } from "../../shared/idSchema";
 import { object, number, string, array, mixed, ObjectSchema } from "yup";
 
-import { CreateOrderRequest, UpdateOrderRequest } from "@shared/types/order";
-import { PaymentMethods } from "@shared/types/PaymentMethods.d";
+import { CreateOrderDTO, UpdateOrderDTO } from "shared/types/dtos/order";
+import { PaymentMethods } from "shared/types/PaymentMethods.d";
 
-const createOrderSchema: ObjectSchema<CreateOrderRequest> = object({
+const createOrderSchema: ObjectSchema<CreateOrderDTO> = object({
   items: array()
     .of(
       object({
@@ -26,7 +26,7 @@ const createOrderSchema: ObjectSchema<CreateOrderRequest> = object({
     .required(),
 }).strict();
 
-const updateOrderSchema: ObjectSchema<UpdateOrderRequest> =
+const updateOrderSchema: ObjectSchema<UpdateOrderDTO> =
   createOrderSchema.partial();
 
 export default {

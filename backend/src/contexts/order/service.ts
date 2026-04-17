@@ -6,7 +6,7 @@ import { Event, EventPublisher } from "../notifications/Events.d";
 import { MenuItemsService } from "../menu-items/service.d";
 import { NeighborhoodService } from "../neighborhood/service.d";
 import { ResourceNotFoundError } from "@/errors/HTTPError";
-import { CreateOrderRequest, UpdateOrderRequest } from "@shared/types/order";
+import { CreateOrderDTO, UpdateOrderDTO } from "shared/types/dtos/order";
 
 export class OrderService implements IOrderService {
   constructor(
@@ -20,7 +20,7 @@ export class OrderService implements IOrderService {
     return await this.repository.findById(id);
   }
 
-  async create(data: CreateOrderRequest): Promise<Order> {
+  async create(data: CreateOrderDTO): Promise<Order> {
     const deliveryFee = await this.neighborhoodService.getDeliveryFee(
       data.neighborhoodId,
     );
@@ -133,7 +133,7 @@ export class OrderService implements IOrderService {
     if (!exists) throw new ResourceNotFoundError("order");
   }
 
-  async update(id: string, data: UpdateOrderRequest) {
+  async update(id: string, data: UpdateOrderDTO) {
     const originalOrder = await this.repository.findById(id);
     if (!originalOrder) {
       throw new ResourceNotFoundError("order");

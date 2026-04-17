@@ -3,9 +3,9 @@ import { MenuItemsService as IMenuItemsService } from "./service.d";
 import { MenuItemsRepository } from "./repository.d";
 import { ResourceNotFoundError } from "@/errors/HTTPError";
 import {
-  CreateMenuItemRequest,
-  UpdateMenuItemRequest,
-} from "@shared/types/menu_items";
+  CreateMenuItemDTO,
+  UpdateMenuItemDTO,
+} from "shared/types/dtos/menu_items";
 
 export class MenuItemsService implements IMenuItemsService {
   constructor(private repo: MenuItemsRepository) {}
@@ -18,11 +18,11 @@ export class MenuItemsService implements IMenuItemsService {
     return await this.repo.list();
   }
 
-  async create(data: CreateMenuItemRequest): Promise<MenuItem> {
+  async create(data: CreateMenuItemDTO): Promise<MenuItem> {
     return this.repo.create(data);
   }
 
-  async update(id: string, data: UpdateMenuItemRequest) {
+  async update(id: string, data: UpdateMenuItemDTO) {
     return this.repo.update(id, data);
   }
 
