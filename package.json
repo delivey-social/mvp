@@ -14,7 +14,9 @@
     "dev:dashboard": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=dashboard\"",
     "build": "concurrently \"npm run build --workspace=frontend\" \"npm run build --workspace=backend\" \"npm run build --workspace=dashboard\"",
     "prepare": "husky",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "typecheck:frontend": "npm --workspace=frontend run typecheck:watch",
+    "typecheck:watch": "concurrently --names \"frontend,backend,dashboard\" -c \"green,blue,magenta\" \"npm --workspace=frontend run typecheck:watch\" \"npm --workspace=backend run typecheck:watch\" \"npm --workspace=dashboard run typecheck:watch\""
   },
   "author": "",
   "license": "ISC",
