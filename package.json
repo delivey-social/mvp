@@ -10,7 +10,8 @@
     "shared"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\" \"npm run dev --workspace=dashboard\"",
+    "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\"",
+    "dev:dashboard": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=dashboard\"",
     "build": "concurrently \"npm run build --workspace=frontend\" \"npm run build --workspace=backend\" \"npm run build --workspace=dashboard\"",
     "prepare": "husky",
     "typecheck": "npm run typecheck --workspaces --if-present"
