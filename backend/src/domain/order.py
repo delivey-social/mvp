@@ -6,10 +6,6 @@ from pydantic import BaseModel, Field, EmailStr
 from pydantic.config import ConfigDict
 
 
-class PhoneNumberVO(BaseModel):
-    number: str
-
-
 class OrderItem(BaseModel):
     product_id: UUID
     price: int = Field(gt=0)
@@ -18,7 +14,7 @@ class OrderItem(BaseModel):
 
 class OrderUser(BaseModel):
     email: EmailStr
-    phone: PhoneNumberVO
+    phone: str
     address: str
 
 
@@ -39,7 +35,6 @@ class Order(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     id: UUID = Field(default_factory=uuid4)
-    observation: str = Field(default="")
     items: list[OrderItem]
     user: OrderUser
     status: OrderStatus = Field(default=OrderStatus.WAITING_PAYMENT)
@@ -47,6 +42,7 @@ class Order(BaseModel):
     items_total: int
     app_fee: int
     delivery_fee: int
+    observation: str = Field(default="")
 
     @property
     def total(self) -> int:
