@@ -30,7 +30,7 @@ class OrderService:
     def delete(self, order_id: UUID) -> None:
         raise NotImplementedError("Delete method is not implemented yet.")
 
-    def list(self) -> list[Order]:
+    def list_(self) -> list[Order]:
         raise NotImplementedError("List method is not implemented yet.")
 
     def get_by_id(self, order_id: UUID) -> Order:
