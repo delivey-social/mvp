@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from src.domain.neighborhood import Neighborhood
 from src.domain.types.repositories.neighborhood import NeighborhoodRepository
 
@@ -10,10 +12,10 @@ class NeighborhoodService:
         return self.repo.list_()
 
     def create(self, neighborhood: Neighborhood) -> None:
-        raise NotImplementedError("This method is not implemented yet.")
+        self.repo.create(neighborhood)
 
     def update(self, neighborhood: Neighborhood) -> None:
-        raise NotImplementedError("This method is not implemented yet.")
+        self.repo.update(neighborhood)
 
-    def delete(self, neighborhood_id: str) -> None:
-        raise NotImplementedError("This method is not implemented yet.")
+    def delete(self, id: UUID) -> None:
+        self.repo.delete(id)

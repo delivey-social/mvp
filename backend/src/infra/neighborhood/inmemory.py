@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from src.domain.neighborhood import Neighborhood
 from src.domain.types.repositories.neighborhood import NeighborhoodRepository
 
@@ -10,3 +12,15 @@ class InMemoryNeighborhoodRepository(NeighborhoodRepository):
 
     def list_(self) -> list[Neighborhood]:
         return self._neighborhoods
+
+    def create(self, neighborhood: Neighborhood) -> None:
+        self._neighborhoods.append(neighborhood)
+
+    def update(self, neighborhood: Neighborhood) -> None:
+        for i, n in enumerate(self._neighborhoods):
+            if n.id == neighborhood.id:
+                self._neighborhoods[i] = neighborhood
+                return
+
+    def delete(self, id: UUID) -> None:
+        self._neighborhoods = [n for n in self._neighborhoods if n.id != id]
