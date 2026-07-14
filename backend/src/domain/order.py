@@ -56,6 +56,7 @@ class Order(BaseModel):
         payment_method: PaymentMethod,
         neighborhood_fee: int,
         observation: str = "",
+        id: UUID | None = None,
     ) -> Self:
         items_total = sum(item.price * item.quantity for item in items)
         app_fee = items_total // 10
@@ -69,4 +70,5 @@ class Order(BaseModel):
             items_total=items_total,
             app_fee=app_fee,
             delivery_fee=delivery_fee,
+            id=id or uuid4(),
         )

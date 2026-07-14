@@ -1,0 +1,35 @@
+info:
+  name: Update
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: "{{api_url}}/order/:id"
+  params:
+    - name: id
+      value: 2437d8b6-e0ec-4cdf-98c2-363087c1bb89
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "restaurant_id": "00000000-0000-0000-0000-000000000001",
+        "items": [{
+          "product_id": "a94799dd-fbd9-474d-95c7-f923f4f017d0",
+          "quantity": 2
+        }],
+        "user": {
+          "email": "test@test.com",
+          "phone": "000",
+          "address": "aa"
+        },
+        "payment_method": "PIX"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
