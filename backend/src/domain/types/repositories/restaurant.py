@@ -38,7 +38,7 @@ class RestaurantRepository(ABC):
         pass
 
     @abstractmethod
-    def delete_menu_item(self, menu_item_id: UUID) -> None:
+    def delete_menu_item(self, menu_item_id: UUID, restaurant_id: UUID) -> None:
         pass
 
     @abstractmethod

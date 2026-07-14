@@ -63,15 +63,32 @@ class InMemoryRestaurantRepository(RestaurantRepository):
         self.menu_items.append(menu_item)
 
     def update_menu_item(self, menu_item: MenuItem) -> None:
-        self.menu_items = [
-            item if str(item.id) != str(menu_item.id) else menu_item
+        restaurant_items = [
+            item
             for item in self.menu_items
+            if str(item.restaurant_id) == str(menu_item.restaurant_id)
         ]
 
-    def delete_menu_item(self, menu_item_id: UUID) -> None:
-        self.menu_items = [
-            item for item in self.menu_items if str(item.id) != str(menu_item_id)
+        for i, item in enumerate(restaurant_items):
+            if str(item.id) == str(menu_item.id):
+                self.menu_items[i] = menu_item
+                return
+
+        raise EntityNotFoundException("Menu item not found")
+
+    def delete_menu_item(self, menu_item_id: UUID, restaurant_id: UUID) -> None:
+        restaurant_items = [
+            item
+            for item in self.menu_items
+            if str(item.restaurant_id) == str(restaurant_id)
         ]
+
+        for item in restaurant_items:
+            if str(item.id) == str(menu_item_id):
+                self.menu_items.remove(item)
+                return
+
+        raise EntityNotFoundException("Menu item not found")
 
     def get_menu_items_by_ids(
         self, restaurant_id: UUID, menu_item_ids: list[UUID]

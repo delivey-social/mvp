@@ -55,11 +55,25 @@ class RestaurantService:
             )
         )
 
-    def update_menu_item(self, menu_item: MenuItem) -> None:
-        self.repo.update_menu_item(menu_item)
+    def update_menu_item(
+        self,
+        id: UUID,
+        restaurant_id: UUID,
+        request: CreateMenuItemRequestDTO,
+    ) -> None:
+        self.repo.update_menu_item(
+            MenuItem(
+                id=id,
+                restaurant_id=restaurant_id,
+                name=request.name,
+                description=request.description,
+                price=request.price,
+                category=request.category,
+            )
+        )
 
-    def delete_menu_item(self, id: UUID) -> None:
-        self.repo.delete_menu_item(id)
+    def delete_menu_item(self, id: UUID, restaurant_id: UUID) -> None:
+        self.repo.delete_menu_item(id, restaurant_id)
 
     def get_menu_items_by_ids(
         self,

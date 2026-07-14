@@ -79,6 +79,16 @@ class MenuItemRouter(APIRouter):
             self.create_menu_item,
             methods=["POST"],
         )
+        self.add_api_route(
+            "/{id}",
+            self.update_menu_item,
+            methods=["PUT"],
+        )
+        self.add_api_route(
+            "/{id}",
+            self.delete_menu_item,
+            methods=["DELETE"],
+        )
 
     async def list_menu_items(self, restaurant_id: UUID):
         return self.service.list_menu_items(restaurant_id)
@@ -91,3 +101,18 @@ class MenuItemRouter(APIRouter):
         self.service.create_menu_item(restaurant_id, request)
 
         return {"message": "Menu item created successfully"}
+
+    async def update_menu_item(
+        self,
+        restaurant_id: UUID,
+        id: UUID,
+        request: CreateMenuItemRequestDTO,
+    ):
+        self.service.update_menu_item(id, restaurant_id, request)
+
+        return {"message": "Menu item updated successfully"}
+
+    async def delete_menu_item(self, restaurant_id: UUID, id: UUID):
+        self.service.delete_menu_item(id, restaurant_id)
+
+        return {"message": "Menu item deleted successfully"}
