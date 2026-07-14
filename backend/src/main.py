@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
-from backend.src.application.restaurant import RestaurantService
-from backend.src.infra.restaurant.inmemory import InMemoryRestaurantRepository
+from src.application.restaurant import RestaurantService
+from src.infra.restaurant.inmemory import InMemoryRestaurantRepository
 from src.presentation.restaurant import RestaurantRouter
 from src.application.order import OrderService
 from src.infra.order.inmemory import InMemoryOrderRepository
