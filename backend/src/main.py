@@ -1,19 +1,17 @@
 from fastapi import FastAPI
 
-from src.application.restaurant import RestaurantService
-from src.infra.restaurant.inmemory import InMemoryRestaurantRepository
-from src.presentation.restaurant import RestaurantRouter
-from src.application.order import OrderService
-from src.infra.order.inmemory import InMemoryOrderRepository
-from src.presentation.order import OrderRouter
-
 from .application.neighborhood import NeighborhoodService
+from .application.order import OrderService
+from .application.restaurant import RestaurantService
 
 from .infra.neighborhood.inmemory import InMemoryNeighborhoodRepository
-
+from .infra.order.inmemory import InMemoryOrderRepository
+from .infra.restaurant.inmemory import InMemoryRestaurantRepository
 
 from .presentation.config import ConfigurationRouter
 from .presentation.neighborhood import NeighborhoodRouter
+from .presentation.restaurant import RestaurantRouter
+from .presentation.order import OrderRouter
 
 app = FastAPI()
 
