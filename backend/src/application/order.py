@@ -1,8 +1,8 @@
 from uuid import UUID
 
-from src.application.restaurant import RestaurantService
 from src.domain.order import Order, OrderItem, OrderUser
-from src.presentation.order import CreateOrderRequestDTO
+from src.application.restaurant import RestaurantService
+from src.presentation.order.types import CreateOrderRequestDTO
 from src.domain.types.repositories.order import OrderRepository
 
 

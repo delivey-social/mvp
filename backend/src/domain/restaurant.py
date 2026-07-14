@@ -3,10 +3,6 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel, Field
 
 
-class CNPJ(str):
-    pass
-
-
 class MenuItem(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     restaurant_id: UUID
@@ -20,4 +16,4 @@ class Restaurant(BaseModel):
     id: UUID = Field(default_factory=uuid4)
     name: str = Field(..., min_length=3, max_length=100)
     address: str = Field(..., min_length=5, max_length=200)
-    CNPJ: CNPJ
+    CNPJ: str

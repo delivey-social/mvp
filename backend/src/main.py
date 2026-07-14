@@ -11,7 +11,7 @@ from .infra.restaurant.inmemory import InMemoryRestaurantRepository
 from .presentation.config import ConfigurationRouter
 from .presentation.neighborhood import NeighborhoodRouter
 from .presentation.restaurant import RestaurantRouter
-from .presentation.order import OrderRouter
+from .presentation.order.main import OrderRouter
 
 app = FastAPI()
 
