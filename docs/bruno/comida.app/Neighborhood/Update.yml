@@ -8,7 +8,7 @@ http:
   url: "{{api_url}}/neighborhood/:id"
   params:
     - name: id
-      value: 8a006963-eeeb-4bbe-9b87-3c41fadd46b6
+      value: f392bc7a-09e1-4265-a71d-1c0639654162
       type: path
   body:
     type: json

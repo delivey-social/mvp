@@ -5,11 +5,7 @@ info:
 
 http:
   method: DELETE
-  url: "{{api_url}}/neighborhood/:id"
-  params:
-    - name: id
-      value: f392bc7a-09e1-4265-a71d-1c0639654162
-      type: path
+  url: "{{api_url}}/restaurant"
   auth: inherit
 
 settings:

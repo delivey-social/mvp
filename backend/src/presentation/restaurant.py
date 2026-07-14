@@ -23,8 +23,17 @@ class RestaurantRouter(APIRouter):
             methods=["GET"],
         )
 
+        self.add_api_route(
+            "/",
+            self.list_,
+            methods=["GET"],
+        )
+
     async def get_details(self, id: UUID):
         return self.service.get_by_id(id)
 
     async def list_menu_items(self, restaurant_id: UUID):
         return self.service.list_menu_items(restaurant_id)
+
+    async def list_(self):
+        return self.service.list_()

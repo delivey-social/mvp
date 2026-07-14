@@ -6,8 +6,24 @@ from src.domain.types.repositories.restaurant import RestaurantRepository
 
 class InMemoryRestaurantRepository(RestaurantRepository):
     def __init__(self):
-        self.restaurants: list[Restaurant] = []
-        self.menu_items: list[MenuItem] = []
+        id = UUID("00000000-0000-0000-0000-000000000001")
+        self.restaurants: list[Restaurant] = [
+            Restaurant(
+                name="Test Restaurant",
+                CNPJ="12345678901234",
+                address="123 Test St",
+                id=id,
+            )
+        ]
+        self.menu_items: list[MenuItem] = [
+            MenuItem(
+                restaurant_id=id,
+                name="Test Menu Item",
+                description="A delicious test item",
+                price=999,
+                category="Test Category",
+            )
+        ]
 
     def get_restaurant_by_id(self, id: UUID) -> Restaurant:
         for restaurant in self.restaurants:
