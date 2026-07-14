@@ -25,13 +25,13 @@ class OrderService:
         self.repo.create(order)
 
     def update(self, order: Order) -> None:
-        raise NotImplementedError("Update method is not implemented yet.")
+        self.repo.update(order)
 
     def delete(self, order_id: UUID) -> None:
-        raise NotImplementedError("Delete method is not implemented yet.")
+        self.repo.delete(order_id)
 
     def list_(self) -> list[Order]:
-        raise NotImplementedError("List method is not implemented yet.")
+        return self.repo.list_()
 
     def get_by_id(self, order_id: UUID) -> Order:
-        raise NotImplementedError("Get by ID method is not implemented yet.")
+        return self.repo.get_by_id(order_id)
