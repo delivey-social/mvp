@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from src.exceptions import EntityNotFoundException
 from src.domain.restaurant import MenuItem, Restaurant
 from src.domain.types.repositories.restaurant import RestaurantRepository
 
@@ -43,10 +44,12 @@ class InMemoryRestaurantRepository(RestaurantRepository):
         self.restaurants.append(restaurant)
 
     def update(self, restaurant: Restaurant) -> None:
-        self.restaurants = [
-            r if str(r.id) != str(restaurant.id) else restaurant
-            for r in self.restaurants
-        ]
+        for i, r in enumerate(self.restaurants):
+            if str(r.id) == str(restaurant.id):
+                self.restaurants[i] = restaurant
+                return
+
+        raise EntityNotFoundException("Restaurant not found")
 
     def delete(self, restaurant_id: UUID) -> None:
         self.restaurants = [

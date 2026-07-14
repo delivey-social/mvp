@@ -1,10 +1,10 @@
 info:
-  name: Delete
+  name: Get Details
   type: http
-  seq: 4
+  seq: 5
 
 http:
-  method: DELETE
+  method: GET
   url: "{{api_url}}/restaurant/:id"
   params:
     - name: id

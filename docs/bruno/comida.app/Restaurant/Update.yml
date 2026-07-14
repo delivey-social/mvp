@@ -5,7 +5,19 @@ info:
 
 http:
   method: PUT
-  url: "{{api_url}}/restaurant"
+  url: "{{api_url}}/restaurant/:id"
+  params:
+    - name: id
+      value: 00000000-0000-0000-0000-000000000001
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Test Updated",
+        "address": "Test Address 124",
+        "CNPJ": "00000000000001"
+      }
   auth: inherit
 
 settings:

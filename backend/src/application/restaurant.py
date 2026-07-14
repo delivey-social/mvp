@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from src.types.restaurant import CreateRestaurantRequestDTO
 from src.domain.restaurant import MenuItem, Restaurant
 from src.domain.types.repositories.restaurant import RestaurantRepository
 
@@ -11,20 +12,33 @@ class RestaurantService:
     def get_by_id(self, id: UUID):
         return self.repo.get_restaurant_by_id(id)
 
-    def list_menu_items(self, restaurant_id: UUID):
-        return self.repo.list_menu_items(restaurant_id)
+    def create(self, restaurant: CreateRestaurantRequestDTO) -> None:
+        self.repo.create(
+            Restaurant(
+                name=restaurant.name,
+                address=restaurant.address,
+                CNPJ=restaurant.CNPJ,
+            )
+        )
 
-    def create(self, restaurant: Restaurant) -> None:
-        self.repo.create(restaurant)
+    def update(self, id: UUID, restaurant: CreateRestaurantRequestDTO) -> None:
+        self.repo.update(
+            Restaurant(
+                id=id,
+                address=restaurant.address,
+                name=restaurant.name,
+                CNPJ=restaurant.CNPJ,
+            )
+        )
 
-    def update(self, restaurant: Restaurant) -> None:
-        self.repo.update(restaurant)
-
-    def delete(self, restaurant_id: UUID) -> None:
-        self.repo.delete(restaurant_id)
+    def delete(self, id: UUID) -> None:
+        self.repo.delete(id)
 
     def list_(self) -> list[Restaurant]:
         return self.repo.list_()
+
+    def list_menu_items(self, restaurant_id: UUID):
+        return self.repo.list_menu_items(restaurant_id)
 
     def create_menu_item(self, menu_item: MenuItem) -> None:
         self.repo.create_menu_item(menu_item)

@@ -6,6 +6,14 @@ info:
 http:
   method: POST
   url: "{{api_url}}/restaurant"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Test Created",
+        "address": "Test Address 123",
+        "CNPJ": "00000000000000"
+      }
   auth: inherit
 
 settings:

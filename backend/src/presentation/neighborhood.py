@@ -15,7 +15,7 @@ class NeighborhoodRouter(APIRouter):
         self.add_api_route("/", self.list_, methods=["GET"])
         self.add_api_route("/", self.create, methods=["POST"])
         self.add_api_route("/{id}", self.update, methods=["PUT"])
-        self.add_api_route("/{id}", self.delete_, methods=["DELETE"])
+        self.add_api_route("/{id}", self.delete, methods=["DELETE"])
 
     def list_(self):
         neighborhoods = self.service.list_()
@@ -32,7 +32,7 @@ class NeighborhoodRouter(APIRouter):
 
         return {"message": "Neighborhood updated successfully!"}
 
-    def delete_(self, id: UUID):
+    def delete(self, id: UUID):
         self.service.delete(id)
 
         return {"message": "Neighborhood deleted successfully!"}
