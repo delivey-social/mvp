@@ -20,11 +20,11 @@ app = FastAPI()
 neighborhood_repo = InMemoryNeighborhoodRepository()
 neighborhood_service = NeighborhoodService(repo=neighborhood_repo)
 
-order_repo = InMemoryOrderRepository()
-order_service = OrderService(order_repo)
-
 restaurant_repo = InMemoryRestaurantRepository()
 restaurant_service = RestaurantService(repo=restaurant_repo)
+
+order_repo = InMemoryOrderRepository()
+order_service = OrderService(order_repo, restaurant_service)
 
 config_router = ConfigurationRouter()
 neighborhood_router = NeighborhoodRouter(service=neighborhood_service)

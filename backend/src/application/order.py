@@ -1,17 +1,41 @@
 from uuid import UUID
 
-from src.domain.order import Order, OrderUser
+from src.application.restaurant import RestaurantService
+from src.domain.order import Order, OrderItem, OrderUser
 from src.presentation.order import CreateOrderRequestDTO
 from src.domain.types.repositories.order import OrderRepository
 
 
 class OrderService:
-    def __init__(self, repo: OrderRepository):
+    def __init__(self, repo: OrderRepository, restaurant_service: RestaurantService):
         self.repo = repo
+        self.restaurant_service = restaurant_service
 
     def create(self, request: CreateOrderRequestDTO) -> None:
+        restaurant_items = self.restaurant_service.get_menu_items_by_ids(
+            request.restaurant_id, [item.product_id for item in request.items]
+        )
+
+        items: list[OrderItem] = []
+
+        for item in request.items:
+            restaurant_item = next(
+                (ri for ri in restaurant_items if ri.id == item.product_id), None
+            )
+
+            if not restaurant_item:
+                raise ValueError(f"Product with id {item.product_id} not found")
+
+            items.append(
+                OrderItem(
+                    product_id=item.product_id,
+                    quantity=item.quantity,
+                    price=restaurant_item.price,
+                )
+            )
+
         order: Order = Order.create(
-            items=[],
+            items=items,
             user=OrderUser(
                 address=request.user.address,
                 email=request.user.email,
