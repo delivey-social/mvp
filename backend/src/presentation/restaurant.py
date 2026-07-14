@@ -24,7 +24,7 @@ class RestaurantRouter(APIRouter):
         )
 
     async def get_details(self, id: UUID):
-        return self.service.get_restaurant_by_id(id)
+        return self.service.get_by_id(id)
 
     async def list_menu_items(self, restaurant_id: UUID):
         return self.service.list_menu_items(restaurant_id)
