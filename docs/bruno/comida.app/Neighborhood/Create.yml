@@ -6,6 +6,13 @@ info:
 http:
   method: POST
   url: "{{api_url}}/neighborhood"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Teste",
+        "base_price": 100
+      }
   auth: inherit
 
 settings:

@@ -1,4 +1,9 @@
+from typing import Any
+
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
+
+from src.exceptions import EntityNotFoundException
 
 from .application.neighborhood import NeighborhoodService
 from .application.order import OrderService
@@ -38,3 +43,16 @@ app.include_router(restaurant_router)
 @app.get("/")
 def ping():
     return {"message": "comida.app service is alive!"}
+
+
+def handle_entity_not_found_exception(_: Any, exc: Exception):
+    return JSONResponse(
+        status_code=404,
+        content={"message": str(exc)},
+    )
+
+
+app.add_exception_handler(
+    EntityNotFoundException,
+    handle_entity_not_found_exception,
+)

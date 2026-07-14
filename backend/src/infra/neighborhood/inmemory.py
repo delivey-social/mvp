@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from src.exceptions import EntityNotFoundException
 from src.domain.neighborhood import Neighborhood
 from src.domain.types.repositories.neighborhood import NeighborhoodRepository
 
@@ -22,5 +23,14 @@ class InMemoryNeighborhoodRepository(NeighborhoodRepository):
                 self._neighborhoods[i] = neighborhood
                 return
 
+        raise EntityNotFoundException(
+            f"Neighborhood with id {neighborhood.id} not found."
+        )
+
     def delete(self, id: UUID) -> None:
-        self._neighborhoods = [n for n in self._neighborhoods if n.id != id]
+        for i, n in enumerate(self._neighborhoods):
+            if n.id == id:
+                del self._neighborhoods[i]
+                return
+
+        raise EntityNotFoundException(f"Neighborhood with id {id} not found.")
