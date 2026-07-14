@@ -1,11 +1,11 @@
 info:
-  name: Ping
+  name: List
   type: http
   seq: 1
 
 http:
   method: GET
-  url: "{{api_url}}/"
+  url: "{{api_url}}/neighborhood"
   auth: inherit
 
 settings:
