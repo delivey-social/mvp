@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from src.domain.order import Order, OrderUser
 from src.presentation.order import CreateOrderRequestDTO
 from src.domain.types.repositories.order import OrderRepository
@@ -21,3 +23,15 @@ class OrderService:
         )
 
         self.repo.create(order)
+
+    def update(self, order: Order) -> None:
+        raise NotImplementedError("Update method is not implemented yet.")
+
+    def delete(self, order_id: UUID) -> None:
+        raise NotImplementedError("Delete method is not implemented yet.")
+
+    def list(self) -> list[Order]:
+        raise NotImplementedError("List method is not implemented yet.")
+
+    def get_by_id(self, order_id: UUID) -> Order:
+        raise NotImplementedError("Get by ID method is not implemented yet.")
