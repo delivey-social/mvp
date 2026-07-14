@@ -2,7 +2,7 @@ from uuid import UUID
 
 from src.domain.order import Order, OrderItem, OrderUser
 from src.application.restaurant import RestaurantService
-from src.presentation.order.types import CreateOrderRequestDTO
+from src.types.order import CreateOrderRequestDTO
 from src.domain.types.repositories.order import OrderRepository
 
 

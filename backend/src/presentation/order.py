@@ -2,7 +2,7 @@ from fastapi import APIRouter
 
 
 from src.application.order import OrderService
-from .types import CreateOrderRequestDTO
+from src.types.order import CreateOrderRequestDTO
 
 
 class OrderRouter(APIRouter):
