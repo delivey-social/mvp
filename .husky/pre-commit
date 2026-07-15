@@ -1,3 +1,7 @@
 echo "Checking for type errors..."
 
 npm run typecheck
+
+echo "Checking for type errors in the backend..."
+
+cd backend && make typecheck
