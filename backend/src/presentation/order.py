@@ -34,6 +34,22 @@ class OrderRouter(APIRouter):
             methods=["DELETE"],
         )
 
+        self.add_api_route(
+            "/{id}/paid",
+            self.paid,
+            methods=["GET"],
+        )
+        self.add_api_route(
+            "/{id}/ready-for-delivery",
+            self.ready_for_delivery,
+            methods=["GET"],
+        )
+        self.add_api_route(
+            "/{id}/finished",
+            self.finished,
+            methods=["GET"],
+        )
+
     def create(self, request: CreateOrderRequestDTO):
         self.service.create(request)
 
@@ -51,3 +67,18 @@ class OrderRouter(APIRouter):
         self.service.delete(id)
 
         return {"message": "Order deleted successfully"}
+
+    def paid(self, id: UUID):
+        self.service.order_paid(id)
+
+        return {"message": "Order paid successfully"}
+
+    def ready_for_delivery(self, id: UUID):
+        self.service.order_ready_for_delivery(id)
+
+        return {"message": "Order ready for delivery successfully"}
+
+    def finished(self, id: UUID):
+        self.service.order_finished(id)
+
+        return {"message": "Order finished successfully"}

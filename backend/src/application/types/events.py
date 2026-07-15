@@ -17,3 +17,6 @@ class Event(Generic[T]):
 
 
 OrderCreatedEvent: Event[Order] = Event("OrderCreatedEvent")
+OrderPaidEvent: Event[Order] = Event("OrderPaidEvent")
+OrderDeliveringEvent: Event[Order] = Event("OrderDeliveringEvent")
+OrderFinishedEvent: Event[Order] = Event("OrderFinishedEvent")

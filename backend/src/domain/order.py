@@ -72,3 +72,21 @@ class Order(BaseModel):
             delivery_fee=delivery_fee,
             id=id or uuid4(),
         )
+
+    def mark_as_paid(self) -> Self:
+        if self.status != OrderStatus.WAITING_PAYMENT:
+            raise ValueError("Order is not in a state that can be marked as paid")
+
+        return self.model_copy(update={"status": OrderStatus.PREPARING})
+
+    def mark_as_ready(self) -> Self:
+        if self.status != OrderStatus.PREPARING:
+            raise ValueError("Order is not in a state that can be marked as ready")
+
+        return self.model_copy(update={"status": OrderStatus.READY_FOR_DELIVERY})
+
+    def mark_as_finished(self) -> Self:
+        if self.status != OrderStatus.READY_FOR_DELIVERY:
+            raise ValueError("Order is not in a state that can be marked as finished")
+
+        return self.model_copy(update={"status": OrderStatus.FINISHED})

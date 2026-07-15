@@ -1,6 +1,11 @@
 from uuid import UUID
 
-from src.application.types.events import OrderCreatedEvent
+from src.application.types.events import (
+    OrderCreatedEvent,
+    OrderDeliveringEvent,
+    OrderFinishedEvent,
+    OrderPaidEvent,
+)
 from src.application.types.event_bus import EventBus
 from src.domain.order import Order, OrderItem, OrderUser
 from src.application.restaurant import RestaurantService
@@ -95,3 +100,24 @@ class OrderService:
 
     def get_by_id(self, order_id: UUID) -> Order:
         return self.repo.get_by_id(order_id)
+
+    def order_paid(self, id: UUID) -> None:
+        order = self.repo.get_by_id(id)
+
+        self.repo.update(order.mark_as_paid())
+
+        self.event_bus.publish(OrderPaidEvent, order)
+
+    def order_ready_for_delivery(self, id: UUID) -> None:
+        order = self.repo.get_by_id(id)
+
+        self.repo.update(order.mark_as_ready())
+
+        self.event_bus.publish(OrderDeliveringEvent, order)
+
+    def order_finished(self, id: UUID) -> None:
+        order = self.repo.get_by_id(id)
+
+        self.repo.update(order.mark_as_finished())
+
+        self.event_bus.publish(OrderFinishedEvent, order)
