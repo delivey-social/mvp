@@ -3,6 +3,7 @@ from uuid import UUID
 
 from src.exceptions import EntityNotFoundException
 from src.domain.restaurant import MenuItem, Restaurant
+from src.domain.shared.cnpj import CNPJ
 from src.domain.types.repositories.restaurant import RestaurantRepository
 
 
@@ -12,7 +13,7 @@ class InMemoryRestaurantRepository(RestaurantRepository):
         self.restaurants: list[Restaurant] = [
             Restaurant(
                 name="Test Restaurant",
-                CNPJ="12345678901234",
+                CNPJ=CNPJ(numero="12345678901234"),
                 address="123 Test St",
                 id=id,
             )

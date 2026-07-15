@@ -28,3 +28,11 @@ class InvalidReferenceException(DomainException):
     """
 
     pass
+
+
+class InvalidValueException(DomainException):
+    """
+    Raised when an entity has an invalid value for a property.
+    """
+
+    pass
