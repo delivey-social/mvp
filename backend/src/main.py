@@ -3,7 +3,7 @@ from typing import Any
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-from .exceptions import EntityNotFoundException
+from .exceptions import EntityNotFoundException, InvalidStateException
 
 from .application.neighborhood import NeighborhoodService
 from .application.order import OrderService
@@ -57,7 +57,18 @@ def handle_entity_not_found_exception(_: Any, exc: Exception):
     )
 
 
+def handle_invalid_state_exception(_: Any, exc: Exception):
+    return JSONResponse(
+        status_code=400,
+        content={"message": str(exc)},
+    )
+
+
 app.add_exception_handler(
     EntityNotFoundException,
     handle_entity_not_found_exception,
+)
+app.add_exception_handler(
+    InvalidStateException,
+    handle_invalid_state_exception,
 )

@@ -12,3 +12,11 @@ class EntityNotFoundException(DomainException):
     """
 
     pass
+
+
+class InvalidStateException(DomainException):
+    """
+    Raised when an entity is in an invalid state for the requested operation.
+    """
+
+    pass
