@@ -1,3 +1,4 @@
+from pathlib import Path
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
@@ -10,6 +11,7 @@ class MenuItem(BaseModel):
     description: str = Field(..., min_length=3, max_length=500)
     price: int = Field(..., gt=0)
     category: str = Field(..., min_length=3, max_length=50)
+    image_path: Path
 
 
 class Restaurant(BaseModel):

@@ -1,13 +1,23 @@
 from uuid import UUID
 
+
 from src.types.restaurant import CreateRestaurantRequestDTO, CreateMenuItemRequestDTO
+
+from src.infra.image.disk import ImageRepository
+
 from src.domain.restaurant import MenuItem, Restaurant
 from src.domain.types.repositories.restaurant import RestaurantRepository
+from src.domain.types.main import FileData
 
 
 class RestaurantService:
-    def __init__(self, repo: RestaurantRepository):
+    def __init__(
+        self,
+        repo: RestaurantRepository,
+        image_repo: ImageRepository,
+    ):
         self.repo = repo
+        self.image_repo = image_repo
 
     def get_by_id(self, id: UUID):
         return self.repo.get_restaurant_by_id(id)
@@ -40,11 +50,14 @@ class RestaurantService:
     def list_menu_items(self, restaurant_id: UUID):
         return self.repo.list_menu_items(restaurant_id)
 
-    def create_menu_item(
+    async def create_menu_item(
         self,
         restaurant_id: UUID,
         request: CreateMenuItemRequestDTO,
+        image: FileData,
     ) -> None:
+        path = await self.image_repo.save(image.data, image.filename)
+
         self.repo.create_menu_item(
             MenuItem(
                 restaurant_id=restaurant_id,
@@ -52,15 +65,23 @@ class RestaurantService:
                 description=request.description,
                 price=request.price,
                 category=request.category,
+                image_path=path,
             )
         )
 
-    def update_menu_item(
+    async def update_menu_item(
         self,
         id: UUID,
         restaurant_id: UUID,
         request: CreateMenuItemRequestDTO,
+        image: FileData,
     ) -> None:
+        menu_item = self.repo.get_menu_item_by_id(restaurant_id, id)
+
+        await self.image_repo.delete(menu_item.image_path)
+
+        path = await self.image_repo.save(image.data, image.filename)
+
         self.repo.update_menu_item(
             MenuItem(
                 id=id,
@@ -69,6 +90,7 @@ class RestaurantService:
                 description=request.description,
                 price=request.price,
                 category=request.category,
+                image_path=path,
             )
         )
 

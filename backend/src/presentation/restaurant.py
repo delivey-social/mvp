@@ -1,9 +1,11 @@
+from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Form, UploadFile
+from fastapi.responses import JSONResponse
 
 from src.types.restaurant import CreateMenuItemRequestDTO, CreateRestaurantRequestDTO
-from src.application.restaurant import RestaurantService
+from src.application.restaurant import FileData, RestaurantService
 
 
 class RestaurantRouter(APIRouter):
@@ -96,9 +98,30 @@ class MenuItemRouter(APIRouter):
     async def create_menu_item(
         self,
         restaurant_id: UUID,
-        request: CreateMenuItemRequestDTO,
+        data: Annotated[str, Form()],
+        image: UploadFile,
     ):
-        self.service.create_menu_item(restaurant_id, request)
+        dto = CreateMenuItemRequestDTO.model_validate_json(data)
+
+        filename = image.filename
+        content_type = image.content_type
+
+        if not filename or not content_type:
+            return JSONResponse(
+                status_code=400, content={"message": "Invalid image data"}
+            )
+
+        image_data = FileData(
+            filename=filename,
+            content_type=content_type,
+            data=image.file,
+        )
+
+        await self.service.create_menu_item(
+            restaurant_id,
+            dto,
+            image_data,
+        )
 
         return {"message": "Menu item created successfully"}
 
@@ -106,9 +129,31 @@ class MenuItemRouter(APIRouter):
         self,
         restaurant_id: UUID,
         id: UUID,
-        request: CreateMenuItemRequestDTO,
+        data: Annotated[str, Form()],
+        image: UploadFile,
     ):
-        self.service.update_menu_item(id, restaurant_id, request)
+        dto = CreateMenuItemRequestDTO.model_validate_json(data)
+
+        filename = image.filename
+        content_type = image.content_type
+
+        if not filename or not content_type:
+            return JSONResponse(
+                status_code=400, content={"message": "Invalid image data"}
+            )
+
+        image_data = FileData(
+            filename=filename,
+            content_type=content_type,
+            data=image.file,
+        )
+
+        await self.service.update_menu_item(
+            id,
+            restaurant_id,
+            dto,
+            image_data,
+        )
 
         return {"message": "Menu item updated successfully"}
 

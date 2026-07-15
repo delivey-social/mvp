@@ -46,3 +46,7 @@ class RestaurantRepository(ABC):
         self, restaurant_id: UUID, menu_item_ids: list[UUID]
     ) -> list[MenuItem]:
         pass
+
+    @abstractmethod
+    def get_menu_item_by_id(self, restaurant_id: UUID, menu_item_id: UUID) -> MenuItem:
+        pass

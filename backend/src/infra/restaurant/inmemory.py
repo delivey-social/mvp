@@ -1,3 +1,4 @@
+from pathlib import Path
 from uuid import UUID
 
 from src.exceptions import EntityNotFoundException
@@ -23,6 +24,7 @@ class InMemoryRestaurantRepository(RestaurantRepository):
                 description="A delicious test item",
                 price=999,
                 category="Test Category",
+                image_path=Path("data/images/test_image.jpg"),
             )
         ]
 
@@ -99,3 +101,16 @@ class InMemoryRestaurantRepository(RestaurantRepository):
             if str(item.restaurant_id) == str(restaurant_id)
             and str(item.id) in [str(id) for id in menu_item_ids]
         ]
+
+    def get_menu_item_by_id(
+        self,
+        restaurant_id: UUID,
+        menu_item_id: UUID,
+    ) -> MenuItem:
+        for item in self.menu_items:
+            if str(item.restaurant_id) == str(restaurant_id) and str(item.id) == str(
+                menu_item_id
+            ):
+                return item
+
+        raise EntityNotFoundException("Menu item not found")

@@ -3,6 +3,7 @@ from typing import Any
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
+
 from .exceptions import (
     EntityNotFoundException,
     InvalidReferenceException,
@@ -13,6 +14,7 @@ from .application.neighborhood import NeighborhoodService
 from .application.order import OrderService
 from .application.restaurant import RestaurantService
 
+from .infra.image.disk import DiskImageRepository, ImageRepository
 from .infra.bus.inmemory import EventBus, InMemoryEventBus
 from .infra.bus.channels.logger import Logger
 from .infra.neighborhood.inmemory import InMemoryNeighborhoodRepository
@@ -29,11 +31,13 @@ app = FastAPI()
 event_bus: EventBus = InMemoryEventBus()
 logger = Logger(event_bus)
 
+image_repo: ImageRepository = DiskImageRepository("data/images")
+
 neighborhood_repo = InMemoryNeighborhoodRepository()
-neighborhood_service = NeighborhoodService(repo=neighborhood_repo)
+neighborhood_service = NeighborhoodService(neighborhood_repo)
 
 restaurant_repo = InMemoryRestaurantRepository()
-restaurant_service = RestaurantService(repo=restaurant_repo)
+restaurant_service = RestaurantService(restaurant_repo, image_repo)
 
 order_repo = InMemoryOrderRepository()
 order_service = OrderService(order_repo, restaurant_service, event_bus)
