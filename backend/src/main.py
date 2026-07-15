@@ -3,7 +3,11 @@ from typing import Any
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-from .exceptions import EntityNotFoundException, InvalidStateException
+from .exceptions import (
+    EntityNotFoundException,
+    InvalidReferenceException,
+    InvalidStateException,
+)
 
 from .application.neighborhood import NeighborhoodService
 from .application.order import OrderService
@@ -70,5 +74,9 @@ app.add_exception_handler(
 )
 app.add_exception_handler(
     InvalidStateException,
+    handle_invalid_state_exception,
+)
+app.add_exception_handler(
+    InvalidReferenceException,
     handle_invalid_state_exception,
 )

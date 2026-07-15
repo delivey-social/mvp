@@ -20,3 +20,11 @@ class InvalidStateException(DomainException):
     """
 
     pass
+
+
+class InvalidReferenceException(DomainException):
+    """
+    Raised when an entity has an invalid reference to another entity.
+    """
+
+    pass

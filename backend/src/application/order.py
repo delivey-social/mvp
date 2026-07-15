@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from src.exceptions import InvalidReferenceException
 from src.application.types.events import (
     OrderCreatedEvent,
     OrderDeliveringEvent,
@@ -80,7 +81,9 @@ class OrderService:
             )
 
             if not restaurant_item:
-                raise ValueError(f"Product with id {product_id} not found")
+                raise InvalidReferenceException(
+                    f"Product with id {product_id} not found"
+                )
 
             items.append(
                 OrderItem(
