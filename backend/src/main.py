@@ -3,12 +3,14 @@ from typing import Any
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
-from src.exceptions import EntityNotFoundException
+from .exceptions import EntityNotFoundException
 
 from .application.neighborhood import NeighborhoodService
 from .application.order import OrderService
 from .application.restaurant import RestaurantService
 
+from .infra.bus.inmemory import EventBus, InMemoryEventBus
+from .infra.bus.channels.logger import Logger
 from .infra.neighborhood.inmemory import InMemoryNeighborhoodRepository
 from .infra.order.inmemory import InMemoryOrderRepository
 from .infra.restaurant.inmemory import InMemoryRestaurantRepository
@@ -20,6 +22,9 @@ from .presentation.order import OrderRouter
 
 app = FastAPI()
 
+event_bus: EventBus = InMemoryEventBus()
+logger = Logger(event_bus)
+
 neighborhood_repo = InMemoryNeighborhoodRepository()
 neighborhood_service = NeighborhoodService(repo=neighborhood_repo)
 
@@ -27,7 +32,7 @@ restaurant_repo = InMemoryRestaurantRepository()
 restaurant_service = RestaurantService(repo=restaurant_repo)
 
 order_repo = InMemoryOrderRepository()
-order_service = OrderService(order_repo, restaurant_service)
+order_service = OrderService(order_repo, restaurant_service, event_bus)
 
 config_router = ConfigurationRouter()
 neighborhood_router = NeighborhoodRouter(service=neighborhood_service)

@@ -1,17 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Callable, Generic, TypeVar
-
-T = TypeVar("T")
-
-
-class Event(Generic[T]):
-    """A typed event marker. T is the data type carried by this event."""
-
-    def __init__(self, name: str) -> None:
-        self._name = name
-
-    def __repr__(self) -> str:
-        return f"Event({self._name!r})"
+from typing import Callable
+from .events import Event, T
 
 
 class EventBus(ABC):

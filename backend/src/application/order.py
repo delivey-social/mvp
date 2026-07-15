@@ -1,5 +1,7 @@
 from uuid import UUID
 
+from src.application.types.events import OrderCreatedEvent
+from src.application.types.event_bus import EventBus
 from src.domain.order import Order, OrderItem, OrderUser
 from src.application.restaurant import RestaurantService
 from src.types.order import CreateOrderRequestDTO
@@ -7,9 +9,15 @@ from src.domain.types.repositories.order import OrderRepository
 
 
 class OrderService:
-    def __init__(self, repo: OrderRepository, restaurant_service: RestaurantService):
+    def __init__(
+        self,
+        repo: OrderRepository,
+        restaurant_service: RestaurantService,
+        event_bus: EventBus,
+    ):
         self.repo = repo
         self.restaurant_service = restaurant_service
+        self.event_bus = event_bus
 
     def create(self, request: CreateOrderRequestDTO) -> None:
         items = self._get_restaurant_items(
@@ -27,6 +35,8 @@ class OrderService:
             neighborhood_fee=0,
             observation=request.observation,
         )
+
+        self.event_bus.publish(OrderCreatedEvent, order)
 
         self.repo.create(order)
 
