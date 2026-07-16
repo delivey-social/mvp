@@ -7,11 +7,15 @@ from src.application.types.events import (
     OrderFinishedEvent,
     OrderPaidEvent,
 )
-from src.application.types.event_bus import EventBus
-from src.domain.order import Order, OrderItem, OrderUser
-from src.application.restaurant import RestaurantService
+
 from src.types.order import CreateOrderRequestDTO
+
+from src.domain.order import Order, OrderItem, OrderUser
 from src.domain.types.repositories.order import OrderRepository
+
+from src.application.neighborhood import NeighborhoodService
+from src.application.restaurant import RestaurantService
+from src.application.types.event_bus import EventBus
 
 
 class OrderService:
@@ -19,10 +23,12 @@ class OrderService:
         self,
         repo: OrderRepository,
         restaurant_service: RestaurantService,
+        neighborhood_service: NeighborhoodService,
         event_bus: EventBus,
     ):
         self.repo = repo
         self.restaurant_service = restaurant_service
+        self.neighborhood_service = neighborhood_service
         self.event_bus = event_bus
 
     def create(self, request: CreateOrderRequestDTO) -> None:
@@ -30,15 +36,19 @@ class OrderService:
             request.restaurant_id, [item.product_id for item in request.items]
         )
 
+        delivery_fee = self.neighborhood_service.get_delivery_fee(
+            request.user.address.neighborhood_id
+        )
+
         order: Order = Order.create(
             items=items,
             user=OrderUser(
-                address=request.user.address,
+                address=request.user.address.address,
                 email=request.user.email,
                 phone=request.user.phone,
             ),
             payment_method=request.payment_method,
-            neighborhood_fee=0,
+            neighborhood_fee=delivery_fee,
             observation=request.observation,
             restaurant_id=request.restaurant_id,
         )
@@ -57,7 +67,7 @@ class OrderService:
                 id=id,
                 items=items,
                 user=OrderUser(
-                    address=request.user.address,
+                    address=request.user.address.address,
                     email=request.user.email,
                     phone=request.user.phone,
                 ),

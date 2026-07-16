@@ -40,7 +40,12 @@ restaurant_repo = InMemoryRestaurantRepository()
 restaurant_service = RestaurantService(restaurant_repo, image_repo)
 
 order_repo = InMemoryOrderRepository()
-order_service = OrderService(order_repo, restaurant_service, event_bus)
+order_service = OrderService(
+    order_repo,
+    restaurant_service,
+    neighborhood_service,
+    event_bus,
+)
 
 config_router = ConfigurationRouter()
 neighborhood_router = NeighborhoodRouter(service=neighborhood_service)

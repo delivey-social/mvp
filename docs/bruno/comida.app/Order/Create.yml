@@ -15,7 +15,10 @@ http:
         "user": {
           "email": "test@test.com",
           "phone": "(41) 9999-9999",
-          "address": "aa"
+          "address": {
+            "address": "Rua das Andorinhas, 283",
+            "neighborhood_id": "aaa"
+          }
         },
         "payment_method": "PIX"
       }

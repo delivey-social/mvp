@@ -34,3 +34,10 @@ class InMemoryNeighborhoodRepository(NeighborhoodRepository):
                 return
 
         raise EntityNotFoundException(f"Neighborhood with id {id} not found.")
+
+    def get_by_id(self, id: UUID) -> Neighborhood:
+        for n in self._neighborhoods:
+            if n.id == id:
+                return n
+
+        raise EntityNotFoundException(f"Neighborhood with id {id} not found.")

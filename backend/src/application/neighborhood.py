@@ -31,3 +31,11 @@ class NeighborhoodService:
 
     def delete(self, id: UUID) -> None:
         self.repo.delete(id)
+
+    def get_delivery_fee(self, id: UUID) -> int:
+        neighborhood = self.repo.get_by_id(id)
+
+        if not neighborhood:
+            raise ValueError("Neighborhood not found")
+
+        return neighborhood.base_price

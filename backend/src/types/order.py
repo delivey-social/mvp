@@ -12,10 +12,15 @@ class CreateOrderRequestItem(BaseModel):
     quantity: int
 
 
+class CreateOrderRequestAddressDTO(BaseModel):
+    address: str
+    neighborhood_id: UUID
+
+
 class CreateOrderRequestUserDTO(BaseModel):
     email: EmailStr
     phone: PhoneNumber
-    address: str
+    address: CreateOrderRequestAddressDTO
 
 
 class CreateOrderRequestDTO(BaseModel):
