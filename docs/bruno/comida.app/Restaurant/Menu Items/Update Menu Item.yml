@@ -11,7 +11,7 @@ http:
       value: 00000000-0000-0000-0000-000000000001
       type: path
     - name: id
-      value: 5f2ae8b8-d052-432a-b205-f170fb1e7544
+      value: 00000000-0000-0000-0000-000000000001
       type: path
   body:
     type: multipart-form
@@ -28,7 +28,7 @@ http:
       - name: image
         type: file
         value:
-          - C:\Users\thiago.tolotti\Downloads\Mapa rua Edith Von Scheidt.png
+          - C:\Users\thiago.tolotti\Downloads\nginx-logo-1-405953252.png
         contentType: image/png
   auth: inherit
 

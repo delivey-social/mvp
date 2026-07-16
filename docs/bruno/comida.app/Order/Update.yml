@@ -8,7 +8,7 @@ http:
   url: "{{api_url}}/order/:id"
   params:
     - name: id
-      value: 2437d8b6-e0ec-4cdf-98c2-363087c1bb89
+      value: 00000000-0000-0000-0000-000000000001
       type: path
   body:
     type: json

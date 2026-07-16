@@ -12,8 +12,6 @@ class PhoneNumber(BaseModel):
         if isinstance(data, PhoneNumber):
             return data
 
-        print("Validating phone number:", data, isinstance(data, str))
-
         if isinstance(data, str):
             digits = "".join(filter(str.isdigit, data))
 
@@ -24,9 +22,7 @@ class PhoneNumber(BaseModel):
 
             return {"ddd": digits[:2], "numero": digits[2:]}
 
-        raise ValueError(
-            "Número de telefone deve ser uma string ou uma instância de PhoneNumber",
-        )
+        return data
 
     def __str__(self):
         return f"({self.ddd}) {self.numero}"

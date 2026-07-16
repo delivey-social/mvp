@@ -9,18 +9,23 @@ from src.domain.types.repositories.restaurant import RestaurantRepository
 
 class InMemoryRestaurantRepository(RestaurantRepository):
     def __init__(self):
-        id = UUID("00000000-0000-0000-0000-000000000001")
+        self._current_id = 0
+        self._current_menu_item_id = 0
+
+        restaurant_id = self._get_next_id()
+
         self.restaurants: list[Restaurant] = [
             Restaurant(
                 name="Test Restaurant",
                 CNPJ=CNPJ("12345678901234"),
                 address="123 Test St",
-                id=id,
+                id=restaurant_id,
             )
         ]
         self.menu_items: list[MenuItem] = [
             MenuItem(
-                restaurant_id=id,
+                id=self._get_next_menu_item_id(),
+                restaurant_id=restaurant_id,
                 name="Test Menu Item",
                 description="A delicious test item",
                 price=999,
@@ -28,6 +33,20 @@ class InMemoryRestaurantRepository(RestaurantRepository):
                 image_path=Path("data/images/test_image.jpg"),
             )
         ]
+
+    def _get_next_id(self) -> UUID:
+        self._current_id += 1
+
+        id_string = f"00000000-0000-0000-0000-{self._current_id:012d}"
+
+        return UUID(id_string)
+
+    def _get_next_menu_item_id(self) -> UUID:
+        self._current_menu_item_id += 1
+
+        id_string = f"00000000-0000-0000-0000-{self._current_menu_item_id:012d}"
+
+        return UUID(id_string)
 
     def get_restaurant_by_id(self, id: UUID) -> Restaurant:
         for restaurant in self.restaurants:
@@ -44,7 +63,12 @@ class InMemoryRestaurantRepository(RestaurantRepository):
         ]
 
     def create(self, restaurant: Restaurant) -> None:
-        self.restaurants.append(restaurant)
+        self.restaurants.append(
+            Restaurant(
+                id=self._get_next_id(),
+                **restaurant.model_dump(exclude={"id"}),
+            )
+        )
 
     def update(self, restaurant: Restaurant) -> None:
         for i, r in enumerate(self.restaurants):
@@ -63,7 +87,12 @@ class InMemoryRestaurantRepository(RestaurantRepository):
         return self.restaurants
 
     def create_menu_item(self, menu_item: MenuItem) -> None:
-        self.menu_items.append(menu_item)
+        self.menu_items.append(
+            MenuItem(
+                id=self._get_next_menu_item_id(),
+                **menu_item.model_dump(exclude={"id"}),
+            )
+        )
 
     def update_menu_item(self, menu_item: MenuItem) -> None:
         restaurant_items = [

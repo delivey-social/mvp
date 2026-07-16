@@ -7,15 +7,35 @@ from src.domain.types.repositories.neighborhood import NeighborhoodRepository
 
 class InMemoryNeighborhoodRepository(NeighborhoodRepository):
     def __init__(self):
+        self._current_id = 0
+
+        id = self._get_next_id()
+
         self._neighborhoods: list[Neighborhood] = [
-            Neighborhood(name="Centro", base_price=500),
+            Neighborhood(
+                id=id,
+                name="Centro",
+                base_price=500,
+            ),
         ]
+
+    def _get_next_id(self) -> UUID:
+        self._current_id += 1
+
+        id_string = f"00000000-0000-0000-0000-{self._current_id:012d}"
+
+        return UUID(id_string)
 
     def list_(self) -> list[Neighborhood]:
         return self._neighborhoods
 
     def create(self, neighborhood: Neighborhood) -> None:
-        self._neighborhoods.append(neighborhood)
+        self._neighborhoods.append(
+            Neighborhood(
+                id=self._get_next_id(),
+                **neighborhood.model_dump(exclude={"id"}),
+            )
+        )
 
     def update(self, neighborhood: Neighborhood) -> None:
         for i, n in enumerate(self._neighborhoods):

@@ -11,7 +11,7 @@ http:
       value: 00000000-0000-0000-0000-000000000001
       type: path
     - name: id
-      value: 48403a77-240e-4e30-af1c-d3e9856bffcd
+      value: 00000000-0000-0000-0000-000000000001
       type: path
   auth: inherit
 

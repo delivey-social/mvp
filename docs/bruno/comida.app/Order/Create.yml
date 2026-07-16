@@ -11,13 +11,18 @@ http:
     data: |-
       {
         "restaurant_id": "00000000-0000-0000-0000-000000000001",
-        "items": [],
+        "items": [
+          {
+            "product_id": "00000000-0000-0000-0000-000000000001",
+            "quantity": 1
+          }
+        ],
         "user": {
           "email": "test@test.com",
           "phone": "(41) 9999-9999",
           "address": {
             "address": "Rua das Andorinhas, 283",
-            "neighborhood_id": "aaa"
+            "neighborhood_id": "00000000-0000-0000-0000-000000000001"
           }
         },
         "payment_method": "PIX"

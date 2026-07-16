@@ -8,7 +8,7 @@ http:
   url: "{{api_url}}/neighborhood/:id"
   params:
     - name: id
-      value: f392bc7a-09e1-4265-a71d-1c0639654162
+      value: 00000000-0000-0000-0000-000000000001
       type: path
   auth: inherit
 
