@@ -11,14 +11,22 @@ http:
       value: 00000000-0000-0000-0000-000000000001
       type: path
   body:
-    type: json
-    data: |-
-      {
-        "name": "Test Item Creation",
-        "description": "Item Created Via API",
-        "price": 10,
-        "category": "Test Category"
-      }
+    type: multipart-form
+    data:
+      - name: data
+        type: text
+        value: |-
+          {
+            "name": "Test Item Creation",
+            "description": "Item Created Via API",
+            "price": 10,
+            "category": "Test Category"
+          }
+      - name: image
+        type: file
+        value:
+          - C:\Users\thiago.tolotti\Downloads\nginx-logo-1-405953252.png
+        contentType: image/png
   auth: inherit
 
 settings:

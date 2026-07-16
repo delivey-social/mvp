@@ -11,17 +11,25 @@ http:
       value: 00000000-0000-0000-0000-000000000001
       type: path
     - name: id
-      value: 44316123-a013-40d4-85ac-25eefa64f80c
+      value: 5f2ae8b8-d052-432a-b205-f170fb1e7544
       type: path
   body:
-    type: json
-    data: |-
-      {
-        "name": "Test Item Update",
-        "description": "Item Updated Via API",
-        "price": 10,
-        "category": "Test Category"
-      }
+    type: multipart-form
+    data:
+      - name: data
+        type: text
+        value: |-
+          {
+            "name": "Test Item Update",
+            "description": "Item Updated Via API",
+            "price": 10,
+            "category": "Test Category"
+          }
+      - name: image
+        type: file
+        value:
+          - C:\Users\thiago.tolotti\Downloads\Mapa rua Edith Von Scheidt.png
+        contentType: image/png
   auth: inherit
 
 settings:

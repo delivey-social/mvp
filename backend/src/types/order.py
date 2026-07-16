@@ -1,5 +1,7 @@
 from uuid import UUID
 from pydantic import BaseModel, EmailStr
+
+from src.domain.shared.phone_number import PhoneNumber
 from src.domain.order import PaymentMethod
 
 
@@ -10,7 +12,7 @@ class CreateOrderRequestItem(BaseModel):
 
 class CreateOrderRequestUserDTO(BaseModel):
     email: EmailStr
-    phone: str
+    phone: PhoneNumber
     address: str
 
 

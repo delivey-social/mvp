@@ -5,6 +5,7 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel, Field, EmailStr
 from pydantic.config import ConfigDict
 
+from .shared.phone_number import PhoneNumber
 from src.exceptions import InvalidStateException
 
 
@@ -16,7 +17,7 @@ class OrderItem(BaseModel):
 
 class OrderUser(BaseModel):
     email: EmailStr
-    phone: str
+    phone: PhoneNumber
     address: str
 
 
