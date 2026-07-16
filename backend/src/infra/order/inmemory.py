@@ -1,5 +1,6 @@
 from uuid import UUID
 
+from src.exceptions import EntityNotFoundException
 from src.domain.order import Order
 from src.domain.types.repositories.order import OrderRepository
 
@@ -30,7 +31,8 @@ class InMemoryOrderRepository(OrderRepository):
             if existing_order.id == order.id:
                 self.orders[i] = order
                 return
-        raise ValueError(f"Order with id {order.id} not found.")
+
+        raise EntityNotFoundException(f"Order with id {order.id} not found.")
 
     def delete(self, id: UUID) -> None:
         self.orders = [order for order in self.orders if order.id != id]
@@ -43,4 +45,4 @@ class InMemoryOrderRepository(OrderRepository):
             if order.id == id:
                 return order
 
-        raise ValueError(f"Order with id {id} not found.")
+        raise EntityNotFoundException(f"Order with id {id} not found.")

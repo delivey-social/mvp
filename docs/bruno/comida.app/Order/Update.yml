@@ -16,13 +16,16 @@ http:
       {
         "restaurant_id": "00000000-0000-0000-0000-000000000001",
         "items": [{
-          "product_id": "a94799dd-fbd9-474d-95c7-f923f4f017d0",
+          "product_id": "00000000-0000-0000-0000-000000000001",
           "quantity": 2
         }],
         "user": {
           "email": "test@test.com",
-          "phone": "000",
-          "address": "aa"
+          "phone": "41 9999-9999",
+          "address": {
+            "address": "aaaa",
+            "neighborhood_id": "00000000-0000-0000-0000-000000000001"
+          }
         },
         "payment_method": "PIX"
       }
