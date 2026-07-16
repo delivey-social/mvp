@@ -1,4 +1,5 @@
-from uuid import UUID
+from pathlib import Path
+from uuid import UUID, uuid4
 
 
 from src.types.restaurant import CreateRestaurantRequestDTO, CreateMenuItemRequestDTO
@@ -56,7 +57,10 @@ class RestaurantService:
         request: CreateMenuItemRequestDTO,
         image: FileData,
     ) -> None:
-        path = await self.image_repo.save(image.data, image.filename)
+        image_id = uuid4()
+
+        image_path = Path(str(image_id), image.filename)
+        path = await self.image_repo.save(image.data, image_path)
 
         self.repo.create_menu_item(
             MenuItem(
@@ -80,7 +84,9 @@ class RestaurantService:
 
         await self.image_repo.delete(menu_item.image_path)
 
-        path = await self.image_repo.save(image.data, image.filename)
+        image_id = uuid4()
+        image_path = Path(str(image_id), image.filename)
+        path = await self.image_repo.save(image.data, image_path)
 
         self.repo.update_menu_item(
             MenuItem(
