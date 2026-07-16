@@ -2,6 +2,7 @@ from pathlib import Path
 from uuid import UUID, uuid4
 
 
+from src.exceptions import EntityNotFoundException
 from src.types.restaurant import CreateRestaurantRequestDTO, CreateMenuItemRequestDTO
 
 from src.infra.image.disk import ImageRepository
@@ -49,6 +50,9 @@ class RestaurantService:
         return self.repo.list_()
 
     def list_menu_items(self, restaurant_id: UUID):
+        if not self.repo.exists(restaurant_id):
+            raise EntityNotFoundException("Restaurant not found")
+
         return self.repo.list_menu_items(restaurant_id)
 
     async def create_menu_item(
@@ -57,6 +61,9 @@ class RestaurantService:
         request: CreateMenuItemRequestDTO,
         image: FileData,
     ) -> None:
+        if not self.repo.exists(restaurant_id):
+            raise EntityNotFoundException("Restaurant not found")
+
         image_id = uuid4()
 
         image_path = Path(str(image_id), image.filename)
@@ -80,6 +87,9 @@ class RestaurantService:
         request: CreateMenuItemRequestDTO,
         image: FileData,
     ) -> None:
+        if not self.repo.exists(restaurant_id):
+            raise EntityNotFoundException("Restaurant not found")
+
         menu_item = self.repo.get_menu_item_by_id(restaurant_id, id)
 
         new_path = await self.image_repo.replace(
@@ -99,6 +109,9 @@ class RestaurantService:
         )
 
     def delete_menu_item(self, id: UUID, restaurant_id: UUID) -> None:
+        if not self.repo.exists(restaurant_id):
+            raise EntityNotFoundException("Restaurant not found")
+
         self.repo.delete_menu_item(id, restaurant_id)
 
     def get_menu_items_by_ids(
@@ -106,4 +119,7 @@ class RestaurantService:
         restaurant_id: UUID,
         ids: list[UUID],
     ) -> list[MenuItem]:
+        if not self.repo.exists(restaurant_id):
+            raise EntityNotFoundException("Restaurant not found")
+
         return self.repo.get_menu_items_by_ids(restaurant_id, ids)

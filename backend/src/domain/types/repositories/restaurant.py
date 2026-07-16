@@ -30,6 +30,10 @@ class RestaurantRepository(ABC):
         pass
 
     @abstractmethod
+    def exists(self, restaurant_id: UUID) -> bool:
+        pass
+
+    @abstractmethod
     def create_menu_item(self, menu_item: MenuItem) -> None:
         pass
 

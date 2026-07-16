@@ -86,6 +86,9 @@ class InMemoryRestaurantRepository(RestaurantRepository):
     def list_(self) -> list[Restaurant]:
         return self.restaurants
 
+    def exists(self, restaurant_id: UUID) -> bool:
+        return any(str(r.id) == str(restaurant_id) for r in self.restaurants)
+
     def create_menu_item(self, menu_item: MenuItem) -> None:
         self.menu_items.append(
             MenuItem(
