@@ -46,6 +46,7 @@ class Order(BaseModel):
     app_fee: int
     delivery_fee: int
     observation: str = Field(default="")
+    restaurant_id: UUID
 
     @property
     def total(self) -> int:
@@ -58,6 +59,7 @@ class Order(BaseModel):
         user: OrderUser,
         payment_method: PaymentMethod,
         neighborhood_fee: int,
+        restaurant_id: UUID,
         observation: str = "",
         id: UUID | None = None,
     ) -> Self:
@@ -74,6 +76,7 @@ class Order(BaseModel):
             app_fee=app_fee,
             delivery_fee=delivery_fee,
             id=id or uuid4(),
+            restaurant_id=restaurant_id,
         )
 
     def mark_as_paid(self) -> Self:

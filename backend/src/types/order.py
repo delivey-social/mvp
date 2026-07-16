@@ -4,6 +4,8 @@ from pydantic import BaseModel, EmailStr
 from src.domain.shared.phone_number import PhoneNumber
 from src.domain.order import Order, OrderStatus, PaymentMethod
 
+# --- Request DTOs ---
+
 
 class CreateOrderRequestItem(BaseModel):
     product_id: UUID
@@ -24,6 +26,9 @@ class CreateOrderRequestDTO(BaseModel):
     observation: str = ""
 
 
+# --- Response DTOs ---
+
+
 class OrderResponseUserDTO(BaseModel):
     email: EmailStr
     phone: str
@@ -37,6 +42,7 @@ class OrderResponseItemDTO(BaseModel):
 
 class OrderResponseDTO(BaseModel):
     id: UUID
+    restaurant_id: UUID
     items: list[OrderResponseItemDTO]
     user: OrderResponseUserDTO
     status: OrderStatus
@@ -66,4 +72,5 @@ class OrderResponseDTO(BaseModel):
             items_total=order.items_total,
             app_fee=order.app_fee,
             delivery_fee=order.delivery_fee,
+            restaurant_id=order.restaurant_id,
         )

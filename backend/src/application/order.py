@@ -40,6 +40,7 @@ class OrderService:
             payment_method=request.payment_method,
             neighborhood_fee=0,
             observation=request.observation,
+            restaurant_id=request.restaurant_id,
         )
 
         self.event_bus.publish(OrderCreatedEvent, order)
@@ -63,6 +64,7 @@ class OrderService:
                 payment_method=request.payment_method,
                 neighborhood_fee=0,
                 observation=request.observation,
+                restaurant_id=request.restaurant_id,
             )
         )
 
