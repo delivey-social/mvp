@@ -19,11 +19,20 @@ class DiskImageRepository(ImageRepository):
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(image_bytes, buffer)
 
-        return Path(self.base_dir, relative_path)
+        return relative_path
 
-    async def delete(self, public_path: Path):
-        filename = public_path.name
-        file_path = self.base_dir / filename
+    async def delete(self, relative_path: Path):
+        file_path = self.base_dir / relative_path
 
         if file_path.exists():
             file_path.unlink()
+
+    async def replace(
+        self, image_bytes: IO[bytes], relative_path: Path, new_filename: str
+    ):
+
+        await self.delete(relative_path)
+
+        new_relative_path = relative_path.parent / new_filename
+
+        return await self.save(image_bytes, new_relative_path)

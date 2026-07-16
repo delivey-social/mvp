@@ -82,11 +82,9 @@ class RestaurantService:
     ) -> None:
         menu_item = self.repo.get_menu_item_by_id(restaurant_id, id)
 
-        await self.image_repo.delete(menu_item.image_path)
-
-        image_id = uuid4()
-        image_path = Path(str(image_id), image.filename)
-        path = await self.image_repo.save(image.data, image_path)
+        new_path = await self.image_repo.replace(
+            image.data, menu_item.image_path, image.filename
+        )
 
         self.repo.update_menu_item(
             MenuItem(
@@ -96,7 +94,7 @@ class RestaurantService:
                 description=request.description,
                 price=request.price,
                 category=request.category,
-                image_path=path,
+                image_path=new_path,
             )
         )
 
