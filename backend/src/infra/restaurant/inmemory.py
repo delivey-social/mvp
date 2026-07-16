@@ -13,7 +13,7 @@ class InMemoryRestaurantRepository(RestaurantRepository):
         self.restaurants: list[Restaurant] = [
             Restaurant(
                 name="Test Restaurant",
-                CNPJ=CNPJ(numero="12345678901234"),
+                CNPJ=CNPJ("12345678901234"),
                 address="123 Test St",
                 id=id,
             )

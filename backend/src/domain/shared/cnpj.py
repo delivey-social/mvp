@@ -1,25 +1,19 @@
-from pydantic import BaseModel
-from src.exceptions import InvalidValueException
+from pydantic import RootModel
+from pydantic.functional_validators import field_validator
 
 
-class CNPJ(BaseModel):
-    numero: str
+class CNPJ(RootModel[str]):
+    root: str
 
-    def __post_init__(self):
-        digits = self.numero.replace(".", "").replace("/", "").replace("-", "")
+    @field_validator("root")
+    @classmethod
+    def validate_cnpj(cls, value: str) -> str:
+        digits = "".join(filter(str.isdigit, value))
 
-        object.__setattr__(self, "numero", digits)
-        self._validate(digits)
-
-    def _validate(self, digits: str):
         if len(digits) != 14:
-            raise InvalidValueException(
-                digits,
-                "CNPJ deve conter 14 dígitos",
-            )
+            raise ValueError("CNPJ deve conter 14 dígitos")
 
-        if not digits.isdigit():
-            raise InvalidValueException(
-                digits,
-                "CNPJ deve conter apenas números",
-            )
+        return digits
+
+    def __str__(self):
+        return self.root

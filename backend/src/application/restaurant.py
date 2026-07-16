@@ -1,7 +1,6 @@
 from uuid import UUID
 
 
-from src.domain.shared.cnpj import CNPJ
 from src.types.restaurant import CreateRestaurantRequestDTO, CreateMenuItemRequestDTO
 
 from src.infra.image.disk import ImageRepository
@@ -28,7 +27,7 @@ class RestaurantService:
             Restaurant(
                 name=restaurant.name,
                 address=restaurant.address,
-                CNPJ=CNPJ(numero=restaurant.CNPJ),
+                CNPJ=restaurant.CNPJ,
             )
         )
 
@@ -38,7 +37,7 @@ class RestaurantService:
                 id=id,
                 address=restaurant.address,
                 name=restaurant.name,
-                CNPJ=CNPJ(numero=restaurant.CNPJ),
+                CNPJ=restaurant.CNPJ,
             )
         )
 
