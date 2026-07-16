@@ -14,7 +14,7 @@ http:
         "items": [],
         "user": {
           "email": "test@test.com",
-          "phone": "000",
+          "phone": "(41) 9999-9999",
           "address": "aa"
         },
         "payment_method": "PIX"

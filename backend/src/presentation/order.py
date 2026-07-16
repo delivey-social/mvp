@@ -4,7 +4,7 @@ from fastapi import APIRouter
 
 
 from src.application.order import OrderService
-from src.types.order import CreateOrderRequestDTO
+from src.types.order import CreateOrderRequestDTO, OrderResponseDTO
 
 
 class OrderRouter(APIRouter):
@@ -17,6 +17,7 @@ class OrderRouter(APIRouter):
             "/",
             self.list_,
             methods=["GET"],
+            response_model=list[OrderResponseDTO],
         )
         self.add_api_route(
             "/",
@@ -61,7 +62,9 @@ class OrderRouter(APIRouter):
         return {"message": "Order updated successfully"}
 
     def list_(self):
-        return self.service.list_()
+        orders = self.service.list_()
+
+        return [OrderResponseDTO.from_domain(order) for order in orders]
 
     def delete_(self, id: UUID):
         self.service.delete(id)
