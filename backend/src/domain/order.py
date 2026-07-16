@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Self
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, field_validator, EmailStr
 from pydantic.config import ConfigDict
 
 from .shared.phone_number import PhoneNumber
@@ -78,6 +78,13 @@ class Order(BaseModel):
             id=id or uuid4(),
             restaurant_id=restaurant_id,
         )
+
+    @field_validator("items")
+    @classmethod
+    def must_have_at_least_one_item(cls, v: list[OrderItem]) -> list[OrderItem]:
+        if not v:
+            raise InvalidStateException("Order must have at least one item")
+        return v
 
     def mark_as_paid(self) -> Self:
         if self.status != OrderStatus.WAITING_PAYMENT:
