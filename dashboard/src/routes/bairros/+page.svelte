@@ -14,5 +14,5 @@
 		<MaintainModal />
 	</div>
 
-	<NeighborhoodsTable items={data.items} />
+	<NeighborhoodsTable items={data.items.neighborhoods} />
 </section>

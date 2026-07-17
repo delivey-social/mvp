@@ -21,7 +21,7 @@
 		<Table.Row>
 			<Table.Cell>{item.name}</Table.Cell>
 
-			<Table.Cell>{item.deliveryFee}</Table.Cell>
+			<Table.Cell>{item.base_price}</Table.Cell>
 
 			<Table.Cell class="text-end">
 				<MaintainModal data={item} />

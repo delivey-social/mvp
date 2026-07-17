@@ -327,6 +327,23 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** ListNeighborhoodsResponseDTO */
+        ListNeighborhoodsResponseDTO: {
+            /** Neighborhoods */
+            neighborhoods: components["schemas"]["NeighborhoodDTO"][];
+        };
+        /** NeighborhoodDTO */
+        NeighborhoodDTO: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /** Base Price */
+            base_price: number;
+        };
         /** OrderResponseDTO */
         OrderResponseDTO: {
             /**
@@ -485,7 +502,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ListNeighborhoodsResponseDTO"];
                 };
             };
         };

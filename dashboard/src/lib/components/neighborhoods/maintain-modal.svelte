@@ -46,7 +46,7 @@
 					type="text"
 					placeholder="Taxa de entrega do bairro"
 					name="deliveryFee"
-					defaultValue={data?.deliveryFee}
+					defaultValue={data?.base_price}
 				/>
 			</div>
 

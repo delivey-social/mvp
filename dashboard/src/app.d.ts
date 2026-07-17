@@ -1,4 +1,7 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
+
+import type { components, paths } from './types/api';
+
 // for information about these interfaces
 declare global {
 	namespace App {
@@ -53,10 +56,6 @@ export type Restaurant = {
 	address: string;
 };
 
-export type Neighborhood = {
-	id: string;
-	deliveryFee: number;
-	name: string;
-};
+export type Neighborhood = components['schemas']['NeighborhoodDTO'];
 
 export {};

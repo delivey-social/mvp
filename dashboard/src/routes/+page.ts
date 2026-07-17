@@ -6,7 +6,7 @@ import type { PageLoad } from './$types';
 // it so that it gets served as a static asset in production
 // export const prerender = true;
 
-const ORDERS_API_URL = 'http://localhost:3000/orders';
+const ORDERS_API_URL = 'http://localhost:8000';
 
 async function loadOrders() {
 	const res = await fetch(ORDERS_API_URL);
