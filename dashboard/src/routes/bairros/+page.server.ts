@@ -1,7 +1,7 @@
-import type { Actions } from './$types';
+import makeApiUrl from '../../types/makeApiUrl';
 
-const CREATE_NEIGHBORHOOD_API_URL = 'http://localhost:3000/neighborhoods';
-const DELETE_NEIGHBORHOOD_API_URL = 'http://localhost:3000/neighborhoods';
+import type { Actions } from './$types';
+import type { components } from '../../types/api';
 
 export const actions = {
 	maintain: async ({ request }) => {
@@ -10,12 +10,14 @@ export const actions = {
 		const deliveryFee = data.get('deliveryFee');
 		const id = data.get('id');
 
-		const method = id ? 'PATCH' : 'POST';
-		const URL = id ? `${CREATE_NEIGHBORHOOD_API_URL}/${id}` : CREATE_NEIGHBORHOOD_API_URL;
+		const method = id ? 'PUT' : 'POST';
+		const URL = id
+			? makeApiUrl(`/neighborhood/{id}`, { id: id as string })
+			: makeApiUrl('/neighborhood/');
 
-		const reqData = {
-			name,
-			deliveryFee
+		const reqData: components['schemas']['CreateNeighborhoodRequestDTO'] = {
+			name: name as string,
+			base_price: Number(deliveryFee)
 		};
 
 		await fetch(URL, {
@@ -32,7 +34,7 @@ export const actions = {
 		const data = await request.formData();
 		const id = data.get('id');
 
-		await fetch(`${DELETE_NEIGHBORHOOD_API_URL}/${id}`, {
+		await fetch(makeApiUrl(`/neighborhood/{id}`, { id: id as string }), {
 			method: 'DELETE'
 		});
 
