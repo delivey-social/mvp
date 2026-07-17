@@ -1,3 +1,6 @@
+from enum import Enum
+from functools import lru_cache
+
 from .domain.types.repositories.neighborhood import NeighborhoodRepository
 from .domain.types.repositories.restaurant import RestaurantRepository
 from .domain.types.repositories.order import OrderRepository
@@ -13,20 +16,57 @@ from .infra.neighborhood.inmemory import InMemoryNeighborhoodRepository
 from .infra.order.inmemory import InMemoryOrderRepository
 from .infra.restaurant.inmemory import InMemoryRestaurantRepository
 
+from pydantic_settings import BaseSettings
+from typing import assert_never
+
+
+class RepositoryType(Enum):
+    InMemory = "inmemory"
+
+
+class Settings(BaseSettings):
+    repositories_type: RepositoryType = RepositoryType.InMemory
+
+
+settings = Settings()
+
 event_bus: EventBus = InMemoryEventBus()
 logger = Logger(event_bus)
 
 image_repo: ImageRepository = DiskImageRepository("data/images")
 
-neighborhood_repo: NeighborhoodRepository = InMemoryNeighborhoodRepository()
-neighborhood_service = NeighborhoodService(neighborhood_repo)
 
-restaurant_repo: RestaurantRepository = InMemoryRestaurantRepository()
-restaurant_service = RestaurantService(restaurant_repo, image_repo)
+@lru_cache(maxsize=None)
+def get_neighborhood_repo() -> NeighborhoodRepository:
+    match settings.repositories_type:
+        case RepositoryType.InMemory:
+            return InMemoryNeighborhoodRepository()
+        case _ as unknown:
+            assert_never(unknown)
 
-order_repo: OrderRepository = InMemoryOrderRepository()
+
+@lru_cache(maxsize=None)
+def get_restaurant_repo() -> RestaurantRepository:
+    match settings.repositories_type:
+        case RepositoryType.InMemory:
+            return InMemoryRestaurantRepository()
+        case _ as unknown:
+            assert_never(unknown)
+
+
+@lru_cache(maxsize=None)
+def get_order_repo() -> OrderRepository:
+    match settings.repositories_type:
+        case RepositoryType.InMemory:
+            return InMemoryOrderRepository()
+        case _ as unknown:
+            assert_never(unknown)
+
+
+neighborhood_service = NeighborhoodService(get_neighborhood_repo())
+restaurant_service = RestaurantService(get_restaurant_repo(), image_repo)
 order_service = OrderService(
-    order_repo,
+    get_order_repo(),
     restaurant_service,
     neighborhood_service,
     event_bus,
