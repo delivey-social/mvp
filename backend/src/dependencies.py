@@ -1,4 +1,9 @@
+from contextlib import contextmanager
 from functools import lru_cache
+
+
+from .infra.db.config import get_db
+
 
 from .domain.types.repositories.neighborhood import NeighborhoodRepository
 from .domain.types.repositories.restaurant import RestaurantRepository
@@ -15,6 +20,10 @@ from .infra.neighborhood.inmemory import InMemoryNeighborhoodRepository
 from .infra.order.inmemory import InMemoryOrderRepository
 from .infra.restaurant.inmemory import InMemoryRestaurantRepository
 
+from .infra.neighborhood.sqlalchemy import SQLAlchemyNeighborhoodRepository
+from .infra.restaurant.sqlalchemy import SQLAlchemyRestaurantRepository
+from .infra.order.sqlalchemy import SQLAlchemyOrderRepository
+
 from .settings import RepositoryType, settings
 
 from typing import assert_never
@@ -25,6 +34,8 @@ logger = Logger(event_bus)
 
 image_repo: ImageRepository = DiskImageRepository("data/images")
 
+db_context_factory = contextmanager(get_db)
+
 
 @lru_cache(maxsize=None)
 def get_neighborhood_repo() -> NeighborhoodRepository:
@@ -32,7 +43,7 @@ def get_neighborhood_repo() -> NeighborhoodRepository:
         case RepositoryType.InMemory:
             return InMemoryNeighborhoodRepository()
         case RepositoryType.SQLAlchemy:
-            raise NotImplementedError("SQLAlchemy repository is not implemented yet")
+            return SQLAlchemyNeighborhoodRepository(db_context_factory)
         case _ as unknown:
             assert_never(unknown)
 
@@ -43,7 +54,7 @@ def get_restaurant_repo() -> RestaurantRepository:
         case RepositoryType.InMemory:
             return InMemoryRestaurantRepository()
         case RepositoryType.SQLAlchemy:
-            raise NotImplementedError("SQLAlchemy repository is not implemented yet")
+            return SQLAlchemyRestaurantRepository(db_context_factory)
         case _ as unknown:
             assert_never(unknown)
 
@@ -54,7 +65,7 @@ def get_order_repo() -> OrderRepository:
         case RepositoryType.InMemory:
             return InMemoryOrderRepository()
         case RepositoryType.SQLAlchemy:
-            raise NotImplementedError("SQLAlchemy repository is not implemented yet")
+            return SQLAlchemyOrderRepository(db_context_factory)
         case _ as unknown:
             assert_never(unknown)
 
