@@ -8,7 +8,7 @@ from src.application.types.events import (
     OrderPaidEvent,
 )
 
-from src.types.order import CreateOrderRequestDTO
+from src.types.order import CreateOrderRequestDTO, CreateOrderRequestItem
 
 from src.domain.order import Order, OrderItem, OrderUser
 from src.domain.types.repositories.order import OrderRepository
@@ -32,9 +32,7 @@ class OrderService:
         self.event_bus = event_bus
 
     def create(self, request: CreateOrderRequestDTO) -> None:
-        items = self._get_restaurant_items(
-            request.restaurant_id, [item.product_id for item in request.items]
-        )
+        items = self._get_restaurant_items(request.restaurant_id, request.items)
 
         delivery_fee = self.neighborhood_service.get_delivery_fee(
             request.user.address.neighborhood_id
@@ -58,8 +56,10 @@ class OrderService:
         self.repo.create(order)
 
     def update(self, id: UUID, request: CreateOrderRequestDTO) -> None:
-        items = self._get_restaurant_items(
-            request.restaurant_id, [item.product_id for item in request.items]
+        items = self._get_restaurant_items(request.restaurant_id, request.items)
+
+        delivery_fee = self.neighborhood_service.get_delivery_fee(
+            request.user.address.neighborhood_id
         )
 
         self.repo.update(
@@ -72,35 +72,35 @@ class OrderService:
                     phone=request.user.phone,
                 ),
                 payment_method=request.payment_method,
-                neighborhood_fee=0,
+                neighborhood_fee=delivery_fee,
                 observation=request.observation,
                 restaurant_id=request.restaurant_id,
             )
         )
 
     def _get_restaurant_items(
-        self, restaurant_id: UUID, product_ids: list[UUID]
+        self, restaurant_id: UUID, order_items: list[CreateOrderRequestItem]
     ) -> list[OrderItem]:
         restaurant_items = self.restaurant_service.get_menu_items_by_ids(
-            restaurant_id, product_ids
+            restaurant_id, [item.product_id for item in order_items]
         )
 
         items: list[OrderItem] = []
 
-        for product_id in product_ids:
+        for item in order_items:
             restaurant_item = next(
-                (ri for ri in restaurant_items if ri.id == product_id), None
+                (ri for ri in restaurant_items if ri.id == item.product_id), None
             )
 
             if not restaurant_item:
                 raise InvalidReferenceException(
-                    f"Product with id {product_id} not found"
+                    f"Product with id {item.product_id} not found"
                 )
 
             items.append(
                 OrderItem(
-                    product_id=product_id,
-                    quantity=1,  # Default quantity to 1 for this example
+                    product_id=item.product_id,
+                    quantity=item.quantity,
                     price=restaurant_item.price,
                 )
             )

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, model_validator
-from typing import Any
+from typing import Any, Self
 
 
 class PhoneNumber(BaseModel):
@@ -26,3 +26,14 @@ class PhoneNumber(BaseModel):
 
     def __str__(self):
         return f"({self.ddd}) {self.numero}"
+
+    @classmethod
+    def from_string(cls, phone_str: str) -> Self:
+        digits = "".join(filter(str.isdigit, phone_str))
+
+        if len(digits) not in (10, 11):
+            raise ValueError(
+                "Número de telefone deve ter 10 ou 11 dígitos",
+            )
+
+        return cls(ddd=digits[:2], numero=digits[2:])
