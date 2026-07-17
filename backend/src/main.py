@@ -9,7 +9,7 @@ from .exceptions import (
     InvalidStateException,
 )
 
-from .dependencies import (
+from .presentation.main import (
     config_router,
     neighborhood_router,
     order_router,

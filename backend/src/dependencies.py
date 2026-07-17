@@ -9,10 +9,6 @@ from .infra.neighborhood.inmemory import InMemoryNeighborhoodRepository
 from .infra.order.inmemory import InMemoryOrderRepository
 from .infra.restaurant.inmemory import InMemoryRestaurantRepository
 
-from .presentation.config import ConfigurationRouter
-from .presentation.neighborhood import NeighborhoodRouter
-from .presentation.restaurant import RestaurantRouter
-from .presentation.order import OrderRouter
 
 event_bus: EventBus = InMemoryEventBus()
 logger = Logger(event_bus)
@@ -32,8 +28,3 @@ order_service = OrderService(
     neighborhood_service,
     event_bus,
 )
-
-config_router = ConfigurationRouter()
-neighborhood_router = NeighborhoodRouter(service=neighborhood_service)
-order_router = OrderRouter(order_service)
-restaurant_router = RestaurantRouter(service=restaurant_service)
