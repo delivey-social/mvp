@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 from src.infra.db.models.base import Base
 from src.infra.db.config import engine
 
+
 from .exceptions import (
     EntityNotFoundException,
     InvalidReferenceException,
