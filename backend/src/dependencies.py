@@ -1,4 +1,3 @@
-from enum import Enum
 from functools import lru_cache
 
 from .domain.types.repositories.neighborhood import NeighborhoodRepository
@@ -16,19 +15,10 @@ from .infra.neighborhood.inmemory import InMemoryNeighborhoodRepository
 from .infra.order.inmemory import InMemoryOrderRepository
 from .infra.restaurant.inmemory import InMemoryRestaurantRepository
 
-from pydantic_settings import BaseSettings
+from .settings import RepositoryType, settings
+
 from typing import assert_never
 
-
-class RepositoryType(Enum):
-    InMemory = "inmemory"
-
-
-class Settings(BaseSettings):
-    repositories_type: RepositoryType = RepositoryType.InMemory
-
-
-settings = Settings()
 
 event_bus: EventBus = InMemoryEventBus()
 logger = Logger(event_bus)
