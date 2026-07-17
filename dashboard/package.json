@@ -11,7 +11,8 @@
 		"typecheck": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"typecheck:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"api-types": "npx openapi-typescript ../backend/openapi.json -o src/types/api.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.1",
