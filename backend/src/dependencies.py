@@ -31,6 +31,8 @@ def get_neighborhood_repo() -> NeighborhoodRepository:
     match settings.repositories_type:
         case RepositoryType.InMemory:
             return InMemoryNeighborhoodRepository()
+        case RepositoryType.SQLAlchemy:
+            raise NotImplementedError("SQLAlchemy repository is not implemented yet")
         case _ as unknown:
             assert_never(unknown)
 
@@ -40,6 +42,8 @@ def get_restaurant_repo() -> RestaurantRepository:
     match settings.repositories_type:
         case RepositoryType.InMemory:
             return InMemoryRestaurantRepository()
+        case RepositoryType.SQLAlchemy:
+            raise NotImplementedError("SQLAlchemy repository is not implemented yet")
         case _ as unknown:
             assert_never(unknown)
 
@@ -49,6 +53,8 @@ def get_order_repo() -> OrderRepository:
     match settings.repositories_type:
         case RepositoryType.InMemory:
             return InMemoryOrderRepository()
+        case RepositoryType.SQLAlchemy:
+            raise NotImplementedError("SQLAlchemy repository is not implemented yet")
         case _ as unknown:
             assert_never(unknown)
 

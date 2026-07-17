@@ -4,6 +4,7 @@ from pydantic_settings import BaseSettings
 
 class RepositoryType(Enum):
     InMemory = "inmemory"
+    SQLAlchemy = "sqlalchemy"
 
 
 class Settings(BaseSettings):
