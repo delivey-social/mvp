@@ -35,9 +35,9 @@
 
 			<Table.Cell>{item.status}</Table.Cell>
 
-			<Table.Cell>{item.paymentMethod}</Table.Cell>
+			<Table.Cell>{item.payment_method}</Table.Cell>
 
-			<Table.Cell>{item.totalAmount}</Table.Cell>
+			<Table.Cell>{item.items_total + item.delivery_fee + item.app_fee}</Table.Cell>
 
 			<Table.Cell class="text-end flex gap-2 justify-end">
 				<!-- <EditModal /> -->

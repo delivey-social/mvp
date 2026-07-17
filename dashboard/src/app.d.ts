@@ -13,30 +13,6 @@ declare global {
 	}
 }
 
-export type Order = {
-	id: string;
-	items: OrderItem[];
-	user: OrderUser;
-	observation?: string;
-	status: OrderStatus;
-	paymentMethod: PaymentMethods;
-	appFee: number;
-	itemsTotal: number;
-	deliveryFee: number;
-	totalAmount: number;
-};
-
-type OrderItem = {
-	id: string;
-	quantity: number;
-	priceSnapshot: number;
-};
-type OrderUser = {
-	email: string;
-	phoneNumber: string;
-	address: string;
-};
-
 export enum PaymentMethods {
 	Pix = 'PIX',
 	CartaoCredito = 'CREDIT_CARD',
@@ -49,6 +25,8 @@ export enum OrderStatus {
 	ReadyForDelivery = 'READY_FOR_DELIVERY',
 	Finished = 'FINISHED'
 }
+
+export type Order = components['schemas']['OrderResponseDTO'];
 
 export type Restaurant = components['schemas']['RestaurantDTO'];
 

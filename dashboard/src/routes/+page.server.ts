@@ -1,3 +1,4 @@
+import makeApiUrl from '../types/makeApiUrl';
 import type { Actions } from './$types';
 
 export const actions = {
@@ -5,7 +6,7 @@ export const actions = {
 		const data = await request.formData();
 		const id = data.get('id');
 
-		await fetch(`http://localhost:3000/orders/${id}`, {
+		await fetch(makeApiUrl('/order/{id}', { id: id as string }), {
 			method: 'DELETE'
 		});
 

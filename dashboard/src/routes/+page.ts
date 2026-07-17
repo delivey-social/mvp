@@ -1,16 +1,12 @@
-// since there's no dynamic data here, we can prerender
-
-import type { Order } from '../app';
 import type { PageLoad } from './$types';
+import type { Order } from '../app';
 
-// it so that it gets served as a static asset in production
-// export const prerender = true;
-
-const ORDERS_API_URL = 'http://localhost:8000';
+import makeApiUrl from '../types/makeApiUrl';
+import type { components } from '../types/api';
 
 async function loadOrders() {
-	const res = await fetch(ORDERS_API_URL);
-	const data: Order[] = await res.json();
+	const res = await fetch(makeApiUrl('/order/'));
+	const data: components['schemas']['ListOrdersResponseDTO'] = await res.json();
 
 	return data;
 }

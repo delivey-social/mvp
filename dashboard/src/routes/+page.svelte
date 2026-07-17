@@ -14,5 +14,5 @@
 <section class="grid gap-10 max-w-3xl mx-auto my-10">
 	<h1>Pedidos</h1>
 
-	<OrderTable items={data.items} />
+	<OrderTable items={data.items.orders} />
 </section>
