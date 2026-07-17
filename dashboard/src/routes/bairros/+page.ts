@@ -1,4 +1,3 @@
-import type { Neighborhood } from '../../app';
 import type { components } from '../../types/api';
 import type { PageLoad } from './$types';
 
