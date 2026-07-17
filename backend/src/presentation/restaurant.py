@@ -4,7 +4,12 @@ from uuid import UUID
 from fastapi import APIRouter, Form, UploadFile
 from fastapi.responses import JSONResponse
 
-from src.types.restaurant import CreateMenuItemRequestDTO, CreateRestaurantRequestDTO
+from src.types.restaurant import (
+    CreateMenuItemRequestDTO,
+    CreateRestaurantRequestDTO,
+    ListRestaurantResponseDTO,
+    RestaurantDTO,
+)
 from src.application.restaurant import FileData, RestaurantService
 
 
@@ -21,6 +26,7 @@ class RestaurantRouter(APIRouter):
             "/",
             self.list_,
             methods=["GET"],
+            response_model=ListRestaurantResponseDTO,
         )
         self.add_api_route(
             "/{id}",
@@ -47,7 +53,11 @@ class RestaurantRouter(APIRouter):
         return self.service.get_by_id(id)
 
     async def list_(self):
-        return self.service.list_()
+        res = self.service.list_()
+
+        return ListRestaurantResponseDTO(
+            restaurants=[RestaurantDTO.from_domain(restaurant) for restaurant in res]
+        )
 
     async def create(self, request: CreateRestaurantRequestDTO):
         self.service.create(request)

@@ -1,7 +1,7 @@
+import type { components } from '../../types/api';
 import type { Actions } from './$types';
 
-const CREATE_RESTAURANT_API_URL = 'http://localhost:3000/restaurante';
-const DELETE_RESTAURANT_API_URL = 'http://localhost:3000/restaurante';
+import makeApiUrl from '../../types/makeApiUrl';
 
 export const actions = {
 	maintain: async ({ request }) => {
@@ -10,12 +10,16 @@ export const actions = {
 		const address = data.get('address');
 		const id = data.get('id');
 
-		const method = id ? 'PATCH' : 'POST';
-		const URL = id ? `${CREATE_RESTAURANT_API_URL}/${id}` : CREATE_RESTAURANT_API_URL;
+		const method = id ? 'PUT' : 'POST';
+		const URL = id
+			? makeApiUrl('/restaurant/{id}', { id: id as string })
+			: makeApiUrl('/restaurant/');
 
-		const reqData = {
-			name,
-			address
+		const reqData: components['schemas']['CreateRestaurantRequestDTO'] = {
+			name: name as string,
+			address: address as string,
+			// TODO: Add CNPJ field
+			CNPJ: '00.000.000/0002-00'
 		};
 
 		await fetch(URL, {
@@ -33,7 +37,7 @@ export const actions = {
 		const data = await request.formData();
 		const id = data.get('id');
 
-		await fetch(DELETE_RESTAURANT_API_URL + `/${id}`, {
+		await fetch(makeApiUrl('/restaurant/{id}', { id: id as string }), {
 			method: 'DELETE'
 		});
 

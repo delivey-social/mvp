@@ -700,7 +700,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ListRestaurantResponseDTO"
+                }
               }
             }
           }
@@ -1118,6 +1120,22 @@
         ],
         "title": "ListNeighborhoodsResponseDTO"
       },
+      "ListRestaurantResponseDTO": {
+        "properties": {
+          "restaurants": {
+            "items": {
+              "$ref": "#/components/schemas/RestaurantDTO"
+            },
+            "type": "array",
+            "title": "Restaurants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "restaurants"
+        ],
+        "title": "ListRestaurantResponseDTO"
+      },
       "NeighborhoodDTO": {
         "properties": {
           "id": {
@@ -1284,6 +1302,35 @@
           "numero"
         ],
         "title": "PhoneNumber"
+      },
+      "RestaurantDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "address": {
+            "type": "string",
+            "title": "Address"
+          },
+          "cnpj": {
+            "type": "string",
+            "title": "Cnpj"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "address",
+          "cnpj"
+        ],
+        "title": "RestaurantDTO"
       },
       "ValidationError": {
         "properties": {
