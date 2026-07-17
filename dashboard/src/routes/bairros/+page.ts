@@ -1,7 +1,9 @@
-import type { components } from '../../types/api';
 import type { PageLoad } from './$types';
+import type { components } from '../../types/api';
 
-const NEIGHBORHOOD_API_URL = import.meta.env.VITE_API_URL + '/neighborhood';
+import makeApiUrl from '../../types/makeApiUrl';
+
+const NEIGHBORHOOD_API_URL = makeApiUrl('/neighborhood/');
 
 async function loadNeighborhoods() {
 	const res = await fetch(NEIGHBORHOOD_API_URL);
