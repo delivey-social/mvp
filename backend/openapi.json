@@ -73,7 +73,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ListNeighborhoodsResponseDTO"
+                }
               }
             }
           }
@@ -1099,6 +1101,49 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "ListNeighborhoodsResponseDTO": {
+        "properties": {
+          "neighborhoods": {
+            "items": {
+              "$ref": "#/components/schemas/NeighborhoodDTO"
+            },
+            "type": "array",
+            "title": "Neighborhoods"
+          }
+        },
+        "type": "object",
+        "required": [
+          "neighborhoods"
+        ],
+        "title": "ListNeighborhoodsResponseDTO"
+      },
+      "NeighborhoodDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 3,
+            "title": "Name"
+          },
+          "base_price": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Base Price"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "base_price"
+        ],
+        "title": "NeighborhoodDTO"
       },
       "OrderResponseDTO": {
         "properties": {
