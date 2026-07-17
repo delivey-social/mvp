@@ -222,11 +222,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/OrderResponseDTO"
-                  },
-                  "type": "array",
-                  "title": "Response List  Order  Get"
+                  "$ref": "#/components/schemas/ListOrdersResponseDTO"
                 }
               }
             }
@@ -1119,6 +1115,22 @@
           "neighborhoods"
         ],
         "title": "ListNeighborhoodsResponseDTO"
+      },
+      "ListOrdersResponseDTO": {
+        "properties": {
+          "orders": {
+            "items": {
+              "$ref": "#/components/schemas/OrderResponseDTO"
+            },
+            "type": "array",
+            "title": "Orders"
+          }
+        },
+        "type": "object",
+        "required": [
+          "orders"
+        ],
+        "title": "ListOrdersResponseDTO"
       },
       "ListRestaurantResponseDTO": {
         "properties": {

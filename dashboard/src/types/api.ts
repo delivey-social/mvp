@@ -332,6 +332,11 @@ export interface components {
             /** Neighborhoods */
             neighborhoods: components["schemas"]["NeighborhoodDTO"][];
         };
+        /** ListOrdersResponseDTO */
+        ListOrdersResponseDTO: {
+            /** Orders */
+            orders: components["schemas"]["OrderResponseDTO"][];
+        };
         /** ListRestaurantResponseDTO */
         ListRestaurantResponseDTO: {
             /** Restaurants */
@@ -640,7 +645,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["OrderResponseDTO"][];
+                    "application/json": components["schemas"]["ListOrdersResponseDTO"];
                 };
             };
         };

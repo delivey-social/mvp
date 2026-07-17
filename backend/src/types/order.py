@@ -79,3 +79,11 @@ class OrderResponseDTO(BaseModel):
             delivery_fee=order.delivery_fee,
             restaurant_id=order.restaurant_id,
         )
+
+
+class ListOrdersResponseDTO(BaseModel):
+    orders: list[OrderResponseDTO]
+
+    @classmethod
+    def from_domain(cls, orders: list[Order]):
+        return cls(orders=[OrderResponseDTO.from_domain(order) for order in orders])
