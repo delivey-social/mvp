@@ -1,0 +1,1285 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/config/open": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Get Open",
+        "operationId": "get_open_config_open_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Configuration"
+        ],
+        "summary": "Change Open",
+        "operationId": "change_open_config_open_patch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeOpenRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/neighborhood/": {
+      "get": {
+        "tags": [
+          "Neighborhoods"
+        ],
+        "summary": "List ",
+        "operationId": "list__neighborhood__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Neighborhoods"
+        ],
+        "summary": "Create",
+        "operationId": "create_neighborhood__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNeighborhoodRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/neighborhood/{id}": {
+      "put": {
+        "tags": [
+          "Neighborhoods"
+        ],
+        "summary": "Update",
+        "operationId": "update_neighborhood__id__put",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNeighborhoodRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Neighborhoods"
+        ],
+        "summary": "Delete ",
+        "operationId": "delete__neighborhood__id__delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "List ",
+        "operationId": "list__order__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/OrderResponseDTO"
+                  },
+                  "type": "array",
+                  "title": "Response List  Order  Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Create",
+        "operationId": "create_order__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/{id}": {
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Update",
+        "operationId": "update_order__id__put",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Delete ",
+        "operationId": "delete__order__id__delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/{id}/paid": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Paid",
+        "operationId": "paid_order__id__paid_get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/{id}/ready-for-delivery": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Ready For Delivery",
+        "operationId": "ready_for_delivery_order__id__ready_for_delivery_get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/{id}/finished": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Finished",
+        "operationId": "finished_order__id__finished_get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurant/{restaurant_id}/menu/": {
+      "get": {
+        "tags": [
+          "restaurants",
+          "menu-items"
+        ],
+        "summary": "List Menu Items",
+        "operationId": "list_menu_items_restaurant__restaurant_id__menu__get",
+        "parameters": [
+          {
+            "name": "restaurant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Restaurant Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "restaurants",
+          "menu-items"
+        ],
+        "summary": "Create Menu Item",
+        "operationId": "create_menu_item_restaurant__restaurant_id__menu__post",
+        "parameters": [
+          {
+            "name": "restaurant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Restaurant Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_create_menu_item_restaurant__restaurant_id__menu__post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurant/{restaurant_id}/menu/{id}": {
+      "put": {
+        "tags": [
+          "restaurants",
+          "menu-items"
+        ],
+        "summary": "Update Menu Item",
+        "operationId": "update_menu_item_restaurant__restaurant_id__menu__id__put",
+        "parameters": [
+          {
+            "name": "restaurant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Restaurant Id"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_update_menu_item_restaurant__restaurant_id__menu__id__put"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "restaurants",
+          "menu-items"
+        ],
+        "summary": "Delete Menu Item",
+        "operationId": "delete_menu_item_restaurant__restaurant_id__menu__id__delete",
+        "parameters": [
+          {
+            "name": "restaurant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Restaurant Id"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurant/": {
+      "get": {
+        "tags": [
+          "restaurants"
+        ],
+        "summary": "List ",
+        "operationId": "list__restaurant__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "restaurants"
+        ],
+        "summary": "Create",
+        "operationId": "create_restaurant__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRestaurantRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/restaurant/{id}": {
+      "get": {
+        "tags": [
+          "restaurants"
+        ],
+        "summary": "Get Details",
+        "operationId": "get_details_restaurant__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "restaurants"
+        ],
+        "summary": "Update",
+        "operationId": "update_restaurant__id__put",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRestaurantRequestDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "restaurants"
+        ],
+        "summary": "Delete ",
+        "operationId": "delete__restaurant__id__delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Ping",
+        "operationId": "ping__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_create_menu_item_restaurant__restaurant_id__menu__post": {
+        "properties": {
+          "data": {
+            "type": "string",
+            "title": "Data"
+          },
+          "image": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "Image"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "image"
+        ],
+        "title": "Body_create_menu_item_restaurant__restaurant_id__menu__post"
+      },
+      "Body_update_menu_item_restaurant__restaurant_id__menu__id__put": {
+        "properties": {
+          "data": {
+            "type": "string",
+            "title": "Data"
+          },
+          "image": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "Image"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "image"
+        ],
+        "title": "Body_update_menu_item_restaurant__restaurant_id__menu__id__put"
+      },
+      "CNPJ": {
+        "type": "string",
+        "title": "CNPJ"
+      },
+      "ChangeOpenRequestDTO": {
+        "properties": {
+          "open": {
+            "type": "boolean",
+            "title": "Open"
+          }
+        },
+        "type": "object",
+        "required": [
+          "open"
+        ],
+        "title": "ChangeOpenRequestDTO"
+      },
+      "CreateNeighborhoodRequestDTO": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 3,
+            "title": "Name"
+          },
+          "base_price": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Base Price"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "base_price"
+        ],
+        "title": "CreateNeighborhoodRequestDTO"
+      },
+      "CreateOrderRequestAddressDTO": {
+        "properties": {
+          "address": {
+            "type": "string",
+            "title": "Address"
+          },
+          "neighborhood_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Neighborhood Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "address",
+          "neighborhood_id"
+        ],
+        "title": "CreateOrderRequestAddressDTO"
+      },
+      "CreateOrderRequestDTO": {
+        "properties": {
+          "restaurant_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Restaurant Id"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CreateOrderRequestItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "user": {
+            "$ref": "#/components/schemas/CreateOrderRequestUserDTO"
+          },
+          "payment_method": {
+            "$ref": "#/components/schemas/PaymentMethod"
+          },
+          "observation": {
+            "type": "string",
+            "title": "Observation",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "restaurant_id",
+          "items",
+          "user",
+          "payment_method"
+        ],
+        "title": "CreateOrderRequestDTO"
+      },
+      "CreateOrderRequestItem": {
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Product Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "product_id",
+          "quantity"
+        ],
+        "title": "CreateOrderRequestItem"
+      },
+      "CreateOrderRequestUserDTO": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "phone": {
+            "$ref": "#/components/schemas/PhoneNumber"
+          },
+          "address": {
+            "$ref": "#/components/schemas/CreateOrderRequestAddressDTO"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "phone",
+          "address"
+        ],
+        "title": "CreateOrderRequestUserDTO"
+      },
+      "CreateRestaurantRequestDTO": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 3,
+            "title": "Name"
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 5,
+            "title": "Address"
+          },
+          "CNPJ": {
+            "$ref": "#/components/schemas/CNPJ"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "address",
+          "CNPJ"
+        ],
+        "title": "CreateRestaurantRequestDTO"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "OrderResponseDTO": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "restaurant_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Restaurant Id"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OrderResponseItemDTO"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "user": {
+            "$ref": "#/components/schemas/OrderResponseUserDTO"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          },
+          "payment_method": {
+            "$ref": "#/components/schemas/PaymentMethod"
+          },
+          "observation": {
+            "type": "string",
+            "title": "Observation",
+            "default": ""
+          },
+          "items_total": {
+            "type": "integer",
+            "title": "Items Total"
+          },
+          "app_fee": {
+            "type": "integer",
+            "title": "App Fee"
+          },
+          "delivery_fee": {
+            "type": "integer",
+            "title": "Delivery Fee"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "restaurant_id",
+          "items",
+          "user",
+          "status",
+          "payment_method",
+          "items_total",
+          "app_fee",
+          "delivery_fee"
+        ],
+        "title": "OrderResponseDTO"
+      },
+      "OrderResponseItemDTO": {
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Product Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "product_id",
+          "quantity"
+        ],
+        "title": "OrderResponseItemDTO"
+      },
+      "OrderResponseUserDTO": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          },
+          "address": {
+            "type": "string",
+            "title": "Address"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "phone",
+          "address"
+        ],
+        "title": "OrderResponseUserDTO"
+      },
+      "OrderStatus": {
+        "type": "string",
+        "enum": [
+          "WAITING_PAYMENT",
+          "PREPARING",
+          "READY_FOR_DELIVERY",
+          "FINISHED"
+        ],
+        "title": "OrderStatus"
+      },
+      "PaymentMethod": {
+        "type": "string",
+        "enum": [
+          "PIX",
+          "CREDIT_CARD",
+          "DEBIT_CARD"
+        ],
+        "title": "PaymentMethod"
+      },
+      "PhoneNumber": {
+        "properties": {
+          "ddd": {
+            "type": "string",
+            "title": "Ddd"
+          },
+          "numero": {
+            "type": "string",
+            "title": "Numero"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ddd",
+          "numero"
+        ],
+        "title": "PhoneNumber"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

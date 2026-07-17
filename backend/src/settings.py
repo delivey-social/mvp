@@ -22,5 +22,4 @@ class Settings(BaseSettings):
     )
 
 
-print("Loading settings from .env file...")
 settings = Settings()
