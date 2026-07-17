@@ -3,6 +3,9 @@ from typing import Any
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
+from src.infra.db.models.base import Base
+from src.infra.db.config import engine
+
 from .exceptions import (
     EntityNotFoundException,
     InvalidReferenceException,
@@ -15,6 +18,8 @@ from .presentation.main import (
     order_router,
     restaurant_router,
 )
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
