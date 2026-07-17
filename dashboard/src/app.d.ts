@@ -50,11 +50,7 @@ export enum OrderStatus {
 	Finished = 'FINISHED'
 }
 
-export type Restaurant = {
-	id: string;
-	name: string;
-	address: string;
-};
+export type Restaurant = components['schemas']['RestaurantDTO'];
 
 export type Neighborhood = components['schemas']['NeighborhoodDTO'];
 

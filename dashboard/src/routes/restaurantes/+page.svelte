@@ -14,5 +14,5 @@
 		<MaintainModal />
 	</div>
 
-	<RestaurantTable items={data.items} />
+	<RestaurantTable items={data.items.restaurants} />
 </section>

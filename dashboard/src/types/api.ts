@@ -332,6 +332,11 @@ export interface components {
             /** Neighborhoods */
             neighborhoods: components["schemas"]["NeighborhoodDTO"][];
         };
+        /** ListRestaurantResponseDTO */
+        ListRestaurantResponseDTO: {
+            /** Restaurants */
+            restaurants: components["schemas"]["RestaurantDTO"][];
+        };
         /** NeighborhoodDTO */
         NeighborhoodDTO: {
             /**
@@ -411,6 +416,20 @@ export interface components {
             ddd: string;
             /** Numero */
             numero: string;
+        };
+        /** RestaurantDTO */
+        RestaurantDTO: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /** Address */
+            address: string;
+            /** Cnpj */
+            cnpj: string;
         };
         /** ValidationError */
         ValidationError: {
@@ -967,7 +986,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["ListRestaurantResponseDTO"];
                 };
             };
         };
